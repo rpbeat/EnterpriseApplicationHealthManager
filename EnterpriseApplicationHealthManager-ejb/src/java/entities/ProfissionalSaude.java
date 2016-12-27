@@ -19,7 +19,7 @@ public class ProfissionalSaude extends User implements Serializable{
     }
     
     public ProfissionalSaude(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+        super(username, password, nome, email,GROUP.ProfissionalSaude);
     }
 
     @Override

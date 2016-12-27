@@ -22,7 +22,7 @@ public class Utente extends User implements Serializable{
     }
     
     public Utente(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+        super(username, password, nome, email,GROUP.Utente);
     }
 
     public List<Cuidador> getCuidadores() {

@@ -6,20 +6,21 @@
 package entities;
 
 import java.io.Serializable;
+import java.security.acl.Group;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Entity;
 
 @Entity
-@Table(name= "Administrators")
-@NamedQuery(name = "GETALLADMINISTRATORS", query = "SELECT A FROM Administrator A ORDER BY A.nome")
-public class Administrator extends User implements Serializable{
+@Table(name= "Administrador")
+@NamedQuery(name = "GetAllAdministradores", query = "SELECT A FROM Administrador A ORDER BY A.nome")
+public class Administrador extends User implements Serializable{
 
-    public Administrator() {
+    public Administrador() {
     }
     
-    public Administrator(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+    public Administrador(String username, String password, String nome, String email) {
+        super(username, password, nome, email, GROUP.Administrador);
     }
 
     @Override

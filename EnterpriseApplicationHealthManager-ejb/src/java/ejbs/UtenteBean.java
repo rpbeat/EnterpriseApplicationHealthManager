@@ -7,6 +7,8 @@ package ejbs;
 
 import dtos.UtenteDTO;
 import entities.Utente;
+import exceptions.EntityAlreadyExistsException;
+import exceptions.EntityDoesNotExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -30,7 +32,7 @@ public class UtenteBean {
     public void create(String username, String password, String name, String email) {
         try {
             if(em.find(Utente.class, username) != null){
-                return;
+                throw new EntityAlreadyExistsException("A student with that username already exists.");
             }
             em.persist(new Utente(username, password, name, email));
         } catch (Exception e) {

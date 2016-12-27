@@ -19,7 +19,7 @@ import javax.ejb.Singleton;
 public class ConfigBean {
     
     @EJB
-    private AdministratorBean administratorBean;
+    private AdministradorBean administratorBean;
     @EJB
     private CuidadorBean cuidadorBean;
     @EJB

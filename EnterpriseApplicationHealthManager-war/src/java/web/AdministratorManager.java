@@ -6,10 +6,11 @@ package web;
  * and open the template in the editor.
  */
 
-
+import dtos.AdministradorDTO;
 import dtos.CuidadorDTO;
 import dtos.ProfissionalSaudeDTO;
 import dtos.UtenteDTO;
+import ejbs.AdministradorBean;
 import ejbs.CuidadorBean;
 import ejbs.ProfissionalSaudeBean;
 import ejbs.UtenteBean;
@@ -20,8 +21,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 
 @ManagedBean
 @SessionScoped
@@ -33,9 +34,17 @@ public class AdministratorManager {
     private ProfissionalSaudeBean profissionalSaudeBean;
     @EJB
     private CuidadorBean cuidadorBean;
-    
+    @EJB
+    private AdministradorBean administradorBean;   
+    public UtenteDTO newUtente;
+    private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
     
+    
+    
+    public AdministratorManager() {
+        newUtente = new UtenteDTO();
+    }
     
     public List<Utente> getAllUtentes() {
         try {
@@ -90,13 +99,42 @@ public class AdministratorManager {
         }
         return null;
     }
-
-    public AdministratorManager() {
+    
+    public List<AdministradorDTO> getAllAdministradoresDTO(){
+        try{
+            return administradorBean.getAllDTO();
+        }catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return null;
     }
     
+    //////////////// UTENTE
+    public String createUtente() {
+        try {
+            utenteBean.create(newUtente.getUsername(),newUtente.getPassword(),newUtente.getNome(),newUtente.getEmail());
+            newUtente.reset();
+            return "admin_listAll?faces-redirect=true";
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
+        }
+        return null;
+    }
 
-    public AdministratorManager(UtenteBean utenteBean) {
-        this.utenteBean = utenteBean;
+    public UtenteDTO getNewUtente() {
+        return newUtente;
+    }
+
+    public void setNewUtente(UtenteDTO newUtente) {
+        this.newUtente = newUtente;
+    }
+
+    public UIComponent getComponent() {
+        return component;
+    }
+
+    public void setComponent(UIComponent component) {
+        this.component = component;
     }
     
 }

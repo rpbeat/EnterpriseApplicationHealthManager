@@ -113,6 +113,42 @@
                 
           </h:dataTable>
         
+        <br></br>
+        <br></br>
+        <h:dataTable
+            var="administrador"
+            summary="List of all cuidadores"
+            value="#{administratorManager.allAdministradoresDTO}"
+            rules="all"
+            cellpadding="5">
+          
+            <f:facet name="header">
+                <h:outputText value="Administradores" />
+            </f:facet> 
+              
+              <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Username" />
+                </f:facet>
+                  <h:outputText value="#{administrador.username}" />
+            </h:column>
+              
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Nome" />
+                </f:facet>
+                   <h:outputText value="#{administrador.nome}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Email" />
+                </f:facet>
+                <h:outputText value="#{administrador.email}" />
+            </h:column>
+                
+          </h:dataTable>
+        
           
     </h:body>
 </html>
