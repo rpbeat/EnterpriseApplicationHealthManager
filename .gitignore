@@ -45,3 +45,12 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+/nbproject/private/
+/EnterpriseApplicationHealthManager-ejb/nbproject/private/
+/EnterpriseApplicationHealthManager-ejb/build/
+/EnterpriseApplicationHealthManager-war/nbproject/private/
+/EnterpriseApplicationHealthManager-ejb/dist/
+/dist/
+/build/
+/EnterpriseApplicationHealthManager-war/build/
+/EnterpriseApplicationHealthManager-war/dist/
