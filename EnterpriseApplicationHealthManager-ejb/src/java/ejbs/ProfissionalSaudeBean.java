@@ -8,12 +8,15 @@ package ejbs;
 import dtos.ProfissionalSaudeDTO;
 import entities.ProfissionalSaude;
 import exceptions.EntityDoesNotExistsException;
+import exceptions.MyConstraintViolationException;
+import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -79,6 +82,28 @@ public class ProfissionalSaudeBean {
         
         } catch (EntityDoesNotExistsException e) {
             throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+     public void update(String username, String password, String nome, String email) 
+        throws EntityDoesNotExistsException, MyConstraintViolationException{
+        try {
+            ProfissionalSaude profissional = em.find(ProfissionalSaude.class, username);
+            if (profissional == null) {
+                throw new EntityDoesNotExistsException("There is no utente with that username.");
+            }
+            
+            profissional.setPassword(password);
+            profissional.setNome(nome);
+            profissional.setEmail(email);
+            em.merge(profissional);
+            
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }

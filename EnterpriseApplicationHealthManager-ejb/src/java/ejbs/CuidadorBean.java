@@ -11,12 +11,15 @@ import entities.Cuidador;
 import entities.ProfissionalSaude;
 import entities.Utente;
 import exceptions.EntityDoesNotExistsException;
+import exceptions.MyConstraintViolationException;
+import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -92,6 +95,28 @@ public class CuidadorBean {
         
         } catch (EntityDoesNotExistsException e) {
             throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+     
+    public void update(String username, String password, String nome, String email) 
+        throws EntityDoesNotExistsException, MyConstraintViolationException{
+        try {
+            Cuidador cuidador = em.find(Cuidador.class, username);
+            if (cuidador == null) {
+                throw new EntityDoesNotExistsException("There is no cuidador with that username.");
+            }
+            
+            cuidador.setPassword(password);
+            cuidador.setNome(nome);
+            cuidador.setEmail(email);
+            em.merge(cuidador);
+            
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }

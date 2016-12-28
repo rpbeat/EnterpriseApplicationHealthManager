@@ -180,7 +180,7 @@ public class AdministratorManager {
                     currentUtente.getPassword(),
                     currentUtente.getNome(),
                     currentUtente.getEmail());
-            return "index?faces-redirect=true";
+            return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
@@ -233,6 +233,23 @@ public class AdministratorManager {
         }
     }
     
+     public String updateProfissional() {
+        try {
+            profissionalSaudeBean.update(
+                    currentProfissional.getUsername(),
+                    currentProfissional.getPassword(),
+                    currentProfissional.getNome(),
+                    currentProfissional.getEmail());
+            return "admin_list_all?faces-redirect=true";
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return "admin_profissional_update";
+    }
+    
     ///////CUIDADOR
 
     public CuidadorDTO getNewCuidador() {
@@ -272,6 +289,23 @@ public class AdministratorManager {
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
+    }
+    
+    public String updateCuidador() {
+        try {
+            cuidadorBean.update(
+                    currentCuidador.getUsername(),
+                    currentCuidador.getPassword(),
+                    currentCuidador.getNome(),
+                    currentCuidador.getEmail());
+            return "admin_list_all?faces-redirect=true";
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return "admin_profissional_update";
     }
     
     
@@ -316,6 +350,24 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
+    
+    public String updateAdministrador() {
+        try {
+            administradorBean.update(
+                    currentAdministrador.getUsername(),
+                    currentAdministrador.getPassword(),
+                    currentAdministrador.getNome(),
+                    currentAdministrador.getEmail());
+            return "admin_list_all?faces-redirect=true";
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return "admin_profissional_update";
+    }
+    
     
 
     public UIComponent getComponent() {

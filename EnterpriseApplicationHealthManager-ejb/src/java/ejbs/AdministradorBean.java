@@ -11,9 +11,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import entities.Administrador;
 import exceptions.EntityDoesNotExistsException;
+import exceptions.MyConstraintViolationException;
+import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -68,6 +71,27 @@ public class AdministradorBean {
         
         } catch (EntityDoesNotExistsException e) {
             throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+     
+     public void update(String username, String password, String nome, String email) 
+        throws EntityDoesNotExistsException, MyConstraintViolationException{
+        try {
+            Administrador admin = em.find(Administrador.class, username);
+            if (admin == null) {
+                throw new EntityDoesNotExistsException("There is no administrador with that username.");
+            }
+            admin.setPassword(password);
+            admin.setNome(nome);
+            admin.setEmail(email);
+            em.merge(admin);
+            
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
