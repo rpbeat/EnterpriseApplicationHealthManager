@@ -40,7 +40,7 @@ public class AdministratorManager {
     private CuidadorBean cuidadorBean;
     @EJB
     private AdministradorBean administradorBean;   
-    
+
     private UtenteDTO newUtente;
     private Utente currentUtente; //PROBLEMA COM O DTO A VERIFICAR
     
@@ -124,6 +124,7 @@ public class AdministratorManager {
         return null;
     }
     
+
     public List<AdministradorDTO> getAllAdministradoresDTO(){
         try{
             return administradorBean.getAllDTO();
