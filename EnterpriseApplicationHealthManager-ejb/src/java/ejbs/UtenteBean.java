@@ -9,16 +9,19 @@ import dtos.UtenteDTO;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
+import exceptions.MyConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import exceptions.Utils;
 
 /**
  *
@@ -26,13 +29,14 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 public class UtenteBean {
+    
     @PersistenceContext
     private EntityManager em;
     
     public void create(String username, String password, String name, String email) {
         try {
             if(em.find(Utente.class, username) != null){
-                throw new EntityAlreadyExistsException("A student with that username already exists.");
+                throw new EntityAlreadyExistsException("A Utente with that username already exists.");
             }
             em.persist(new Utente(username, password, name, email));
         } catch (Exception e) {
@@ -45,12 +49,13 @@ public class UtenteBean {
          return utentes;
     }
     
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("all")
+    //@GET
+    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    //@Path("all")
     public List<UtenteDTO> getAllDTO() {
         try {
             List<Utente> utentes = (List<Utente>) em.createNamedQuery("GetAllUtentes").getResultList();
+            System.err.println(""+utentes.toString());
             return utentesToDTOs(utentes);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
@@ -67,5 +72,43 @@ public class UtenteBean {
     
     UtenteDTO utenteToDTO(Utente utente) {
         return new UtenteDTO(utente.getUsername(), null, utente.getNome(), utente.getEmail());
+    }
+    
+    public void remove(String username) throws EntityDoesNotExistsException {
+        try {
+            Utente utente = em.find(Utente.class, username);
+            if (utente == null) {
+                throw new EntityDoesNotExistsException("There is no utente with that username.");
+            }
+            
+            em.remove(utente);
+        
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+        
+     public void update(String username, String password, String nome, String email) 
+        throws EntityDoesNotExistsException, MyConstraintViolationException{
+        try {
+            Utente student = em.find(Utente.class, username);
+            if (student == null) {
+                throw new EntityDoesNotExistsException("There is no utente with that username.");
+            }
+            
+            student.setPassword(password);
+            student.setNome(nome);
+            student.setEmail(email);
+            em.merge(student);
+            
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
 }

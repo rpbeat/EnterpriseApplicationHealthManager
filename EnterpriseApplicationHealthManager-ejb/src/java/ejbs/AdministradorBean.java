@@ -10,6 +10,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import entities.Administrador;
+import exceptions.EntityDoesNotExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -54,5 +55,21 @@ public class AdministradorBean {
     
     AdministradorDTO cuidadorToDTO(Administrador cuidador) {
         return new AdministradorDTO(cuidador.getUsername(), null, cuidador.getNome(), cuidador.getEmail());
+    }
+    
+     public void remove(String username) throws EntityDoesNotExistsException {
+        try {
+            Administrador administrador = em.find(Administrador.class, username);
+            if (administrador == null) {
+                throw new EntityDoesNotExistsException("There is no administrador with that username.");
+            }
+            
+            em.remove(administrador);
+        
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
 }

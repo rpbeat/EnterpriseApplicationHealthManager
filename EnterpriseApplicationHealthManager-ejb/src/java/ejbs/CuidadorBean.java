@@ -10,6 +10,7 @@ import dtos.ProfissionalSaudeDTO;
 import entities.Cuidador;
 import entities.ProfissionalSaude;
 import entities.Utente;
+import exceptions.EntityDoesNotExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -56,9 +57,9 @@ public class CuidadorBean {
          return Cuidadores;
     }
     
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("all")
+    //@GET
+    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    //@Path("all")
     public List<CuidadorDTO> getAllDTO() {
         try {
             List<Cuidador> cuidadores = (List<Cuidador>) em.createNamedQuery("GetAllCuidadores").getResultList();
@@ -78,6 +79,22 @@ public class CuidadorBean {
     
     CuidadorDTO cuidadorToDTO(Cuidador cuidador) {
         return new CuidadorDTO(cuidador.getUsername(), null, cuidador.getNome(), cuidador.getEmail());
+    }
+    
+     public void remove(String username) throws EntityDoesNotExistsException {
+        try {
+            Cuidador cuidador = em.find(Cuidador.class, username);
+            if (cuidador == null) {
+                throw new EntityDoesNotExistsException("There is no cuidador with that username.");
+            }
+            
+            em.remove(cuidador);
+        
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
     
 }

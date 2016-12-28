@@ -7,6 +7,7 @@ package ejbs;
 
 import dtos.ProfissionalSaudeDTO;
 import entities.ProfissionalSaude;
+import exceptions.EntityDoesNotExistsException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJBException;
@@ -43,9 +44,9 @@ public class ProfissionalSaudeBean {
          return ProfissionaisSaude;
     }
     
-    @GET
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("all")
+    //@GET
+    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    //@Path("all")
     public List<ProfissionalSaudeDTO> getAllDTO() {
         try {
             List<ProfissionalSaude> profissionais = (List<ProfissionalSaude>) em.createNamedQuery("GetAllProfissionalSaude").getResultList();
@@ -65,5 +66,21 @@ public class ProfissionalSaudeBean {
     
     ProfissionalSaudeDTO profissionalToDTO(ProfissionalSaude profissional) {
         return new ProfissionalSaudeDTO(profissional.getUsername(), null, profissional.getNome(), profissional.getEmail());
+    }
+
+    public void remove(String username) throws EntityDoesNotExistsException {
+        try {
+            ProfissionalSaude profissional = em.find(ProfissionalSaude.class, username);
+            if (profissional == null) {
+                throw new EntityDoesNotExistsException("There is no profissional with that username.");
+            }
+            
+            em.remove(profissional);
+        
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
 }
