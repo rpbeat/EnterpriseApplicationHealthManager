@@ -17,6 +17,7 @@ import ejbs.MaterialCapacitacaoBean;
 import ejbs.ProfissionalSaudeBean;
 import ejbs.UtenteBean;
 import entities.Cuidador;
+import entities.MaterialCapacitacao;
 import entities.ProfissionalSaude;
 import entities.Utente;
 import exceptions.EntityDoesNotExistsException;
@@ -450,6 +451,35 @@ public class AdministratorManager {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
             String id = param.getValue().toString();
             materialCapacitacaoBean.remove(id);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+    }
+    
+    public List<MaterialCapacitacao> getCurrentCuidadorMateriais() {
+        try {
+            return cuidadorBean.getAllenrroledMaterial(currentCuidador.getUsername());
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+            return null;
+        }
+    }
+    
+    public void enrrolMaterialToCuidador(ActionEvent event){
+         try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
+            String id = param.getValue().toString();
+            cuidadorBean.enrollMaterial(id, currentCuidador.getUsername());
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+    }
+    
+    public void removeEnrroledMaterial(ActionEvent event){
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
+            String id = param.getValue().toString();
+            cuidadorBean.removeEnrroledMaterial(id,currentCuidador.getUsername());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }

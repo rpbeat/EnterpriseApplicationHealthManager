@@ -18,8 +18,11 @@ import javax.persistence.Table;
 @Table(name= "Cuidadores")
 @NamedQuery(name = "GetAllCuidadores", query = "SELECT U FROM Cuidador U ORDER BY U.nome")
 public class Cuidador extends User implements Serializable{
+    
     @ManyToMany(mappedBy = "Cuidadores")
     private List<Utente> utentes;
+    
+
     
     private List<MaterialCapacitacao> materiais;
     
