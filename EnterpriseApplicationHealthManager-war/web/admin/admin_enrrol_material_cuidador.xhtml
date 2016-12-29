@@ -65,6 +65,59 @@
                 
           </h:dataTable>
         
+        <h:dataTable
+            var="material"
+            summary="List of all material"
+            value="#{administratorManager.allMaterialDTO}"
+            rules="all"
+            cellpadding="5">
+          
+            <f:facet name="header">
+                <h:outputText value="Materiais" />
+            </f:facet> 
+              
+              <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Id" />
+                </f:facet>
+                  <h:outputText value="#{material.id}" />
+            </h:column>
+              
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Tipo" />
+                </f:facet>
+                   <h:outputText value="#{material.tipo}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Descricao" />
+                </f:facet>
+                <h:outputText value="#{material.descricao}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Link" />
+                </f:facet>
+                <h:outputText value="#{material.link}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:form>
+                    &nbsp;
+                    <h:commandLink value="Enrrol Material" actionListener="#{administratorManager.enrrolMaterialToCuidador}">
+                        <f:param name="materialId" id="materialId" value="#{material.id}" />
+                    </h:commandLink>
+                </h:form>
+            </h:column>                      
+                
+          </h:dataTable>
+        
         <h:form>                  
             <h:commandLink
                 id="return"

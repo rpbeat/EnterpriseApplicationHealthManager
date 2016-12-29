@@ -28,7 +28,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Stateless
 public class ProfissionalSaudeBean {
-     @PersistenceContext
+    @PersistenceContext
     private EntityManager em;
     
     public void create(String username, String password, String name, String email) {

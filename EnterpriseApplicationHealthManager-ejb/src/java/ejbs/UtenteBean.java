@@ -6,6 +6,7 @@
 package ejbs;
 
 import dtos.UtenteDTO;
+import entities.ProcedimentoCuidado;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
@@ -111,4 +112,50 @@ public class UtenteBean {
             throw new EJBException(e.getMessage());
         }
     }
+     
+     public void enrrolProcedimento(String idProcedimento, String userNameUtente){
+         try{
+            Utente utente = em.find(Utente.class, userNameUtente);
+            ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, idProcedimento);
+            if(utente == null | procedimento == null){
+                throw new EntityDoesNotExistsException();
+            }
+            
+            List<ProcedimentoCuidado> list = utente.getProcedimentos();
+            if(list.contains(procedimento)){
+                throw new EntityAlreadyExistsException();
+            }
+            
+            utente.addProcedimento(procedimento);
+        }catch(EJBException | EntityAlreadyExistsException | EntityDoesNotExistsException e){
+            e.getMessage();
+        }
+     }
+     
+     public void removeEnrroledProdecimento(String idProcedimento, String usernameUtente){
+        try{
+            Utente utente = em.find(Utente.class, usernameUtente);
+            ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, idProcedimento);
+            
+            if(utente == null | procedimento == null){
+                throw new EntityDoesNotExistsException();
+            }
+            utente.removeProcedimento(procedimento);
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
+     
+     public List<ProcedimentoCuidado> getAllProcedimentos(String usernameUtente){
+         try{
+            Utente utente = em.find(Utente.class, usernameUtente);          
+            if(utente == null ){
+                throw new EntityDoesNotExistsException();
+            }
+            return utente.getProcedimentos();
+        }catch(Exception e){
+            e.getMessage();
+            return null;
+        }
+     }
 }

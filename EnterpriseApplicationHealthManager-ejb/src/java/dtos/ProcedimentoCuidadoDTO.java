@@ -3,43 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
-
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+package dtos;
 
 /**
  *
  * @author rpbeat
  */
-@Entity
-@Table(name= "ProcedimentoCuidado")
-@NamedQuery(name = "GetAllProcedimentoCuidado", query = "SELECT U FROM ProcedimentoCuidado U ORDER BY U.id")
-public class ProcedimentoCuidado implements Serializable {
-
-    @Id
+public class ProcedimentoCuidadoDTO {
     private String id;
     private String userNameCuidador;
     private String descricao;
 
-    public ProcedimentoCuidado(String id,String userNameCuidador, String descricao) {
+    public ProcedimentoCuidadoDTO(String id, String userNameCuidador, String descricao) {
         this.id = id;
-        this.descricao = descricao;
         this.userNameCuidador = userNameCuidador;
-    }
-
-    public ProcedimentoCuidado() {
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    public ProcedimentoCuidadoDTO() {
     }
 
     public String getId() {
@@ -57,6 +38,19 @@ public class ProcedimentoCuidado implements Serializable {
     public void setUserNameCuidador(String userNameCuidador) {
         this.userNameCuidador = userNameCuidador;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
     
+    public void reset(){
+        setDescricao(null);
+        setId(null);
+        setUserNameCuidador(null);
+    }
     
 }

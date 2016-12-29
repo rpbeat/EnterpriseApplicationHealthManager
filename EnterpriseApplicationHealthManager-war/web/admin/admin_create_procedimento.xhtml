@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <title>Health Management</title>
+    </h:head>
+    <h:body>
+        <h:form>     
+               <h:outputLabel for="utente" value="UTENTE: #{administratorManager.currentUtente.username}" />
+               <br></br>
+               <h:outputLabel for="cuidador" value="CUIDADOR #{administratorManager.currentCuidador.username}" />
+                <br></br>
+                <br></br>
+                <br></br>
+            <h:panelGrid columns="3">
+                <h:outputLabel for="id" value="Id: " />
+                <h:inputText 
+                    id="id"
+                    size="20"
+                    required="true"
+                    requiredMessage="Error: id cannot be empty."
+                    value="#{administratorManager.newProcedimento.id}">
+                </h:inputText>
+                <h:message for="id" errorStyle="color: red" />
+
+                <h:outputLabel for="descricao" value="Descricao: " />
+                <h:inputText
+                    id="descricao"
+                    size="20"
+                    required="true"
+                    requiredMessage="Error: descricao cannot be empty."
+                    value="#{administratorManager.newProcedimento.descricao}"/>
+                <h:message for="descricao" errorStyle="color: red" />                        
+
+                <br></br>
+                <br></br>
+
+                <h:commandButton
+                    id="submit"
+                    value="Create"
+                    binding="#{administratorManager.component}" 
+                    action="#{administratorManager.createProcedimento}" />
+                <h:message for="submit" style="color: red"/>
+            </h:panelGrid >                       
+
+        </h:form>
+        
+        <br></br>
+        <br></br>
+        <h:outputText value="Your Procedimentos" />
+        <h:dataTable
+            var="procedimento"
+            summary="List of all procedimentos"
+            value="#{administratorManager.allEnrroledProcedimentos}"
+            rules="all"
+            cellpadding="5">
+          
+            <f:facet name="header">
+                <h:outputText value="Procedimentos" />
+            </f:facet> 
+              
+              <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Id" />
+                </f:facet>
+                  <h:outputText value="#{procedimento.id}" />
+            </h:column>
+              
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Descricao" />
+                </f:facet>
+                   <h:outputText value="#{procedimento.descricao}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:form>
+                    &nbsp;
+                    <h:commandLink value="Remove" actionListener="#{administratorManager.removeEnrroledProcedimento}">
+                        <f:param name="procedimentoId" id="procedimentoId" value="#{procedimento.id}" />
+                    </h:commandLink>
+                </h:form>
+            </h:column>                      
+                
+          </h:dataTable>
+
+        <!--<h:messages style="color:red"/> -->        
+        <h:form>                  
+            <h:commandLink
+                id="return"
+                value="Return"
+                action="admin_list_all?faces-redirect=true" />
+        </h:form>
+    </h:body>
+</html>
+

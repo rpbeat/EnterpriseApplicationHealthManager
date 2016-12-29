@@ -59,6 +59,18 @@
                 </f:facet>
                 <h:outputText value="#{utente.email}" />
             </h:column>
+               
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Actions" />
+                </f:facet>
+                <h:form>
+                    &nbsp;
+                    <h:commandLink value="Aplicar Procedimento" action="admin_create_procedimento?faces-redirect=true">
+                        <f:setPropertyActionListener target="#{administratorManager.currentUtente}" value="#{utente}" />
+                    </h:commandLink>
+                </h:form>
+            </h:column>     
                                    
           </h:dataTable>
 
@@ -70,6 +82,5 @@
         </h:form>
 
         <h:messages errorStyle="color: red" />        
-        
     </h:body>
 </html>

@@ -6,8 +6,11 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -24,6 +27,10 @@ public class MaterialCapacitacao implements Serializable{
     private String tipo;
     private String link;
     private String descricao;
+    @ManyToMany(mappedBy = "materiais")
+    private List<Cuidador> cuidadors;
+    @ManyToOne
+    private Cuidador cuidador;
 
     public MaterialCapacitacao(String id, String tipo, String descricao, String link) {
         this.id = id;

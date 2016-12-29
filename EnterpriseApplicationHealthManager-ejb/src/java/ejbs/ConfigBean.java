@@ -28,6 +28,8 @@ public class ConfigBean {
     private UtenteBean utenteBean;
     @EJB
     private MaterialCapacitacaoBean materialCapacitacaoBean;
+    @EJB
+    private ProcedimentoCuidadoBean procedimentoCuidadoBean;
     
     @PostConstruct
     public void populateBD(){
@@ -61,6 +63,9 @@ public class ConfigBean {
             cuidadorBean.enrollMaterial("2", "4444444");
             cuidadorBean.enrollMaterial("3", "4444444");
             cuidadorBean.enrollMaterial("4", "4444444");
+           
+            procedimentoCuidadoBean.create("2", "sad", "sadas");
+            procedimentoCuidadoBean.create("3", "sad", "sadas");
             
         }catch(Exception e){
             e.getMessage();
