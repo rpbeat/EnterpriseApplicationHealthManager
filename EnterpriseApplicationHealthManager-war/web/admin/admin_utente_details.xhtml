@@ -9,10 +9,10 @@
     <h:body>
         <h:panelGrid columns="2">
 
-            <h:outputLabel for="username" value="Username: " />
+            <h:outputLabel for="id" value="ID: " />
             <h:outputText 
-                id="username"
-                value="#{administratorManager.currentUtente.username}"/>
+                id="id"
+                value="#{administratorManager.currentUtente.id}"/>
 
             <h:outputLabel for="name" value="Name: " />
             <h:outputText 
@@ -23,7 +23,17 @@
             <h:outputText 
                 id="email"
                 value="#{administratorManager.currentUtente.email}"/>
-
+            
+            <h:outputLabel for="morada" value="Morada: " />
+            <h:outputText 
+                id="morada"
+                value="#{administratorManager.currentUtente.morada}"/>
+            
+            <h:outputLabel for="contacto" value="Contacto: " />
+            <h:outputText 
+                id="contacto"
+                value="#{administratorManager.currentUtente.contacto}"/>
+          
         </h:panelGrid>
 
         <br/>

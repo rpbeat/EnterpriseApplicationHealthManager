@@ -13,10 +13,12 @@ import java.io.Serializable;
  */
 public class CuidadorDTO extends UserDTO implements Serializable{
 
-    public CuidadorDTO() {
+    public CuidadorDTO(String nome, String email, int contacto, String morada, String username, String password) {
+        super(nome, email, contacto, morada, username, password);
     }
 
-    public CuidadorDTO(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+    public CuidadorDTO() {
     }
+    
+    
 }

@@ -34,12 +34,9 @@ public class UtenteBean {
     @PersistenceContext
     private EntityManager em;
     
-    public void create(String username, String password, String name, String email) {
+    public void create(String nome, String email,int contacto,String morada) {
         try {
-            if(em.find(Utente.class, username) != null){
-                throw new EntityAlreadyExistsException("A Utente with that username already exists.");
-            }
-            em.persist(new Utente(username, password, name, email));
+            em.persist(new Utente(nome, email, contacto, morada));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -72,12 +69,12 @@ public class UtenteBean {
     }
     
     UtenteDTO utenteToDTO(Utente utente) {
-        return new UtenteDTO(utente.getUsername(), null, utente.getNome(), utente.getEmail());
+        return new UtenteDTO(utente.getId(),utente.getNome(), utente.getEmail(), utente.getContacto(), utente.getMorada());
     }
     
-    public void remove(String username) throws EntityDoesNotExistsException {
+    public void remove(long idUtente) throws EntityDoesNotExistsException {
         try {
-            Utente utente = em.find(Utente.class, username);
+            Utente utente = em.find(Utente.class, idUtente);
             if (utente == null) {
                 throw new EntityDoesNotExistsException("There is no utente with that username.");
             }
@@ -91,18 +88,19 @@ public class UtenteBean {
         }
     }
         
-     public void update(String username, String password, String nome, String email) 
+     public void update(long idUtente, String nome, String email,int contacto,String morada) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
-            Utente student = em.find(Utente.class, username);
-            if (student == null) {
+            Utente utente = em.find(Utente.class, idUtente);
+            if (utente == null) {
                 throw new EntityDoesNotExistsException("There is no utente with that username.");
             }
             
-            student.setPassword(password);
-            student.setNome(nome);
-            student.setEmail(email);
-            em.merge(student);
+            utente.setContacto(contacto);
+            utente.setMorada(morada);
+            utente.setNome(nome);
+            utente.setEmail(email);
+            em.merge(utente);
             
         } catch (EntityDoesNotExistsException e) {
             throw e;
@@ -113,9 +111,9 @@ public class UtenteBean {
         }
     }
      
-     public void enrrolProcedimento(String idProcedimento, String userNameUtente){
+     public void enrrolProcedimento(String idProcedimento, long idUtente){
          try{
-            Utente utente = em.find(Utente.class, userNameUtente);
+            Utente utente = em.find(Utente.class, idUtente);
             ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, idProcedimento);
             if(utente == null | procedimento == null){
                 throw new EntityDoesNotExistsException();
@@ -132,9 +130,9 @@ public class UtenteBean {
         }
      }
      
-     public void removeEnrroledProdecimento(String idProcedimento, String usernameUtente){
+     public void removeEnrroledProdecimento(String idProcedimento, long idUtente){
         try{
-            Utente utente = em.find(Utente.class, usernameUtente);
+            Utente utente = em.find(Utente.class, idUtente);
             ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, idProcedimento);
             
             if(utente == null | procedimento == null){
@@ -146,9 +144,9 @@ public class UtenteBean {
         }
     }
      
-     public List<ProcedimentoCuidado> getAllProcedimentos(String usernameUtente){
+     public List<ProcedimentoCuidado> getAllProcedimentos(long idUtente){
          try{
-            Utente utente = em.find(Utente.class, usernameUtente);          
+            Utente utente = em.find(Utente.class, idUtente);          
             if(utente == null ){
                 throw new EntityDoesNotExistsException();
             }

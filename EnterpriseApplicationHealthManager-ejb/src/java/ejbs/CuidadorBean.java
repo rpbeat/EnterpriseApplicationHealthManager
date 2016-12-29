@@ -36,12 +36,12 @@ public class CuidadorBean {
     private EntityManager em;
     private UtenteBean ub;
     
-    public void create(String username, String password, String name, String email) {
+    public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
             if(em.find(Cuidador.class, username) != null){
                 return;
             }
-            em.persist(new Cuidador(username, password, name, email));
+            em.persist(new Cuidador(username, password, nome, email, contacto, morada));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -62,10 +62,10 @@ public class CuidadorBean {
         return null;
     }
     
-    public void enrollUtente(String usernameCuidador, String usernameUtente){
+    public void enrollUtente(String usernameCuidador, long idUtente){
         try{
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
-            Utente utente = em.find(Utente.class, usernameUtente);
+            Utente utente = em.find(Utente.class, idUtente);
             
             if(cuidador == null || utente == null){
                 throw new EntityDoesNotExistsException();
@@ -83,10 +83,10 @@ public class CuidadorBean {
     }
     
     
-    public void removeEnrroledUtente(String usernameCuidador, String usernameUtente){
+    public void removeEnrroledUtente(String usernameCuidador, long idUtente){
         try{
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
-            Utente utente = em.find(Utente.class, usernameUtente);
+            Utente utente = em.find(Utente.class, idUtente);
             
             if(cuidador == null || utente == null){
                 throw new EJBException();
@@ -100,7 +100,7 @@ public class CuidadorBean {
     public void enrollMaterial(String idMaterial, String usernameCuidador){
         try{
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
-            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, idMaterial);
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
             
             if(cuidador == null || material == null){
                 throw new EntityDoesNotExistsException();
@@ -137,7 +137,7 @@ public class CuidadorBean {
     public void removeEnrroledMaterial(String idMaterial, String usernameCuidador){
         try{
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
-            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, idMaterial);
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
             
             if(cuidador == null || material == null){
                 throw new EJBException();
@@ -176,7 +176,7 @@ public class CuidadorBean {
     }
     
     CuidadorDTO cuidadorToDTO(Cuidador cuidador) {
-        return new CuidadorDTO(cuidador.getUsername(), null, cuidador.getNome(), cuidador.getEmail());
+        return new CuidadorDTO(cuidador.getNome(), cuidador.getEmail(), cuidador.getContacto(), cuidador.getMorada(), cuidador.getUsername(), cuidador.getPassword());
     }
     
      public void remove(String username) throws EntityDoesNotExistsException {
@@ -195,7 +195,7 @@ public class CuidadorBean {
         }
     }
      
-    public void update(String username, String password, String nome, String email) 
+    public void update(String nome, String email, int contacto, String morada, String username, String password) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             Cuidador cuidador = em.find(Cuidador.class, username);
@@ -206,6 +206,9 @@ public class CuidadorBean {
             cuidador.setPassword(password);
             cuidador.setNome(nome);
             cuidador.setEmail(email);
+            cuidador.setContacto(contacto);
+            cuidador.setMorada(morada);
+            cuidador.setUsername(username);
             em.merge(cuidador);
             
         } catch (EntityDoesNotExistsException e) {

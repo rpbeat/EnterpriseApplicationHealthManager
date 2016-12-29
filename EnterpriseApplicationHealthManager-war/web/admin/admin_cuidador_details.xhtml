@@ -23,6 +23,16 @@
             <h:outputText 
                 id="email"
                 value="#{administratorManager.currentCuidador.email}"/>
+            
+            <h:outputLabel for="contacto" value="Contacto: " />
+            <h:outputText 
+                id="contacto"
+                value="#{administratorManager.currentCuidador.contacto}"/>
+            
+            <h:outputLabel for="morada" value="Morada: " />
+            <h:outputText 
+                id="morada"
+                value="#{administratorManager.currentCuidador.morada}"/>
 
         </h:panelGrid>
 
@@ -43,7 +53,7 @@
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{utente.username}" />
+                  <h:outputText value="#{utente.id}" />
             </h:column>
               
                <h:column>
@@ -71,6 +81,48 @@
                     </h:commandLink>
                 </h:form>
             </h:column>     
+                                   
+          </h:dataTable>
+        <br></br>
+        <br></br>
+        <h:dataTable
+            var="material"
+            summary="List of all material"
+            value="#{administratorManager.currentCuidadorMateriais}"
+            rules="all"
+            cellpadding="5">
+          
+            <f:facet name="header">
+                <h:outputText value="Your Material" />
+            </f:facet> 
+              
+              <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Id" />
+                </f:facet>
+                  <h:outputText value="#{material.id}" />
+            </h:column>
+              
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Descricao" />
+                </f:facet>
+                   <h:outputText value="#{material.descricao}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Link" />
+                </f:facet>
+                <h:outputText value="#{material.link}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Tipo" />
+                </f:facet>
+                <h:outputText value="#{material.tipo}" />
+            </h:column>
                                    
           </h:dataTable>
 

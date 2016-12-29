@@ -28,12 +28,12 @@ public class AdministradorBean {
     @PersistenceContext
     private EntityManager em;
 
-    public void create(String username, String password, String name, String email) {
+    public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
             if(em.find(Administrador.class, username) != null){
                 return;
             }
-            em.persist(new Administrador(username, password, name, email));
+            em.persist(new Administrador(username, password, nome, email, contacto, morada));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -57,7 +57,7 @@ public class AdministradorBean {
     }
     
     AdministradorDTO cuidadorToDTO(Administrador cuidador) {
-        return new AdministradorDTO(cuidador.getUsername(), null, cuidador.getNome(), cuidador.getEmail());
+        return new AdministradorDTO(cuidador.getNome(),cuidador.getEmail(),cuidador.getContacto(),cuidador.getMorada(),cuidador.getUsername(),cuidador.getPassword());
     }
     
      public void remove(String username) throws EntityDoesNotExistsException {
@@ -76,7 +76,7 @@ public class AdministradorBean {
         }
     }
      
-     public void update(String username, String password, String nome, String email) 
+     public void update(String nome, String email, int contacto, String morada, String username, String password) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             Administrador admin = em.find(Administrador.class, username);
@@ -86,6 +86,9 @@ public class AdministradorBean {
             admin.setPassword(password);
             admin.setNome(nome);
             admin.setEmail(email);
+            admin.setContacto(contacto);
+            admin.setMorada(morada);
+            admin.setUsername(username);
             em.merge(admin);
             
         } catch (EntityDoesNotExistsException e) {

@@ -13,17 +13,8 @@
                 <h:outputLabel for="username" value="Username: " />
                 <h:outputText 
                     id="username"
-                    value="#{administratorManager.currentUtente.username}"/>
-                <br></br>
-                
-                <h:outputLabel for="password" value="Password: " />
-                <h:inputSecret
-                    id="password"
-                    size="20"
-                    required="true"
-                    requiredMessage="Error: Password cannot be empty."
-                    value="#{administratorManager.currentUtente.password}"/>
-                <h:message for="password" errorStyle="color: red" />                        
+                    value="#{administratorManager.currentUtente.id}"/>
+                <br></br>                   
 
                 <h:outputLabel for="name" value="Name: " />
                 <h:inputText 
@@ -44,9 +35,27 @@
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                 </h:inputText>    
                 <h:message for="email" errorStyle="color: red" />
+                
+                <h:outputLabel for="name" value="Name: " />
+                <h:inputText 
+                    id="morada"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Morada cannot be empty."                            
+                    value="#{administratorManager.currentUtente.morada}" />
+                <h:message for="email" errorStyle="color: red" />
+                
+                 <h:outputLabel for="contacto" value="Contacto: " />
+                 <h:inputText 
+                    id="contacto"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Morada cannot be empty."                            
+                    value="#{administratorManager.currentUtente.contacto}" />
+                <h:message for="email" errorStyle="color: red" />
+                
+                
                 <br></br>
-               
-
                 <h:commandButton
                     id="submit"
                     value="Update"

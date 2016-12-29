@@ -8,26 +8,7 @@
     </h:head>
     <h:body>
         <h:form>                  
-            <h:panelGrid columns="3">
-
-                <h:outputLabel for="username" value="Username: " />
-                <h:inputText 
-                    id="username"
-                    size="20"
-                    required="true"
-                    requiredMessage="Error: Username cannot be empty."
-                    value="#{administratorManager.newUtente.username}">
-                </h:inputText>
-                <h:message for="username" errorStyle="color: red" />
-
-                <h:outputLabel for="password" value="Password: " />
-                <h:inputSecret
-                    id="password"
-                    size="20"
-                    required="true"
-                    requiredMessage="Error: Password cannot be empty."
-                    value="#{administratorManager.newUtente.password}"/>
-                <h:message for="password" errorStyle="color: red" />                        
+            <h:panelGrid columns="3">                      
 
                 <h:outputLabel for="name" value="Name: " />
                 <h:inputText 
@@ -46,6 +27,26 @@
                     requiredMessage="Error: Email cannot be empty."                            
                     value="#{administratorManager.newUtente.email}" >
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                </h:inputText>    
+                <h:message for="email" errorStyle="color: red" />
+                
+                <h:outputLabel for="morada" value="Morada: " />
+                <h:inputText
+                    id="morada"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Morada cannot be empty."                            
+                    value="#{administratorManager.newUtente.morada}" >
+                </h:inputText>    
+                <h:message for="email" errorStyle="color: red" />
+                
+                <h:outputLabel for="contacto" value="Contacto: " />
+                <h:inputText
+                    id="contacto"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Contacto cannot be empty."                            
+                    value="#{administratorManager.newUtente.contacto}" >
                 </h:inputText>    
                 <h:message for="email" errorStyle="color: red" />
 

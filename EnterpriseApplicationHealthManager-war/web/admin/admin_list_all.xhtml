@@ -26,9 +26,9 @@
               
               <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Username" />
+                    <h:outputText value="Id" />
                 </f:facet>
-                  <h:outputText value="#{utente.username}" />
+                  <h:outputText value="#{utente.id}" />
             </h:column>
               
                <h:column>
@@ -59,7 +59,7 @@
                     </h:commandLink>
                     &nbsp;
                     <h:commandLink value="Remove" actionListener="#{administratorManager.removeUtente}">
-                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.username}" />
+                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
                     </h:commandLink>
                 </h:form>
             </h:column>                      

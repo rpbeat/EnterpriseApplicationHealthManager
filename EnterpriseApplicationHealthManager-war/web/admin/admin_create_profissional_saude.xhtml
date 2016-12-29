@@ -48,6 +48,26 @@
                     <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                 </h:inputText>    
                 <h:message for="email" errorStyle="color: red" />
+                
+               <h:outputLabel for="morada" value="Morada: " />
+                <h:inputText 
+                    id="morada"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Morada cannot be empty."                            
+                    value="#{administratorManager.newProfissional.morada}" />
+                <h:message for="morada" errorStyle="color: red" />
+                
+                <h:outputLabel for="contacto" value="Contacto: " />
+                <h:inputText 
+                    id="contacto"
+                    size="52"
+                    required="true"
+                    requiredMessage="Error: Contacto cannot be empty."                            
+                    value="#{administratorManager.newProfissional.contacto}" />
+                <h:message for="contacto" errorStyle="color: red" />
+                
+                
 
 
                 <br></br>

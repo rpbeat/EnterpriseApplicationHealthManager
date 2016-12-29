@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProfissionalSaudeDTO extends UserDTO implements Serializable{
 
-    public ProfissionalSaudeDTO() {
+    public ProfissionalSaudeDTO(String nome, String email, int contacto, String morada, String username, String password) {
+        super(nome, email, contacto, morada, username, password);
     }
 
-    public ProfissionalSaudeDTO(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+    public ProfissionalSaudeDTO() {
     }
     
 }

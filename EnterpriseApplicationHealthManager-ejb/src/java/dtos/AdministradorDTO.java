@@ -13,10 +13,11 @@ import java.io.Serializable;
  */
 public class AdministradorDTO extends UserDTO implements Serializable{
     
-    public AdministradorDTO() {
+    public AdministradorDTO(String nome, String email, int contacto, String morada, String username, String password) {
+        super(nome, email, contacto, morada, username, password);
     }
 
-    public AdministradorDTO(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+    public AdministradorDTO() {
     }
+    
 }

@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "Cuidadores")
+//@Table(name= "Cuidadores")
 @NamedQuery(name = "GetAllCuidadores", query = "SELECT U FROM Cuidador U ORDER BY U.nome")
 public class Cuidador extends User implements Serializable{
     
@@ -32,8 +32,8 @@ public class Cuidador extends User implements Serializable{
         materiais = new LinkedList<>();
     }
     
-    public Cuidador(String username, String password, String nome, String email) {
-        super(username, password, nome, email, GROUP.Cuidador);
+    public Cuidador(String username, String password, String nome, String email,int contacto,String morada) {
+        super(username, password, nome, email,contacto, morada,GROUP.Cuidador);
         utentes = new LinkedList<>();
         materiais = new LinkedList<>();
     }

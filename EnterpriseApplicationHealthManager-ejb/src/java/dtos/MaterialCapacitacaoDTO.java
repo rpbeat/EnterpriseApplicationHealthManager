@@ -10,12 +10,12 @@ package dtos;
  * @author rpbeat
  */
 public class MaterialCapacitacaoDTO {
-    private String id;
+    private long id;
     private String tipo;
     private String link;
     private String descricao;
 
-    public MaterialCapacitacaoDTO(String id, String tipo, String link, String descricao) {
+    public MaterialCapacitacaoDTO(long id, String tipo, String link, String descricao) {
         this.id = id;
         this.tipo = tipo;
         this.link = link;
@@ -25,11 +25,11 @@ public class MaterialCapacitacaoDTO {
     public MaterialCapacitacaoDTO() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -59,7 +59,7 @@ public class MaterialCapacitacaoDTO {
     
     public void reset(){
         setDescricao(null);
-        setId(null);
+        setId(-10);
         setLink(null);
         setTipo(null);
     }

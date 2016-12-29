@@ -8,21 +8,29 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name= "Utentes")
 @NamedQuery(name = "GetAllUtentes", query = "SELECT U FROM Utente U ORDER BY U.nome")
-public class Utente extends User implements Serializable{
+public class Utente extends Pessoa implements Serializable{
+    @Id 
+    @GeneratedValue(strategy=GenerationType.AUTO) 
+    long id;
+    
     private List<Cuidador> cuidadores;
+    
     private List<ProcedimentoCuidado> procedimentos;
     
     public Utente() {
     }
     
-    public Utente(String username, String password, String nome, String email) {
-        super(username, password, nome, email,GROUP.Utente);
+    public Utente(String nome, String email, int contacto,String morada) {
+        super(nome, email, contacto, morada);
     }
 
     public List<Cuidador> getCuidadores() {
@@ -56,6 +64,14 @@ public class Utente extends User implements Serializable{
     
     public void removeProcedimento(ProcedimentoCuidado p){
         this.procedimentos.remove(p);
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long username) {
+        this.id = username;
     }
 
     @Override

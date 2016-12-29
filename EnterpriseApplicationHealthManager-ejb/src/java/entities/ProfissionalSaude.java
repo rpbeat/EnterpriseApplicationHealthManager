@@ -11,15 +11,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name= "ProfissionalSaude")
+//@Table(name= "ProfissionalSaude")
 @NamedQuery(name = "GetAllProfissionalSaude", query = "SELECT P FROM ProfissionalSaude P ORDER BY P.nome")
 public class ProfissionalSaude extends User implements Serializable{
 
     public ProfissionalSaude() {
     }
     
-    public ProfissionalSaude(String username, String password, String nome, String email) {
-        super(username, password, nome, email,GROUP.ProfissionalSaude);
+    public ProfissionalSaude(String username, String password, String nome, String email,int contacto,String morada) {
+        super(username, password, nome, email, contacto, morada,GROUP.ProfissionalSaude);
     }
 
     @Override

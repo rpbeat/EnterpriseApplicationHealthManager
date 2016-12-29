@@ -2,24 +2,24 @@ package dtos;
 
 import java.io.Serializable;
 
-public class UserDTO implements Serializable{
+public class UserDTO extends PessoaDTO implements Serializable{
 
     protected String username;
     protected String password;    
-    protected String nome;
-    protected String email;
-
-    public UserDTO() {
-    }    
     
-    public UserDTO(String username, String password, String nome, String email) {
+    public UserDTO(String nome, String email, int contacto, String morada, String username, String password) {
+        super(nome,email,contacto,morada);
         this.username = username;
         this.password = password;
-        this.nome = nome;
-        this.email = email;
+
+    }
+
+    public UserDTO() {
     }
     
+    
     public void reset() {
+        super.reset();
         setUsername(null);
         setPassword(null);
         setNome(null);

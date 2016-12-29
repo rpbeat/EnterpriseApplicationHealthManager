@@ -19,12 +19,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "Utente")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UtenteDTO extends UserDTO implements Serializable{
-
-    public UtenteDTO() {
+public class UtenteDTO extends PessoaDTO implements Serializable{
+    long id;
+    public UtenteDTO(long id,String nome, String email, int contacto, String morada) {
+        super(nome,email,contacto,morada);
+        this.id=id;
     }
 
-    public UtenteDTO(String username, String password, String nome, String email) {
-        super(username, password, nome, email);
+    public UtenteDTO() {
     }
 }

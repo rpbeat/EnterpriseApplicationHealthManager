@@ -24,7 +24,7 @@
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{utente.username}" />
+                  <h:outputText value="#{utente.id}" />
             </h:column>
               
                <h:column>
@@ -48,7 +48,7 @@
                 <h:form>
                     &nbsp;
                     <h:commandLink value="Remove" actionListener="#{administratorManager.removeEnrroledUtente}">
-                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.username}" />
+                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
                     </h:commandLink>
                 </h:form>
             </h:column>                      
@@ -71,7 +71,7 @@
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{utente.username}" />
+                  <h:outputText value="#{utente.id}" />
             </h:column>
               
                <h:column>
@@ -94,7 +94,7 @@
                 </f:facet>
                 <h:form>
                     <h:commandLink value="Enrrol utente" actionListener="#{administratorManager.enrrolUtenteToCuidador}">
-                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.username}" />
+                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
                     </h:commandLink>
                 </h:form>
             </h:column>                      

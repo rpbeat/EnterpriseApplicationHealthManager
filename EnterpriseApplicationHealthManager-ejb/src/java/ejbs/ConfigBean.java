@@ -34,35 +34,37 @@ public class ConfigBean {
     @PostConstruct
     public void populateBD(){
         try{
-            administratorBean.create("el1", "ola", "emanuel", "emanuel.lopes.pt@gmail.com");
-            administratorBean.create("el", "ola", "emanuel", "emanuel.lopes.pt@gmail.com");
-            administratorBean.create("rp", "ola", "ruben", "asdasd@asdas.com");
-            cuidadorBean.create("rb", "olex", "rubex", "asdasasd@assdas.com");
-            profissionalSaudeBean.create("rf", "olfa", "rubffefn", "afffsdasd@asdas.com");
-            utenteBean.create("rfss", "olfa", "rubffefn", "afffsdasd@asdas.com");
-            administratorBean.create("1111111", "Manuel", "Manuel", "dae.ei.ipleiria@gmail.com");
-            administratorBean.create("2222222", "Antonio", "António", "dae.ei.ipleiria@gmail.com");
-            cuidadorBean.create("3333333", "Ana", "Ana", "dae.ei.ipleiria@gmail.com");
-            cuidadorBean.create("4444444", "Jose", "José", "dae.ei.ipleiria@gmail.com");
-            cuidadorBean.create("5555555", "Maria", "Maria", "dae.ei.ipleiria@gmail.com");
-            utenteBean.create("6666666", "Joaquim", "Joaquim", "dae.ei.ipleiria@gmail.com");
-            utenteBean.create("7777777", "Alzira", "Alzira", "dae.ei.ipleiria@gmail.com");
-            profissionalSaudeBean.create("8888888", "Pedro", "Pedro", "dae.ei.ipleiria@gmail.com");
+            administratorBean.create("Emaluel","Emanuel@gmail.com",91555555,"Rua da Maria","emanuel","ola");
+            administratorBean.create("Ruben","Ruben@gmail.com",91555555,"Rua do Ruben","Ruben","ola");
+            administratorBean.create("Cena","Cena@gmail.com",91555555,"Rua do Cena","Cena","ola");
+  
+            cuidadorBean.create("ZeMaria","Emanuel@gmail.com",91555555,"Rua da Maria","ZeMaria","ola");
+            cuidadorBean.create("Camila","Camila@gmail.com",91555555,"Rua da Camila","Camila","ola");
+            cuidadorBean.create("Isabel","Isabel@gmail.com",91555555,"Rua da Isabel","Isabel","ola");
+            cuidadorBean.create("William","William@gmail.com",91555555,"Rua da William","William","ola");
+
+            profissionalSaudeBean.create("Edgard","Edgard@gmail.com",91555555,"Rua da Edgard","Edgard","ola");
+            profissionalSaudeBean.create("Walace","Walace@gmail.com",91555555,"Rua da Walace","Walace","ola");
+   
             
-            cuidadorBean.enrollUtente("4444444", "rfss");
-            cuidadorBean.enrollUtente("4444444", "6666666");
-            cuidadorBean.enrollUtente("5555555", "6666666");
-            cuidadorBean.enrollUtente("3333333", "7777777");
+            utenteBean.create("Guilherme", "Guilherme", 95555, "dae.ei.ipleiria@gmail.com");
+            utenteBean.create("Victor", "Victor", 95555, "dae.ei.ipleiria@gmail.com");
+            utenteBean.create("Afonso", "Afonso", 95555, "dae.ei.ipleiria@gmail.com");
+           
             
-            materialCapacitacaoBean.create("1", "sonda", "equipamento de sonda", "não tem");
-            materialCapacitacaoBean.create("2", "bistu", "equipamento de bistu", "não tem");
-            materialCapacitacaoBean.create("3", "oscut", "equipamento de oscut", "não tem");
-            materialCapacitacaoBean.create("4", "cadeira", "equipamento de cadeira", "não tem");
+            //cuidadorBean.enrollUtente("Camila", "Afonso");
+            //cuidadorBean.enrollUtente("William", "Victor");
+            //cuidadorBean.enrollUtente("Camila", "Guilherme");
             
-            cuidadorBean.enrollMaterial("1", "4444444");
-            cuidadorBean.enrollMaterial("2", "4444444");
-            cuidadorBean.enrollMaterial("3", "4444444");
-            cuidadorBean.enrollMaterial("4", "4444444");
+            materialCapacitacaoBean.create("sonda", "equipamento de sonda", "não tem");
+            materialCapacitacaoBean.create("bistu", "equipamento de bistu", "não tem");
+            materialCapacitacaoBean.create("oscut", "equipamento de oscut", "não tem");
+            materialCapacitacaoBean.create("cadeira", "equipamento de cadeira", "não tem");
+            
+            cuidadorBean.enrollMaterial("1", "William");
+            cuidadorBean.enrollMaterial("2", "William");
+            cuidadorBean.enrollMaterial("3", "Isabel");
+            cuidadorBean.enrollMaterial("4", "Isabel");
            
             procedimentoCuidadoBean.create("2", "sad", "sadas");
             procedimentoCuidadoBean.create("3", "sad", "sadas");

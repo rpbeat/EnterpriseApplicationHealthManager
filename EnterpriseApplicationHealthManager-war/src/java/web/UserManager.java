@@ -66,13 +66,13 @@ public class UserManager implements Serializable {
             return "/faces/admin/admin_list_all?faces-redirect=true";
         }
         if (isUserInRole("Cuidador")) {
-            return "/faces/admin/cuidador?faces-redirect=true";
+            return "/faces/admin/admin_list_all?faces-redirect=true";
         }
         if (isUserInRole("ProfissionalSaude")) {
             return "/faces/admin/admin_list_all?faces-redirect=true";
         }
         if (isUserInRole("Utente")) {
-            return "utente?faces-redirect=true";
+            return "error?faces-redirect=true";
         }
         return "error?faces-redirect=true";
     }

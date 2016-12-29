@@ -8,6 +8,8 @@ package entities;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -22,8 +24,9 @@ import javax.persistence.Table;
 @Table(name= "MaterialCapacitacao")
 @NamedQuery(name = "GetAllMaterialCapacitacao", query = "SELECT U FROM MaterialCapacitacao U ORDER BY U.id")
 public class MaterialCapacitacao implements Serializable{
-    @Id
-    private String id;
+   @Id 
+    @GeneratedValue(strategy=GenerationType.AUTO) 
+    long id;
     private String tipo;
     private String link;
     private String descricao;
@@ -32,8 +35,7 @@ public class MaterialCapacitacao implements Serializable{
     @ManyToOne
     private Cuidador cuidador;
 
-    public MaterialCapacitacao(String id, String tipo, String descricao, String link) {
-        this.id = id;
+    public MaterialCapacitacao(String tipo, String descricao, String link) {
         this.tipo = tipo;
         this.descricao = descricao;
         this.link = link;
@@ -42,12 +44,8 @@ public class MaterialCapacitacao implements Serializable{
     public MaterialCapacitacao() {
     }
 
-    public String getId() {
+    public long getId() {
         return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTipo() {

@@ -21,23 +21,15 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "USERS")
-public class User  implements Serializable{
+public class User extends Pessoa implements Serializable{
     @Id
     protected String username;
     @NotNull
     protected String password;
     @NotNull(message = "Name must not be empty")
-    protected String nome;
-    @NotNull
-    @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\."
-            + "[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@"
-            + "(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?",
-            message = "Invalid email format")
-    protected String email;
     
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "user")
     protected UserGroup group;
@@ -46,11 +38,10 @@ public class User  implements Serializable{
     protected User() {
     }
     
-    protected User(String username, String password, String nome, String email,  GROUP group) {
+    protected User(String username, String password, String nome, String email,int contacto,String morada , GROUP group) {
+        super(nome,email,contacto,morada);
         this.username = username;
         this.password =   hashPassword(password);
-        this.nome = nome;
-        this.email = email;
         this.group = new UserGroup(group,this);
     }
 
@@ -68,22 +59,6 @@ public class User  implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @Override

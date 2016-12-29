@@ -31,12 +31,13 @@ public class ProfissionalSaudeBean {
     @PersistenceContext
     private EntityManager em;
     
-    public void create(String username, String password, String name, String email) {
+    public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
             if(em.find(ProfissionalSaude.class, username) != null){
                 return;
             }
-            em.persist(new ProfissionalSaude(username, password, name, email));
+            
+            em.persist(new ProfissionalSaude(username, password, nome, email, contacto, morada));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -68,7 +69,7 @@ public class ProfissionalSaudeBean {
     }
     
     ProfissionalSaudeDTO profissionalToDTO(ProfissionalSaude profissional) {
-        return new ProfissionalSaudeDTO(profissional.getUsername(), null, profissional.getNome(), profissional.getEmail());
+        return new ProfissionalSaudeDTO(profissional.getNome(), profissional.getEmail(), profissional.getContacto(), profissional.getMorada(), profissional.getUsername(), profissional.getPassword());
     }
 
     public void remove(String username) throws EntityDoesNotExistsException {
@@ -87,7 +88,7 @@ public class ProfissionalSaudeBean {
         }
     }
     
-     public void update(String username, String password, String nome, String email) 
+     public void update(String nome, String email, int contacto, String morada, String username, String password) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             ProfissionalSaude profissional = em.find(ProfissionalSaude.class, username);
@@ -98,6 +99,9 @@ public class ProfissionalSaudeBean {
             profissional.setPassword(password);
             profissional.setNome(nome);
             profissional.setEmail(email);
+            profissional.setContacto(contacto);
+            profissional.setMorada(morada);
+            profissional.setUsername(username);
             em.merge(profissional);
             
         } catch (EntityDoesNotExistsException e) {

@@ -29,16 +29,10 @@ public class MaterialCapacitacaoBean {
    @PersistenceContext
     private EntityManager em; 
    
-   public void create(String id, String tipo,String descricao, String link) 
+   public void create(String tipo,String descricao, String link) 
             throws EntityAlreadyExistsException, MyConstraintViolationException{
-        try {
-            if (em.find(MaterialCapacitacao.class, id) != null) {
-                throw new EntityAlreadyExistsException("A Training Material with that id already exists.");
-            }
-            
-            em.persist(new MaterialCapacitacao(id, tipo, descricao, link));
-        } catch (EntityAlreadyExistsException e) {
-            throw e;
+        try {          
+            em.persist(new MaterialCapacitacao(tipo, descricao, link));
         } catch (ConstraintViolationException e) {
             throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
         } catch (Exception e) {
@@ -46,7 +40,7 @@ public class MaterialCapacitacaoBean {
         }
     }
    
-    public void update(String id, String tipo,String descricao, String link) 
+    public void update(long id, String tipo,String descricao, String link) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             MaterialCapacitacao materialCapacitacao = em.find(MaterialCapacitacao.class, id);
@@ -54,7 +48,6 @@ public class MaterialCapacitacaoBean {
                 throw new EntityDoesNotExistsException("There is no Training Material with that id.");
             }
             
-            materialCapacitacao.setId(id);
             materialCapacitacao.setTipo(tipo);
             materialCapacitacao.setDescricao(descricao);
             materialCapacitacao.setLink(link);
@@ -69,7 +62,7 @@ public class MaterialCapacitacaoBean {
         }
     }
     
-    public void remove(String id) throws EntityDoesNotExistsException {
+    public void remove(long id) throws EntityDoesNotExistsException {
         try {
             MaterialCapacitacao materialCapacitacao = em.find(MaterialCapacitacao.class, id);
             if (materialCapacitacao == null) {

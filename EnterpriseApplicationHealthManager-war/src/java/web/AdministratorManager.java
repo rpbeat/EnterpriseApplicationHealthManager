@@ -157,7 +157,8 @@ public class AdministratorManager {
     //////////////// UTENTE
     public String createUtente() {
         try {
-            utenteBean.create(newUtente.getUsername(),newUtente.getPassword(),newUtente.getNome(),newUtente.getEmail());
+            //String nome, String email,int contacto,String morada
+            utenteBean.create(newUtente.getNome(),newUtente.getEmail(),newUtente.getContacto(),newUtente.getMorada());
             newUtente.reset();
             return "admin_list_all?faces-redirect=true";
         } catch (Exception e) {
@@ -186,7 +187,7 @@ public class AdministratorManager {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
-            utenteBean.remove(id);
+            utenteBean.remove(Long.parseLong(id));
         } catch (EntityDoesNotExistsException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
         } catch (Exception e) {
@@ -196,11 +197,12 @@ public class AdministratorManager {
     
     public String updateUtente() {
         try {
-            utenteBean.update(
-                    currentUtente.getUsername(),
-                    currentUtente.getPassword(),
-                    currentUtente.getNome(),
-                    currentUtente.getEmail());
+            // long idUtente, String password, String nome, String email,int contacto,String morada
+            utenteBean.update(currentUtente.getId(),
+                    currentUtente.getNome(), 
+                    currentUtente.getEmail(), 
+                    currentUtente.getContacto(),
+                    currentUtente.getMorada());
             return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
@@ -225,7 +227,13 @@ public class AdministratorManager {
     
     public String createProfissionalSaude() {
         try {
-            profissionalSaudeBean.create(newProfissional.getUsername(),newProfissional.getPassword(),newProfissional.getNome(),newProfissional.getEmail());
+            //String nome, String email, int contacto, String morada, String username, String password
+            profissionalSaudeBean.create(newProfissional.getNome(),
+                    newProfissional.getEmail(),
+                    newProfissional.getContacto(),
+                    newProfissional.getMorada(),
+                    newProfissional.getUsername(),
+                    newProfissional.getPassword());
             newProfissional.reset();
             return "admin_list_all?faces-redirect=true";
         } catch (Exception e) {
@@ -256,11 +264,12 @@ public class AdministratorManager {
     
      public String updateProfissional() {
         try {
-            profissionalSaudeBean.update(
+            profissionalSaudeBean.update(currentProfissional.getNome(),
+                    currentProfissional.getEmail(),
+                    currentProfissional.getContacto(),
+                    currentProfissional.getMorada(),
                     currentProfissional.getUsername(),
-                    currentProfissional.getPassword(),
-                    currentProfissional.getNome(),
-                    currentProfissional.getEmail());
+                    currentProfissional.getPassword());
             return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
@@ -283,7 +292,12 @@ public class AdministratorManager {
     
     public String createCuidador() {
         try {
-            cuidadorBean.create(newCuidador.getUsername(),newCuidador.getPassword(),newCuidador.getNome(),newCuidador.getEmail());
+            cuidadorBean.create(newCuidador.getNome(),
+                    newCuidador.getEmail(),
+                    newCuidador.getContacto(),
+                    newCuidador.getMorada(),
+                    newCuidador.getUsername(),
+                    newCuidador.getPassword());
             newCuidador.reset();
             return "admin_list_all?faces-redirect=true";
         } catch (Exception e) {
@@ -315,10 +329,12 @@ public class AdministratorManager {
     public String updateCuidador() {
         try {
             cuidadorBean.update(
-                    currentCuidador.getUsername(),
-                    currentCuidador.getPassword(),
-                    currentCuidador.getNome(),
-                    currentCuidador.getEmail());
+                    newCuidador.getNome(),
+                    newCuidador.getEmail(),
+                    newCuidador.getContacto(),
+                    newCuidador.getMorada(),
+                    newCuidador.getUsername(),
+                    newCuidador.getPassword());
             return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
@@ -343,7 +359,12 @@ public class AdministratorManager {
     
     public String createAdministrador() {
         try {
-            administradorBean.create(newAdministrador.getUsername(),newAdministrador.getPassword(),newAdministrador.getNome(),newAdministrador.getEmail());
+            administradorBean.create(newAdministrador.getNome(),
+                    newAdministrador.getEmail(),
+                    newAdministrador.getContacto(),
+                    newAdministrador.getMorada(),
+                    newAdministrador.getUsername(),
+                    newAdministrador.getPassword());
             newAdministrador.reset();
             return "admin_list_all?faces-redirect=true";
         } catch (Exception e) {
@@ -374,11 +395,12 @@ public class AdministratorManager {
     
     public String updateAdministrador() {
         try {
-            administradorBean.update(
-                    currentAdministrador.getUsername(),
-                    currentAdministrador.getPassword(),
-                    currentAdministrador.getNome(),
-                    currentAdministrador.getEmail());
+            administradorBean.update(newAdministrador.getNome(),
+                    newAdministrador.getEmail(),
+                    newAdministrador.getContacto(),
+                    newAdministrador.getMorada(),
+                    newAdministrador.getUsername(),
+                    newAdministrador.getPassword());
             return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
@@ -402,7 +424,7 @@ public class AdministratorManager {
          try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
-            cuidadorBean.enrollUtente(currentCuidador.getUsername(), id);
+            cuidadorBean.enrollUtente(currentCuidador.getUsername(), Long.parseLong(id));
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
@@ -412,7 +434,7 @@ public class AdministratorManager {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
-            cuidadorBean.removeEnrroledUtente(currentCuidador.getUsername(), id);
+            cuidadorBean.removeEnrroledUtente(currentCuidador.getUsername(), Long.parseLong(id));
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
@@ -439,7 +461,7 @@ public class AdministratorManager {
     ///////////////////// MATERIAL
     public String createMaterial() {
         try {
-            materialCapacitacaoBean.create(newMaterialCapacitacao.getId(),newMaterialCapacitacao.getTipo(),newMaterialCapacitacao.getDescricao(),newMaterialCapacitacao.getLink());
+            materialCapacitacaoBean.create(newMaterialCapacitacao.getTipo(),newMaterialCapacitacao.getDescricao(),newMaterialCapacitacao.getLink());
             newMaterialCapacitacao.reset();
             return "admin_create_material?faces-redirect=true";
         } catch (Exception e) {
@@ -461,7 +483,7 @@ public class AdministratorManager {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
             String id = param.getValue().toString();
-            materialCapacitacaoBean.remove(id);
+            materialCapacitacaoBean.remove(Long.parseLong(id));
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
@@ -516,7 +538,7 @@ public class AdministratorManager {
     public String createProcedimento() {
         try {
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
-            utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getUsername());
+            utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());
             newProcedimento.reset();
             
             
@@ -538,7 +560,7 @@ public class AdministratorManager {
     
     public List<ProcedimentoCuidado> getAllEnrroledProcedimentos(){
         try {
-            return utenteBean.getAllProcedimentos(currentUtente.getUsername());
+            return utenteBean.getAllProcedimentos(currentUtente.getId());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
@@ -549,7 +571,7 @@ public class AdministratorManager {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("procedimentoId");
             String id = param.getValue().toString();
-            utenteBean.removeEnrroledProdecimento(id,currentUtente.getUsername());
+            utenteBean.removeEnrroledProdecimento(id,currentUtente.getId());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
