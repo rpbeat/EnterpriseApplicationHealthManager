@@ -8,6 +8,7 @@ package entities;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
@@ -19,20 +20,22 @@ import javax.persistence.Table;
 @NamedQuery(name = "GetAllCuidadores", query = "SELECT U FROM Cuidador U ORDER BY U.nome")
 public class Cuidador extends User implements Serializable{
     
-    @ManyToMany(mappedBy = "Cuidadores")
+    @ManyToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
     private List<Utente> utentes;
     
-
-    
+    //@OneToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
+    //@ManyToMany(mappedBy = "cuidador")
     private List<MaterialCapacitacao> materiais;
     
     public Cuidador() {
         utentes = new LinkedList<>();
+        materiais = new LinkedList<>();
     }
     
     public Cuidador(String username, String password, String nome, String email) {
         super(username, password, nome, email, GROUP.Cuidador);
         utentes = new LinkedList<>();
+        materiais = new LinkedList<>();
     }
 
     @Override
