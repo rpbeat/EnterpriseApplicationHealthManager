@@ -5,6 +5,7 @@
  */
 package entities;
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -15,13 +16,15 @@ import javax.persistence.Table;
 
 /**
  *
- * @author rpbeat
+ * @author Emanel Lopes
  */
 @Entity
 @Table(name = "USERS_GROUPS")
 public class UserGroup implements Serializable{
    
+    @Id
     @Enumerated(EnumType.STRING)
+    @Column(name="GROUP_NAME")
     private GROUP groupName;
     @Id
     @OneToOne

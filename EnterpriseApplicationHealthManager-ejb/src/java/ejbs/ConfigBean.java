@@ -32,6 +32,8 @@ public class ConfigBean {
     @PostConstruct
     public void populateBD(){
         try{
+            administratorBean.create("el1", "ola", "emanuel", "emanuel.lopes.pt@gmail.com");
+            administratorBean.create("el", "ola", "emanuel", "emanuel.lopes.pt@gmail.com");
             administratorBean.create("rp", "ola", "ruben", "asdasd@asdas.com");
             cuidadorBean.create("rb", "olex", "rubex", "asdasasd@assdas.com");
             profissionalSaudeBean.create("rf", "olfa", "rubffefn", "afffsdasd@asdas.com");

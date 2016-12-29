@@ -9,6 +9,10 @@
     </h:head>
     <h:body>
         <h5>ADMINISTRATOR VIEW </h5>
+        <h:form>
+            <h:commandButton action="#{userManager.logout}"
+                             value="Logout"></h:commandButton>
+        </h:form>
         <h:dataTable
             var="utente"
             summary="List of all utente"

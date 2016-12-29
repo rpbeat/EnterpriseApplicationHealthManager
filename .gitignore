@@ -50,3 +50,7 @@ Temporary Items
 /EnterpriseApplicationHealthManager-war/build/
 /build/
 /dist/
+/nbproject/private/
+/EnterpriseApplicationHealthManager-ejb/nbproject/private/
+/EnterpriseApplicationHealthManager-war/nbproject/private/
+/EnterpriseApplicationHealthManager-ejb/build/
