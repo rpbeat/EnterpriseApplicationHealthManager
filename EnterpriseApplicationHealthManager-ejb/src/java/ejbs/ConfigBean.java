@@ -26,8 +26,8 @@ public class ConfigBean {
     private ProfissionalSaudeBean profissionalSaudeBean;
     @EJB
     private UtenteBean utenteBean;
-    //@EJB
-    //private MaterialCapacitacaoBean materialCapacitacaoBean;
+    @EJB
+    private MaterialCapacitacaoBean materialCapacitacaoBean;
     
     @PostConstruct
     public void populateBD(){
@@ -45,7 +45,20 @@ public class ConfigBean {
             utenteBean.create("7777777", "Alzira", "Alzira", "dae.ei.ipleiria@gmail.com");
             profissionalSaudeBean.create("8888888", "Pedro", "Pedro", "dae.ei.ipleiria@gmail.com");
             
-            cuidadorBean.enrollUtente("7777777", "5555555");
+            cuidadorBean.enrollUtente("4444444", "rfss");
+            cuidadorBean.enrollUtente("4444444", "6666666");
+            cuidadorBean.enrollUtente("5555555", "6666666");
+            cuidadorBean.enrollUtente("3333333", "7777777");
+            
+            materialCapacitacaoBean.create("1", "sonda", "equipamento de sonda", "não tem");
+            materialCapacitacaoBean.create("2", "bistu", "equipamento de bistu", "não tem");
+            materialCapacitacaoBean.create("3", "oscut", "equipamento de oscut", "não tem");
+            materialCapacitacaoBean.create("4", "cadeira", "equipamento de cadeira", "não tem");
+            
+            cuidadorBean.enrollMaterial("1", "4444444");
+            cuidadorBean.enrollMaterial("2", "4444444");
+            cuidadorBean.enrollMaterial("3", "4444444");
+            cuidadorBean.enrollMaterial("4", "4444444");
             
         }catch(Exception e){
             e.getMessage();

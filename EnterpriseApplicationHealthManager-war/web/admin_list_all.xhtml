@@ -165,6 +165,14 @@
                     <h:commandLink value="Remove" actionListener="#{administratorManager.removeCuidador}">
                         <f:param name="cuidadorUsername" id="cuidadorUsername" value="#{cuidador.username}" />
                     </h:commandLink>
+                    &nbsp;
+                    <h:commandLink value="ConnectUtente" action="admin_enrrol_utente_cuidador?faces-redirect=true">
+                        <f:setPropertyActionListener target="#{administratorManager.currentCuidador}" value="#{cuidador}" />
+                    </h:commandLink>
+                    &nbsp;
+                    <h:commandLink value="ConnectMaterial" action="admin_create_material?faces-redirect=true">
+                        <f:setPropertyActionListener target="#{administratorManager.currentCuidador}" value="#{cuidador}" />
+                    </h:commandLink>
                 </h:form>
             </h:column>                      
                 
@@ -251,6 +259,13 @@
                 id="return"
                 value="Create Administrador"
                 action="admin_create_administrador?faces-redirect=true" />
+        </h:form>
+        
+        <h:form>                  
+            <h:commandLink
+                id="return"
+                value="Create Material de Capacitação"
+                action="admin_create_material?faces-redirect=true" />
         </h:form>
         
           

@@ -27,6 +27,40 @@
         </h:panelGrid>
 
         <br/>
+        
+           <h:dataTable
+            var="utente"
+            summary="List of all utente"
+            value="#{administratorManager.currentCuidadorUtentes}"
+            rules="all"
+            cellpadding="5">
+          
+            <f:facet name="header">
+                <h:outputText value="Your Utentes" />
+            </f:facet> 
+              
+              <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Username" />
+                </f:facet>
+                  <h:outputText value="#{utente.username}" />
+            </h:column>
+              
+               <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Nome" />
+                </f:facet>
+                   <h:outputText value="#{utente.nome}" />
+            </h:column>
+
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Email" />
+                </f:facet>
+                <h:outputText value="#{utente.email}" />
+            </h:column>
+                                   
+          </h:dataTable>
 
         <h:form>                  
             <h:commandLink

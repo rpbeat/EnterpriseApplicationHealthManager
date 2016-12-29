@@ -11,12 +11,14 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  *
  * @author rpbeat
  */
 @Entity
+@Table(name = "USERS_GROUPS")
 public class UserGroup implements Serializable{
    
     @Enumerated(EnumType.STRING)

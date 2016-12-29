@@ -3,36 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entities;
-
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
+package dtos;
 
 /**
  *
  * @author rpbeat
  */
-@Entity
-@Table(name= "MaterialCapacitacao")
-@NamedQuery(name = "GetAllMaterialCapacitacao", query = "SELECT U FROM MaterialCapacitacao U ORDER BY U.id")
-public class MaterialCapacitacao implements Serializable{
-    @Id
+public class MaterialCapacitacaoDTO {
     private String id;
     private String tipo;
     private String link;
     private String descricao;
 
-    public MaterialCapacitacao(String id, String tipo, String descricao, String link) {
+    public MaterialCapacitacaoDTO(String id, String tipo, String link, String descricao) {
         this.id = id;
         this.tipo = tipo;
-        this.descricao = descricao;
         this.link = link;
+        this.descricao = descricao;
     }
 
-    public MaterialCapacitacao() {
+    public MaterialCapacitacaoDTO() {
     }
 
     public String getId() {
@@ -51,14 +41,6 @@ public class MaterialCapacitacao implements Serializable{
         this.tipo = tipo;
     }
 
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
     public String getLink() {
         return link;
     }
@@ -66,8 +48,21 @@ public class MaterialCapacitacao implements Serializable{
     public void setLink(String link) {
         this.link = link;
     }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
     
-    
+    public void reset(){
+        setDescricao(null);
+        setId(null);
+        setLink(null);
+        setTipo(null);
+    }
     
     
 }

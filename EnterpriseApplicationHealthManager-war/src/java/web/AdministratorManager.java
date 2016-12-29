@@ -8,10 +8,12 @@ package web;
 
 import dtos.AdministradorDTO;
 import dtos.CuidadorDTO;
+import dtos.MaterialCapacitacaoDTO;
 import dtos.ProfissionalSaudeDTO;
 import dtos.UtenteDTO;
 import ejbs.AdministradorBean;
 import ejbs.CuidadorBean;
+import ejbs.MaterialCapacitacaoBean;
 import ejbs.ProfissionalSaudeBean;
 import ejbs.UtenteBean;
 import entities.Cuidador;
@@ -40,6 +42,8 @@ public class AdministratorManager {
     private CuidadorBean cuidadorBean;
     @EJB
     private AdministradorBean administradorBean;   
+    @EJB
+    private MaterialCapacitacaoBean materialCapacitacaoBean;
 
     private UtenteDTO newUtente;
     private Utente currentUtente; //PROBLEMA COM O DTO A VERIFICAR
@@ -52,6 +56,9 @@ public class AdministratorManager {
     
     private AdministradorDTO newAdministrador;
     private AdministradorDTO currentAdministrador;
+    
+    private MaterialCapacitacaoDTO newMaterialCapacitacao;
+    private MaterialCapacitacaoDTO currentMaterialCapacitacao;
 
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
@@ -67,6 +74,8 @@ public class AdministratorManager {
         newAdministrador = new AdministradorDTO();
         currentCuidador = new CuidadorDTO();
         currentAdministrador = new AdministradorDTO();
+        newMaterialCapacitacao = new MaterialCapacitacaoDTO();
+        currentMaterialCapacitacao = new MaterialCapacitacaoDTO();
     }
     
     public List<Utente> getAllUtentes() {
@@ -321,7 +330,7 @@ public class AdministratorManager {
         this.newAdministrador = newAdministrador;
     }
     
-        public String createAdministrador() {
+    public String createAdministrador() {
         try {
             administradorBean.create(newAdministrador.getUsername(),newAdministrador.getPassword(),newAdministrador.getNome(),newAdministrador.getEmail());
             newAdministrador.reset();
@@ -369,7 +378,82 @@ public class AdministratorManager {
         return "admin_profissional_update";
     }
     
+    public List<Utente> getCurrentCuidadorUtentes() {
+        try {
+            return cuidadorBean.getAllenrroledUtentes(currentCuidador.getUsername());
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+            return null;
+        }
+    }
     
+    public void enrrolUtenteToCuidador(ActionEvent event){
+         try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
+            String id = param.getValue().toString();
+            cuidadorBean.enrollUtente(currentCuidador.getUsername(), id);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+    }
+    
+    public void removeEnrroledUtente(ActionEvent event){
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
+            String id = param.getValue().toString();
+            cuidadorBean.removeEnrroledUtente(currentCuidador.getUsername(), id);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+    }
+    
+    ///////////////MATERIALCAPACITAÇAO
+
+    public MaterialCapacitacaoDTO getNewMaterialCapacitacao() {
+        return newMaterialCapacitacao;
+    }
+
+    public void setNewMaterialCapacitacao(MaterialCapacitacaoDTO newMaterialCapacitacao) {
+        this.newMaterialCapacitacao = newMaterialCapacitacao;
+    }
+
+    public MaterialCapacitacaoDTO getCurrentMaterialCapacitacao() {
+        return currentMaterialCapacitacao;
+    }
+
+    public void setCurrentMaterialCapacitacao(MaterialCapacitacaoDTO currentMaterialCapacitacao) {
+        this.currentMaterialCapacitacao = currentMaterialCapacitacao;
+    }
+    
+    public String createMaterial() {
+        try {
+            materialCapacitacaoBean.create(newMaterialCapacitacao.getId(),newMaterialCapacitacao.getTipo(),newMaterialCapacitacao.getDescricao(),newMaterialCapacitacao.getLink());
+            newMaterialCapacitacao.reset();
+            return "admin_create_material?faces-redirect=true";
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
+        }
+        return null;
+    }
+    
+    public List<MaterialCapacitacaoDTO> getAllMaterialDTO(){
+        try {
+            return materialCapacitacaoBean.getAllDTO();
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return null;
+    }
+    
+    public void removeMaterial(ActionEvent event) {
+        try {
+            UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
+            String id = param.getValue().toString();
+            materialCapacitacaoBean.remove(id);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+    }
 
     public UIComponent getComponent() {
         return component;

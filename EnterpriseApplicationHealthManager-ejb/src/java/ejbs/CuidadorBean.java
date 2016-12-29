@@ -7,14 +7,19 @@ package ejbs;
 
 import dtos.CuidadorDTO;
 import dtos.ProfissionalSaudeDTO;
+import dtos.UtenteDTO;
 import entities.Cuidador;
+import entities.MaterialCapacitacao;
 import entities.ProfissionalSaude;
 import entities.Utente;
+import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -29,6 +34,7 @@ import javax.ws.rs.core.MediaType;
 public class CuidadorBean {
     @PersistenceContext
     private EntityManager em;
+    private UtenteBean ub;
     
     public void create(String username, String password, String name, String email) {
         try {
@@ -41,7 +47,43 @@ public class CuidadorBean {
         }
     }
     
+    public List<Utente> getAllenrroledUtentes(String userName){
+        try{
+            Cuidador cuidador = em.find(Cuidador.class, userName);
+            
+            if(cuidador == null ){
+                throw new EJBException();
+            }
+            return cuidador.getUtentes();
+            
+        }catch(Exception e){
+            e.getMessage();
+        }
+        return null;
+    }
+    
     public void enrollUtente(String usernameCuidador, String usernameUtente){
+        try{
+            Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
+            Utente utente = em.find(Utente.class, usernameUtente);
+            
+            if(cuidador == null || utente == null){
+                throw new EntityDoesNotExistsException();
+            }
+            
+            List<Utente> list = cuidador.getUtentes();
+            if(list.contains(utente)){
+                throw new EntityAlreadyExistsException();
+            }
+            
+            cuidador.addUtente(utente);
+        }catch(EJBException | EntityAlreadyExistsException | EntityDoesNotExistsException e){
+            e.getMessage();
+        }
+    }
+    
+    
+    public void removeEnrroledUtente(String usernameCuidador, String usernameUtente){
         try{
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
             Utente utente = em.find(Utente.class, usernameUtente);
@@ -49,11 +91,64 @@ public class CuidadorBean {
             if(cuidador == null || utente == null){
                 throw new EJBException();
             }
-            cuidador.addUtente(utente);
+            cuidador.removeUtente(utente);
         }catch(Exception e){
             e.getMessage();
         }
     }
+    
+    public void enrollMaterial(String idMaterial, String usernameCuidador){
+        try{
+            Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, idMaterial);
+            
+            if(cuidador == null || material == null){
+                throw new EntityDoesNotExistsException();
+            }
+            
+            List<MaterialCapacitacao> list = cuidador.getMateriais();
+            if(list!=null){
+                if(list.contains(material)){
+                    throw new EntityAlreadyExistsException();
+                }
+                cuidador.addMaterial(material);
+            }
+            
+        }catch(EJBException | EntityAlreadyExistsException | EntityDoesNotExistsException e){
+            e.getMessage();
+        }
+    }
+    
+    public List<MaterialCapacitacao> getAllenrroledMaterial(String userName){
+        try{
+            Cuidador cuidador = em.find(Cuidador.class, userName);
+            
+            if(cuidador == null ){
+                throw new EJBException();
+            }
+            return cuidador.getMateriais();
+            
+        }catch(Exception e){
+            e.getMessage();
+        }
+        return null;
+    }
+    
+    public void removeEnrroledMaterial(String idMaterial, String usernameCuidador){
+        try{
+            Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, idMaterial);
+            
+            if(cuidador == null || material == null){
+                throw new EJBException();
+            }
+            cuidador.removeMaterial(material);
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
+    
+    
     
     public List<Cuidador> getAll(){
         List<Cuidador> Cuidadores = em.createNamedQuery("GetAllCuidadores").getResultList();

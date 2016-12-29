@@ -21,6 +21,8 @@ public class Cuidador extends User implements Serializable{
     @ManyToMany(mappedBy = "Cuidadores")
     private List<Utente> utentes;
     
+    private List<MaterialCapacitacao> materiais;
+    
     public Cuidador() {
         utentes = new LinkedList<>();
     }
@@ -32,11 +34,11 @@ public class Cuidador extends User implements Serializable{
 
     @Override
     public String toString() {
-        return "Cuidador"+super.toString(); 
+        return "Cuidador"+super.toString()+"utentes: "+utentes.toString(); 
     }
 
     public List<Utente> getUtentes() {
-        return utentes;
+        return this.utentes;
     }
 
     public void setUtentes(List<Utente> utentes) {
@@ -49,5 +51,22 @@ public class Cuidador extends User implements Serializable{
     
     public void removeUtente(Utente utente){
         this.utentes.remove(utente);
+    }
+
+    public List<MaterialCapacitacao> getMateriais() {
+        return materiais;
+    }
+
+    public void setMateriais(List<MaterialCapacitacao> materiais) {
+        this.materiais = materiais;
+    }
+    
+    public void addMaterial(MaterialCapacitacao m){
+        this.materiais.add(m);
+    }
+    
+    public void removeMaterial(MaterialCapacitacao m){
+        this.materiais.remove(m);
+        
     }
 }

@@ -16,7 +16,8 @@ import javax.persistence.Table;
 @NamedQuery(name = "GetAllUtentes", query = "SELECT U FROM Utente U ORDER BY U.nome")
 public class Utente extends User implements Serializable{
     private List<Cuidador> cuidadores;
-
+    private List<ProcedimentoCuidado> procedimentos;
+    
     public Utente() {
     }
     
@@ -39,6 +40,22 @@ public class Utente extends User implements Serializable{
     
     public void removeCuidador(Cuidador cuidador){
         this.cuidadores.remove(cuidador);
+    }
+
+    public List<ProcedimentoCuidado> getProcedimentos() {
+        return procedimentos;
+    }
+
+    public void setProcedimentos(List<ProcedimentoCuidado> procedimentos) {
+        this.procedimentos = procedimentos;
+    }
+    
+    public void addProcedimento(ProcedimentoCuidado p){
+        this.procedimentos.add(p);
+    }
+    
+    public void removeProcedimento(ProcedimentoCuidado p){
+        this.procedimentos.remove(p);
     }
 
     @Override
