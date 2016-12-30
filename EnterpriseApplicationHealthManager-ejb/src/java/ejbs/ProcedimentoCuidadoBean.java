@@ -5,7 +5,9 @@
  */
 package ejbs;
 
+import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
+import entities.MaterialCapacitacao;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -66,7 +68,50 @@ public class ProcedimentoCuidadoBean {
     }
     
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao());
+        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao(),null);
+    }
+    
+    public void enrrolMaterialToProcedimento(long materialCapacitacaoId, String idProcedimento){
+        try{
+            ProcedimentoCuidado procedimentoCuidado = em.find(ProcedimentoCuidado.class, idProcedimento);
+            MaterialCapacitacao materialCapacitacao = em.find(MaterialCapacitacao.class, materialCapacitacaoId);
+            if(procedimentoCuidado == null ){
+                throw new EJBException();
+            }
+           
+            procedimentoCuidado.setMaterialCapacitacao(materialCapacitacao);
+        }catch(Exception e){
+            e.getMessage();
+        }
+    }
+    
+    public MaterialCapacitacaoDTO getEnrroledMaterialCapacitacao(String id){
+         try{
+            ProcedimentoCuidado procedimentoCuidado = em.find(ProcedimentoCuidado.class, id);
+            if(procedimentoCuidado == null ){
+                throw new EJBException();
+            }
+           
+            return materialToDTO(procedimentoCuidado.getMaterialCapacitacao());
+        }catch(Exception e){
+            e.getMessage();
+        }
+         return null;
+    }
+    
+    List<MaterialCapacitacaoDTO> materialToDTOs(List<MaterialCapacitacao> material) {
+        if(material== null){
+            return null;
+        }
+        List<MaterialCapacitacaoDTO> dtos = new ArrayList<>();
+        for (MaterialCapacitacao s : material) {
+            dtos.add(materialToDTO(s));
+        }
+        return dtos;
+    }
+    
+    MaterialCapacitacaoDTO materialToDTO(MaterialCapacitacao material) {
+        return new MaterialCapacitacaoDTO(material.getId(),material.getTipo(),material.getLink(),material.getDescricao());
     }
     
     public void remove(String id) throws EntityDoesNotExistsException {

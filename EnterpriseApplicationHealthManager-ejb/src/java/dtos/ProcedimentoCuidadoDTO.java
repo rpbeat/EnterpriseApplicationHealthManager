@@ -19,11 +19,13 @@ public class ProcedimentoCuidadoDTO {
     private String id;
     private String userNameCuidador;
     private String descricao;
+    private MaterialCapacitacaoDTO materialCapacitacaoDTO;
 
-    public ProcedimentoCuidadoDTO(String id, String userNameCuidador, String descricao) {
+    public ProcedimentoCuidadoDTO(String id, String userNameCuidador, String descricao, MaterialCapacitacaoDTO materialToDTO) {
         this.id = id;
         this.userNameCuidador = userNameCuidador;
         this.descricao = descricao;
+        this.materialCapacitacaoDTO = materialToDTO;
     }
 
     public ProcedimentoCuidadoDTO() {
@@ -58,5 +60,14 @@ public class ProcedimentoCuidadoDTO {
         setId(null);
         setUserNameCuidador(null);
     }
+
+    public MaterialCapacitacaoDTO getMaterialCapacitacaoDTO() {
+        return materialCapacitacaoDTO;
+    }
+
+    public void setMaterialCapacitacaoDTO(MaterialCapacitacaoDTO materialCapacitacaoDTO) {
+        this.materialCapacitacaoDTO = materialCapacitacaoDTO;
+    }
+    
     
 }
