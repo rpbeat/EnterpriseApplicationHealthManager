@@ -65,8 +65,11 @@ public class UtenteBean {
         //}
     }
     
-    List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
-         List<UtenteDTO> dtos = new ArrayList<>();
+   public List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
+        if(utentes==null){
+            return null;
+        }
+        List<UtenteDTO> dtos = new ArrayList<>();
         for (Utente s : utentes) {
             System.out.println("utente nome no dto: "+s.getNome());
             dtos.add(utenteToDTO(s));
@@ -75,7 +78,7 @@ public class UtenteBean {
         return dtos;
     }
     
-    UtenteDTO utenteToDTO(Utente utente) {
+    private UtenteDTO utenteToDTO(Utente utente) {
         return new UtenteDTO(utente.getId(),
                 utente.getNome(), 
                 utente.getEmail(), 
@@ -161,10 +164,22 @@ public class UtenteBean {
             if(utente == null ){
                 throw new EntityDoesNotExistsException();
             }
-            return procedimentoCuidadoBean.procedimentosToDTOs(utente.getProcedimentos());
+            return procedimentosToDTOs(utente.getProcedimentos());
         }catch(Exception e){
             e.getMessage();
             return null;
         }
      }
+     
+     List<ProcedimentoCuidadoDTO> procedimentosToDTOs(List<ProcedimentoCuidado> procedimentos) {
+        List<ProcedimentoCuidadoDTO> dtos = new ArrayList<>();
+        for (ProcedimentoCuidado s : procedimentos) {
+            dtos.add(procedimentoToDTO(s));
+        }
+        return dtos;
+    }
+    
+    ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
+        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao());
+    }
 }

@@ -12,13 +12,14 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 //@Table(name= "Cuidadores")
 @NamedQuery(name = "GetAllCuidadores", query = "SELECT U FROM Cuidador U ORDER BY U.nome")
 public class Cuidador extends User implements Serializable{
     
-    @ManyToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
     private List<Utente> utentes;
     
     @ManyToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)

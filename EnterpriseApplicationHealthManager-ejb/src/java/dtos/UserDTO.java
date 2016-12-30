@@ -9,7 +9,6 @@ public class UserDTO extends PessoaDTO implements Serializable{
     
     public UserDTO(String nome, String email, int contacto, String morada, String username, String password) {
         super(nome,email,contacto,morada);
-        System.err.println("ESTOU NO CONSTRUTOR!!!!!!!!");
         this.username = username;
         this.password = password;
 

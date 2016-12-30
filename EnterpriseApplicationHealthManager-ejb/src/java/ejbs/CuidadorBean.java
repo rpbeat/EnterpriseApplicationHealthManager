@@ -58,30 +58,31 @@ public class CuidadorBean {
             if (cuidador == null) {
                 throw new EJBException();
             }
-            System.err.println("GETERROLEDDD" + userName + "List: " + cuidador.getUtentes().size());
+            System.err.println("GETERROLEDDD"+cuidador.getUsername()+"List: "+cuidador.getUtentes().size());
             return utentesToDTOs(cuidador.getUtentes());
-
-        } catch (Exception e) {
+            
+        }catch(Exception e){
             e.getMessage();
         }
         return null;
     }
-
-    List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
+    
+    public List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
+        if(utentes==null){
+            return null;
+        }
         List<UtenteDTO> dtos = new ArrayList<>();
         for (Utente s : utentes) {
-            System.out.println("utente nome no dto: " + s.getNome());
             dtos.add(utenteToDTO(s));
         }
-        System.out.println("dtos" + dtos.size());
         return dtos;
     }
-
-    UtenteDTO utenteToDTO(Utente utente) {
+    
+    private UtenteDTO utenteToDTO(Utente utente) {
         return new UtenteDTO(utente.getId(),
-                utente.getNome(),
-                utente.getEmail(),
-                utente.getContacto(),
+                utente.getNome(), 
+                utente.getEmail(), 
+                utente.getContacto(), 
                 utente.getMorada());
     }
 
@@ -96,8 +97,8 @@ public class CuidadorBean {
             }
 
             List<Utente> list = cuidador.getUtentes();
-            if (list.contains(utente)) {
-                throw new EntityAlreadyExistsException("Utente já existente na lista");
+            if(list.contains(utente)){
+                throw new EntityAlreadyExistsException("O utente já existe neste cuidador");
             }
             if (checkUtenteHasCuidador(utente)) {
                 throw new EntityAlreadyExistsException("Utente já tem um cuidador associado");
@@ -164,12 +165,27 @@ public class CuidadorBean {
             if (cuidador == null) {
                 throw new EJBException();
             }
-            return materialCapacitacaoBean.materialToDTOs(cuidador.getMateriais());
-
-        } catch (Exception e) {
+            return materialToDTOs(cuidador.getMateriais());
+            
+        }catch(Exception e){
             e.getMessage();
         }
         return null;
+    }
+    
+    List<MaterialCapacitacaoDTO> materialToDTOs(List<MaterialCapacitacao> material) {
+        if(material== null){
+            return null;
+        }
+        List<MaterialCapacitacaoDTO> dtos = new ArrayList<>();
+        for (MaterialCapacitacao s : material) {
+            dtos.add(materialToDTO(s));
+        }
+        return dtos;
+    }
+    
+    MaterialCapacitacaoDTO materialToDTO(MaterialCapacitacao material) {
+        return new MaterialCapacitacaoDTO(material.getId(),material.getTipo(),material.getLink(),material.getDescricao());
     }
 
     public void removeEnrroledMaterial(String idMaterial, String usernameCuidador) {
@@ -239,10 +255,11 @@ public class CuidadorBean {
             throw new EJBException(e.getMessage());
         }
     }
-
+     
     public void update(String nome, String email, int contacto, String morada, String username, String password)
-            throws EntityDoesNotExistsException, MyConstraintViolationException {
+        throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
+            System.out.println("USERNAME: "+username);
             Cuidador cuidador = em.find(Cuidador.class, username);
             if (cuidador == null) {
                 throw new EntityDoesNotExistsException("There is no cuidador with that username.");
@@ -253,16 +270,16 @@ public class CuidadorBean {
             cuidador.setEmail(email);
             cuidador.setContacto(contacto);
             cuidador.setMorada(morada);
-            cuidador.setUsername(username);
+            //cuidador.setUsername(username);
             em.merge(cuidador);
-
-        } catch (EntityDoesNotExistsException e) {
+            
+       } catch (EntityDoesNotExistsException e) {
             throw e;
-        } catch (ConstraintViolationException e) {
-            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
-        } catch (Exception e) {
+       } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
+       } catch (Exception e) {
             throw new EJBException(e.getMessage());
-        }
+       }
     }
 
 }

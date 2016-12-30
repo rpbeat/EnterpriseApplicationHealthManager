@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
@@ -22,7 +24,8 @@ public class Utente extends Pessoa implements Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO) 
     long id;
     
-    private List<Cuidador> cuidadores;
+    @ManyToOne
+    private Cuidador cuidadores;
     
     private List<ProcedimentoCuidado> procedimentos;
     
@@ -33,21 +36,17 @@ public class Utente extends Pessoa implements Serializable{
         super(nome, email, contacto, morada);
     }
 
-    public List<Cuidador> getCuidadores() {
+    public Cuidador getCuidador() {
         return cuidadores;
     }
 
-    public void setCuidadores(List<Cuidador> cuidadores) {
-        this.cuidadores = cuidadores;
+    public void setCuidador(Cuidador cuidador) {
+        this.cuidadores = cuidador;
     }
     
     
-    public void addCuidador(Cuidador cuidador){
-        this.cuidadores.add(cuidador);
-    }
-    
-    public void removeCuidador(Cuidador cuidador){
-        this.cuidadores.remove(cuidador);
+    public void removeCuidador(){
+        this.cuidadores = null;
     }
 
     public List<ProcedimentoCuidado> getProcedimentos() {

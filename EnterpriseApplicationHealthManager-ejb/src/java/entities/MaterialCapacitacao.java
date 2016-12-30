@@ -34,15 +34,16 @@ public class MaterialCapacitacao implements Serializable{
     private String link;
     private String descricao;
     
-    /*@ManyToMany
+    @ManyToMany
     @JoinTable(name = "USERS_MATERIALCAPACITACAO",
             joinColumns
             = @JoinColumn(name = "MATERIAIS_ID", referencedColumnName = "ID"),
             inverseJoinColumns
-            = @JoinColumn(name = "CUIDADORES_USERNAME", referencedColumnName = "USERNAME"))*/
+            = @JoinColumn(name = "CUIDADORES_USERNAME", referencedColumnName = "USERNAME"))
     private List<Cuidador> cuidadores;
     
-
+    
+    
     public MaterialCapacitacao(String tipo, String descricao, String link) {
         this.tipo = tipo;
         this.descricao = descricao;
