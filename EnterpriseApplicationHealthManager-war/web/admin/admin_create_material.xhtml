@@ -17,7 +17,7 @@
                     required="true"
                     requiredMessage="Error: Tipo cannot be empty."
                     value="#{administratorManager.newMaterialCapacitacao.tipo}"/>
-                <h:message for="password" errorStyle="color: red" />                        
+                <h:message for="tipo" errorStyle="color: red" />                        
 
                 <h:outputLabel for="descricao" value="Descricao " />
                 <h:inputText 
@@ -49,8 +49,6 @@
             </h:panelGrid >                       
 
         </h:form>
-
-        <h:messages style="color:red"/>   
         <br></br>
         <br></br>
         <h:dataTable

@@ -73,8 +73,10 @@ public class UtenteBean {
         }
         List<UtenteDTO> dtos = new ArrayList<>();
         for (Utente s : utentes) {
+            System.out.println("utente nome no dto: "+s.getNome());
             dtos.add(utenteToDTO(s));
         }
+        System.out.println("dtos"+dtos.size());
         return dtos;
     }
     
