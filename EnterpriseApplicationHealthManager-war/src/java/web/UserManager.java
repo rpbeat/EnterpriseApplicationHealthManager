@@ -55,7 +55,6 @@ public class UserManager implements Serializable {
                 = (HttpServletRequest) context.getExternalContext().getRequest();
 
         try {
-            System.out.println("++++++++++++++++++++++++++++++++USER:" + this.username + "PASSWORD:" + this.password);
             request.login(this.username, this.password);
         } catch (ServletException e) {
             logger.log(Level.WARNING, e.getMessage());
@@ -91,15 +90,13 @@ public class UserManager implements Serializable {
     public String logout() {
         loginFlag=false;
         FacesContext context = FacesContext.getCurrentInstance();
-        // remove data from beans:
+
         for (String bean : context.getExternalContext().getSessionMap().keySet()) {
             context.getExternalContext().getSessionMap().remove(bean);
         }
-        // destroy session:
         HttpSession session
                 = (HttpSession) context.getExternalContext().getSession(false);
         session.invalidate();
-        // using faces-redirect to initiate a new request:
         return "/index_login.xhtml?faces-redirect=true";
     }
 
