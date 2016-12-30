@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
@@ -19,23 +19,23 @@
             value="#{administratorManager.allUtentesDTO}"
             rules="all"
             cellpadding="5">
-          
+
             <f:facet name="header">
                 <h:outputText value="Utentes" />
             </f:facet> 
-              
-              <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Id" />
                 </f:facet>
-                  <h:outputText value="#{utente.id}" />
+                <h:outputText value="#{utente.id}" />
             </h:column>
-              
-               <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Nome" />
                 </f:facet>
-                   <h:outputText value="#{utente.nome}" />
+                <h:outputText value="#{utente.nome}" />
             </h:column>
 
             <h:column>
@@ -44,7 +44,7 @@
                 </f:facet>
                 <h:outputText value="#{utente.email}" />
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Actions" />
@@ -63,8 +63,8 @@
                     </h:commandLink>
                 </h:form>
             </h:column>                      
-                
-          </h:dataTable>
+
+        </h:dataTable>
         <br></br>
         <br></br>
         <h:dataTable
@@ -73,23 +73,23 @@
             value="#{administratorManager.allProfissionaisDTO}"
             rules="all"
             cellpadding="5">
-          
+
             <f:facet name="header">
                 <h:outputText value="Profissionais" />
             </f:facet> 
-              
-              <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{profissional.username}" />
+                <h:outputText value="#{profissional.username}" />
             </h:column>
-              
-               <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Nome" />
                 </f:facet>
-                   <h:outputText value="#{profissional.nome}" />
+                <h:outputText value="#{profissional.nome}" />
             </h:column>
 
             <h:column>
@@ -98,7 +98,7 @@
                 </f:facet>
                 <h:outputText value="#{profissional.email}" />
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Actions" />
@@ -117,8 +117,8 @@
                     </h:commandLink>
                 </h:form>
             </h:column>                      
-                
-          </h:dataTable>
+
+        </h:dataTable>
         <br></br>
         <br></br>
         <h:dataTable
@@ -127,23 +127,23 @@
             value="#{administratorManager.allCuidadoresDTO}"
             rules="all"
             cellpadding="5">
-          
+
             <f:facet name="header">
                 <h:outputText value="Cuidadores" />
             </f:facet> 
-              
-              <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{cuidador.username}" />
+                <h:outputText value="#{cuidador.username}" />
             </h:column>
-              
-               <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Nome" />
                 </f:facet>
-                   <h:outputText value="#{cuidador.nome}" />
+                <h:outputText value="#{cuidador.nome}" />
             </h:column>
 
             <h:column>
@@ -152,7 +152,7 @@
                 </f:facet>
                 <h:outputText value="#{cuidador.email}" />
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Actions" />
@@ -179,9 +179,9 @@
                     </h:commandLink>
                 </h:form>
             </h:column>                      
-                
-          </h:dataTable>
-        
+
+        </h:dataTable>
+
         <br></br>
         <br></br>
         <h:dataTable
@@ -190,23 +190,23 @@
             value="#{administratorManager.allAdministradoresDTO}"
             rules="all"
             cellpadding="5">
-          
+
             <f:facet name="header">
                 <h:outputText value="Administradores" />
             </f:facet> 
-              
-              <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Username" />
                 </f:facet>
-                  <h:outputText value="#{administrador.username}" />
+                <h:outputText value="#{administrador.username}" />
             </h:column>
-              
-               <h:column>
+
+            <h:column>
                 <f:facet name="header">
                     <h:outputText value="Nome" />
                 </f:facet>
-                   <h:outputText value="#{administrador.nome}" />
+                <h:outputText value="#{administrador.nome}" />
             </h:column>
 
             <h:column>
@@ -215,7 +215,7 @@
                 </f:facet>
                 <h:outputText value="#{administrador.email}" />
             </h:column>
-            
+
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Actions" />
@@ -234,44 +234,44 @@
                     </h:commandLink>
                 </h:form>
             </h:column>                      
-                
-          </h:dataTable>
-        
+
+        </h:dataTable>
+
         <h:form>                  
             <h:commandLink
                 id="return"
                 value="Create Utente"
                 action="admin_create_utente?faces-redirect=true" />
         </h:form>
-        
-          <h:form>                  
+
+        <h:form>                  
             <h:commandLink
                 id="return"
                 value="Create Profissional"
                 action="admin_create_profissional_saude?faces-redirect=true" />
         </h:form>
-        
+
         <h:form>                  
             <h:commandLink
                 id="return"
                 value="Create Cuidador"
                 action="admin_create_cuidador?faces-redirect=true" />
         </h:form>
-        
+
         <h:form>                  
             <h:commandLink
                 id="return"
                 value="Create Administrador"
                 action="admin_create_administrador?faces-redirect=true" />
         </h:form>
-        
+
         <h:form>                  
             <h:commandLink
                 id="return"
                 value="Create Material de Capacitação"
                 action="admin_create_material?faces-redirect=true" />
         </h:form>
-        
-          
+
+
     </h:body>
 </html>

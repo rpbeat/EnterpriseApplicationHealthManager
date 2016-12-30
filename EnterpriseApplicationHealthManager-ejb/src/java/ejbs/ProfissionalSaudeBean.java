@@ -56,7 +56,7 @@ public class ProfissionalSaudeBean {
     @Path("all")
     public List<ProfissionalSaudeDTO> getAllDTO() {
         try {
-            List<ProfissionalSaude> profissionais = (List<ProfissionalSaude>) em.createNamedQuery("GetAllProfissionalSaude").getResultList();
+            List<ProfissionalSaude> profissionais = em.createNamedQuery("GetAllProfissionalSaude").getResultList();
             return profissionaisToDTOs(profissionais);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());

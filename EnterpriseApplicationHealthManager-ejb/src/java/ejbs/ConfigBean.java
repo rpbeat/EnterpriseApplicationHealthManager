@@ -7,8 +7,8 @@ package ejbs;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.ejb.Startup;
 import javax.ejb.Singleton;
+import javax.ejb.Startup;
 
 /**
  *
@@ -50,7 +50,8 @@ public class ConfigBean {
             utenteBean.create("Victor", "dae.ei.ipleiria@gmail.com", 95555, "Rua do ZE");
             utenteBean.create("Afonso", "dae.ei.ipleiria@gmail.com", 95555, "Rua do Guilherme");
 
-            //cuidadorBean.enrollUtente("Camila", "Afonso");
+            cuidadorBean.enrollUtente("Camila", 1);
+           
             //cuidadorBean.enrollUtente("William", "Victor");
             //cuidadorBean.enrollUtente("Camila", "Guilherme");
             materialCapacitacaoBean.create("sonda", "equipamento de sonda", "não tem");
@@ -58,12 +59,17 @@ public class ConfigBean {
             materialCapacitacaoBean.create("oscut", "equipamento de oscut", "não tem");
             materialCapacitacaoBean.create("cadeira", "equipamento de cadeira", "não tem");
 
-            //cuidadorBean.enrollMaterial("1", "William");
-            //cuidadorBean.enrollMaterial("2", "William");
+            cuidadorBean.enrollMaterial("4", "Camila");
+            cuidadorBean.enrollMaterial("7", "Camila");
             //cuidadorBean.enrollMaterial("3", "Isabel");
             //cuidadorBean.enrollMaterial("4", "Isabel");
-            procedimentoCuidadoBean.create("2", "sad", "sadas");
-            procedimentoCuidadoBean.create("3", "sad", "sadas");
+            procedimentoCuidadoBean.create("1", "Camila", "Cena de obtstrução");
+           
+            procedimentoCuidadoBean.enrrolMaterialToProcedimento(4, "1");
+            utenteBean.enrrolProcedimento("1", 1);
+            
+            
+            //procedimentoCuidadoBean.create("1", "sad", "sadas");
 
         } catch (Exception e) {
             e.getMessage();

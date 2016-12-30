@@ -8,7 +8,6 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
-import javax.persistence.Table;
 
 @Entity
 //@Table(name= "ProfissionalSaude")

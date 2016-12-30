@@ -6,9 +6,6 @@
 package ejbs;
 
 import dtos.AdministradorDTO;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import entities.Administrador;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
@@ -17,6 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -51,7 +51,7 @@ public class AdministradorBean {
     @Path("all")
     public List<AdministradorDTO> getAllDTO() {
         try {
-            List<Administrador> aministradores = (List<Administrador>) em.createNamedQuery("GetAllAdministradores").getResultList();
+            List<Administrador> aministradores = em.createNamedQuery("GetAllAdministradores").getResultList();
             return administradoresToDTOs(aministradores);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());

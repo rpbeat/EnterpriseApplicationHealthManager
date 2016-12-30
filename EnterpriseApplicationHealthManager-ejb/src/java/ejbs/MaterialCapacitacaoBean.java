@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ejbs;
 
 import dtos.MaterialCapacitacaoDTO;
@@ -13,7 +9,6 @@ import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -94,7 +89,7 @@ public class MaterialCapacitacaoBean {
     @Path("all")
     public List<MaterialCapacitacaoDTO> getAllDTO() {
         try {
-            List<MaterialCapacitacao> materialCapacitacao = (List<MaterialCapacitacao>) em.createNamedQuery("GetAllMaterialCapacitacao").getResultList();
+            List<MaterialCapacitacao> materialCapacitacao = em.createNamedQuery("GetAllMaterialCapacitacao").getResultList();
             return materialToDTOs(materialCapacitacao);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());

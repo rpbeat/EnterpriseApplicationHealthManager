@@ -1,46 +1,55 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ejbs;
 
+import common.BasicAuth;
 import dtos.CuidadorDTO;
 import dtos.MaterialCapacitacaoDTO;
-import dtos.ProfissionalSaudeDTO;
+import dtos.ProcedimentoCuidadoDTO;
 import dtos.UtenteDTO;
 import entities.Cuidador;
 import entities.MaterialCapacitacao;
-import entities.ProfissionalSaude;
+import entities.ProcedimentoCuidado;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
+import javax.faces.component.UIParameter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import org.jboss.logging.Param;
 
 @Stateless
 @Path("/cuidador")
 public class CuidadorBean {
 
+    @EJB
+    private UtenteBean utenteBean;
+    @EJB
+    private ProcedimentoCuidadoBean procedimentoCuidadoBean;
+
     @PersistenceContext
     private EntityManager em;
-    private UtenteBean utenteBean;
-    private MaterialCapacitacaoBean materialCapacitacaoBean;
+//    private UtenteBean utenteBean;
+//    private MaterialCapacitacaoBean materialCapacitacaoBean;
 
     public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
@@ -53,14 +62,53 @@ public class CuidadorBean {
         }
     }
 
-    public List<UtenteDTO> getAllenrroledUtentes(String userName) {
+    @GET
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("procedimentos/{id}")
+    public List<ProcedimentoCuidadoDTO> getAllenrroledProcedimentosUtente(@Context HttpHeaders headers, @PathParam("id") long idUtente) {
+        List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+        List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
+        Utente utente = em.find(Utente.class, idUtente);
+
+        for (UtenteDTO utentedto : listaUtentes) {
+            if (utentedto.getId() == utente.getId()) {
+                return procedimentosToDTOs(utente.getProcedimentos());
+            }
+        }
+        return null;
+    }
+
+    List<ProcedimentoCuidadoDTO> procedimentosToDTOs(List<ProcedimentoCuidado> procedimentos) {
+        List<ProcedimentoCuidadoDTO> dtos = new ArrayList<>();
+        for (ProcedimentoCuidado s : procedimentos) {
+            dtos.add(procedimentoToDTO(s));
+        }
+        return dtos;
+    }
+
+    ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
+        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()));
+    }
+
+    @GET
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("utentes")
+    public List<UtenteDTO> getAllenrroledUtentes(@Context HttpHeaders headers) {
+        List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+        return getAllenrroledUtentes(username);
+    }
+
+    public List<UtenteDTO> getAllenrroledUtentes(String username) {
         try {
-            Cuidador cuidador = em.find(Cuidador.class, userName);
+            Cuidador cuidador = em.find(Cuidador.class, username);
 
             if (cuidador == null) {
                 throw new EJBException();
             }
-            System.err.println("GETERROLEDDD" + cuidador.getUsername() + "List: " + cuidador.getUtentes().size());
             return utentesToDTOs(cuidador.getUtentes());
 
         } catch (Exception e) {
@@ -145,7 +193,7 @@ public class CuidadorBean {
             MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
 
             if (cuidador == null || material == null) {
-                throw new EntityDoesNotExistsException("Cuidador ou utente não existentes");
+                throw new EntityDoesNotExistsException("Cuidador ou material não existentes");
             }
 
             List<MaterialCapacitacao> list = cuidador.getMateriais();
@@ -163,9 +211,19 @@ public class CuidadorBean {
         }
     }
 
-    public List<MaterialCapacitacaoDTO> getAllenrroledMaterial(String userName) {
+    @GET
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("material")
+    public List<MaterialCapacitacaoDTO> getAllenrroledMaterial(@Context HttpHeaders headers) {
+        List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+        return getAllenrroledMaterial(username);
+    }
+
+    public List<MaterialCapacitacaoDTO> getAllenrroledMaterial(String username) {
         try {
-            Cuidador cuidador = em.find(Cuidador.class, userName);
+            Cuidador cuidador = em.find(Cuidador.class, username);
 
             if (cuidador == null) {
                 throw new EJBException();
@@ -213,12 +271,12 @@ public class CuidadorBean {
     }
 
     @GET
-    //@RolesAllowed({"Administrador", "ProfissionalSaude"})
+    @RolesAllowed({"Administrador", "ProfissionalSaude"})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("all")
     public List<CuidadorDTO> getAllDTO() {
         try {
-            List<Cuidador> cuidadores = (List<Cuidador>) em.createNamedQuery("GetAllCuidadores").getResultList();
+            List<Cuidador> cuidadores = em.createNamedQuery("GetAllCuidadores").getResultList();
             return cuidadoresToDTOs(cuidadores);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
@@ -265,7 +323,6 @@ public class CuidadorBean {
     public void update(String nome, String email, int contacto, String morada, String username, String password)
             throws EntityDoesNotExistsException, MyConstraintViolationException {
         try {
-            System.out.println("USERNAME: " + username);
             Cuidador cuidador = em.find(Cuidador.class, username);
             if (cuidador == null) {
                 throw new EntityDoesNotExistsException("There is no cuidador with that username.");
@@ -286,6 +343,64 @@ public class CuidadorBean {
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
+    }
+
+    @POST
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("procedimentos/create")
+    public String PostcreateProcedimento(@Context HttpHeaders headers,
+            @FormParam("identificador") String identificador,
+            @FormParam("descricao") String descricao,
+            @FormParam("material") String idMaterial,
+            @FormParam("idUtente") String idUtente) throws EntityDoesNotExistsException {
+        try {
+
+            List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+            String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+
+            if (descricao == "" || idMaterial == "" || identificador == "") {
+                return null;
+            }
+
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
+            if (material == null) {
+                throw new EntityDoesNotExistsException("material não existente");
+            }
+
+            procedimentoCuidadoBean.create(identificador, username, descricao);
+            procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(idMaterial), identificador);
+            utenteBean.enrrolProcedimento(identificador, Long.parseLong(idUtente));
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+        return "OK";
+    }
+
+    @DELETE
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("procedimentos/delete/{id}/{idUtente}")
+    public String removeProcedimento(@Context HttpHeaders headers, @PathParam("id") String id, @PathParam("idUtente") long idUtente) {
+        try {
+            List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+            String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+
+            List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
+            Utente utente = em.find(Utente.class, idUtente);
+
+            for (UtenteDTO utentedto : listaUtentes) {
+                if (utentedto.getId() == utente.getId()) {
+                    utenteBean.removeEnrroledProdecimento(id, idUtente);
+                    return "OK";
+                }
+            }
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+        return "OK";
     }
 
 }
