@@ -6,6 +6,7 @@
 package ejbs;
 
 import dtos.CuidadorDTO;
+import dtos.MaterialCapacitacaoDTO;
 import dtos.ProfissionalSaudeDTO;
 import dtos.UtenteDTO;
 import entities.Cuidador;
@@ -17,6 +18,7 @@ import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +36,8 @@ import javax.ws.rs.core.MediaType;
 public class CuidadorBean {
     @PersistenceContext
     private EntityManager em;
-    private UtenteBean ub;
+    private UtenteBean utenteBean;
+    private  MaterialCapacitacaoBean materialCapacitacaoBean;
     
     public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
@@ -47,14 +50,15 @@ public class CuidadorBean {
         }
     }
     
-    public List<Utente> getAllenrroledUtentes(String userName){
+    public List<UtenteDTO> getAllenrroledUtentes(String userName){
         try{
             Cuidador cuidador = em.find(Cuidador.class, userName);
             
             if(cuidador == null ){
                 throw new EJBException();
             }
-            return cuidador.getUtentes();
+            System.err.println("GETERROLEDDD"+userName+"List: "+cuidador.getUtentes().toString());
+            return utenteBean.utentesToDTOs(cuidador.getUtentes());
             
         }catch(Exception e){
             e.getMessage();
@@ -119,14 +123,14 @@ public class CuidadorBean {
         }
     }
     
-    public List<MaterialCapacitacao> getAllenrroledMaterial(String userName){
+    public List<MaterialCapacitacaoDTO> getAllenrroledMaterial(String userName){
         try{
             Cuidador cuidador = em.find(Cuidador.class, userName);
             
             if(cuidador == null ){
                 throw new EJBException();
             }
-            return cuidador.getMateriais();
+            return materialCapacitacaoBean.materialToDTOs(cuidador.getMateriais());
             
         }catch(Exception e){
             e.getMessage();
@@ -151,23 +155,26 @@ public class CuidadorBean {
     
     
     public List<Cuidador> getAll(){
-        List<Cuidador> Cuidadores = em.createNamedQuery("GetAllCuidadores").getResultList();
-         return Cuidadores;
+        List<Cuidador> cuidadores = em.createNamedQuery("GetAllCuidadores").getResultList();
+         return cuidadores;
     }
     
     //@GET
     //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     //@Path("all")
     public List<CuidadorDTO> getAllDTO() {
-        try {
+        //try {
             List<Cuidador> cuidadores = (List<Cuidador>) em.createNamedQuery("GetAllCuidadores").getResultList();
             return cuidadoresToDTOs(cuidadores);
-        } catch (Exception e) {
-            throw new EJBException(e.getMessage());
-        }
+       // } catch (Exception e) {
+         //   throw new EJBException(e.getMessage());
+        //}
     }
     
     List<CuidadorDTO> cuidadoresToDTOs(List<Cuidador> cuidadores) {
+        if(cuidadores==null){
+            return null;
+        }
         List<CuidadorDTO> dtos = new ArrayList<>();
         for (Cuidador s : cuidadores) {
             dtos.add(cuidadorToDTO(s));
@@ -176,7 +183,13 @@ public class CuidadorBean {
     }
     
     CuidadorDTO cuidadorToDTO(Cuidador cuidador) {
-        return new CuidadorDTO(cuidador.getNome(), cuidador.getEmail(), cuidador.getContacto(), cuidador.getMorada(), cuidador.getUsername(), cuidador.getPassword());
+        return new CuidadorDTO(cuidador.getNome(), 
+                cuidador.getEmail(), 
+                cuidador.getContacto(), 
+                cuidador.getMorada(), 
+                cuidador.getUsername(), 
+                cuidador.getPassword());
+        
     }
     
      public void remove(String username) throws EntityDoesNotExistsException {

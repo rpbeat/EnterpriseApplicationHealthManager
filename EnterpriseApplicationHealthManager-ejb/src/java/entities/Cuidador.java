@@ -12,8 +12,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 
 @Entity
 //@Table(name= "Cuidadores")
@@ -23,8 +21,7 @@ public class Cuidador extends User implements Serializable{
     @ManyToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
     private List<Utente> utentes;
     
-    //@OneToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
-    //@ManyToMany(mappedBy = "cuidador")
+    @ManyToMany(mappedBy = "Cuidadores", cascade = CascadeType.REMOVE)
     private List<MaterialCapacitacao> materiais;
     
     public Cuidador() {
@@ -40,7 +37,7 @@ public class Cuidador extends User implements Serializable{
 
     @Override
     public String toString() {
-        return "Cuidador"+super.toString()+"utentes: "+utentes.toString(); 
+        return "Cuidador"+super.toString()+"utentes: "+utentes.toString()+"materiais: "+materiais.toString(); 
     }
 
     public List<Utente> getUtentes() {
@@ -52,7 +49,9 @@ public class Cuidador extends User implements Serializable{
     }
     
     public void addUtente(Utente utente){
+        System.err.println("ADICIONEI CARALHO!!!!"+utente.nome);
         this.utentes.add(utente);
+        System.err.println("ADICIONEI CARALHO!!!!"+utentes.get(utentes.size()-1).nome);
     }
     
     public void removeUtente(Utente utente){

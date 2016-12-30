@@ -61,10 +61,10 @@ public class ConfigBean {
             materialCapacitacaoBean.create("oscut", "equipamento de oscut", "não tem");
             materialCapacitacaoBean.create("cadeira", "equipamento de cadeira", "não tem");
             
-            cuidadorBean.enrollMaterial("1", "William");
-            cuidadorBean.enrollMaterial("2", "William");
-            cuidadorBean.enrollMaterial("3", "Isabel");
-            cuidadorBean.enrollMaterial("4", "Isabel");
+            //cuidadorBean.enrollMaterial("1", "William");
+            //cuidadorBean.enrollMaterial("2", "William");
+            //cuidadorBean.enrollMaterial("3", "Isabel");
+            //cuidadorBean.enrollMaterial("4", "Isabel");
            
             procedimentoCuidadoBean.create("2", "sad", "sadas");
             procedimentoCuidadoBean.create("3", "sad", "sadas");

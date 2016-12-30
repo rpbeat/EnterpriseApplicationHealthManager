@@ -52,7 +52,7 @@ public class AdministratorManager {
     private ProcedimentoCuidadoBean procedimentoCuidadoBean;
 
     private UtenteDTO newUtente;
-    private Utente currentUtente; //PROBLEMA COM O DTO A VERIFICAR
+    private UtenteDTO currentUtente; 
     
     private ProfissionalSaudeDTO newProfissional;
     private ProfissionalSaudeDTO currentProfissional;
@@ -71,8 +71,6 @@ public class AdministratorManager {
 
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
-    
-    
     
     
     public AdministratorManager() {
@@ -175,11 +173,11 @@ public class AdministratorManager {
         this.newUtente = newUtente;
     }
 
-    public Utente getCurrentUtente() {
+    public UtenteDTO getCurrentUtente() {
         return currentUtente;
     }
 
-    public void setCurrentUtente(Utente currentUtente) {
+    public void setCurrentUtente(UtenteDTO currentUtente) {
         this.currentUtente = currentUtente;
     }
     
@@ -411,8 +409,9 @@ public class AdministratorManager {
         return "admin_profissional_update";
     }
     
-    public List<Utente> getCurrentCuidadorUtentes() {
+    public List<UtenteDTO> getCurrentCuidadorUtentes() {
         try {
+            System.out.println("GET: currentCuidador.getUsername : "+currentCuidador.getUsername());
             return cuidadorBean.getAllenrroledUtentes(currentCuidador.getUsername());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
@@ -420,7 +419,7 @@ public class AdministratorManager {
         }
     }
     
-    public void enrrolUtenteToCuidador(ActionEvent event){
+    public String enrrolUtenteToCuidador(ActionEvent event){
          try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
@@ -428,6 +427,7 @@ public class AdministratorManager {
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
+         return "admin_enrrol_utente?faces-redirect=true";
     }
     
     public void removeEnrroledUtente(ActionEvent event){
@@ -489,7 +489,7 @@ public class AdministratorManager {
         }
     }
     
-    public List<MaterialCapacitacao> getCurrentCuidadorMateriais() {
+    public List<MaterialCapacitacaoDTO> getCurrentCuidadorMateriais() {
         try {
             return cuidadorBean.getAllenrroledMaterial(currentCuidador.getUsername());
         } catch (Exception e) {
@@ -558,7 +558,7 @@ public class AdministratorManager {
         return null;
     }
     
-    public List<ProcedimentoCuidado> getAllEnrroledProcedimentos(){
+    public List<ProcedimentoCuidadoDTO> getAllEnrroledProcedimentos(){
         try {
             return utenteBean.getAllProcedimentos(currentUtente.getId());
         } catch (Exception e) {

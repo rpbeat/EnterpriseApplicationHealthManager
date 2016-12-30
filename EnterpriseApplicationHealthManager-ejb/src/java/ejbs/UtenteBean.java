@@ -5,6 +5,8 @@
  */
 package ejbs;
 
+import dtos.CuidadorDTO;
+import dtos.ProcedimentoCuidadoDTO;
 import dtos.UtenteDTO;
 import entities.ProcedimentoCuidado;
 import entities.Utente;
@@ -23,6 +25,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import exceptions.Utils;
+import java.util.LinkedList;
 
 /**
  *
@@ -33,6 +36,8 @@ public class UtenteBean {
     
     @PersistenceContext
     private EntityManager em;
+    private ProcedimentoCuidadoBean procedimentoCuidadoBean;
+    private CuidadorBean cuidadorBean;
     
     public void create(String nome, String email,int contacto,String morada) {
         try {
@@ -51,16 +56,19 @@ public class UtenteBean {
     //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     //@Path("all")
     public List<UtenteDTO> getAllDTO() {
-        try {
+        //try {
             List<Utente> utentes = (List<Utente>) em.createNamedQuery("GetAllUtentes").getResultList();
             System.err.println(""+utentes.toString());
             return utentesToDTOs(utentes);
-        } catch (Exception e) {
-            throw new EJBException(e.getMessage());
-        }
+        //} catch (Exception e) {
+          //  throw new EJBException(e.getMessage());
+        //}
     }
     
     List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
+        if(utentes==null){
+            return null;
+        }
         List<UtenteDTO> dtos = new ArrayList<>();
         for (Utente s : utentes) {
             dtos.add(utenteToDTO(s));
@@ -69,7 +77,11 @@ public class UtenteBean {
     }
     
     UtenteDTO utenteToDTO(Utente utente) {
-        return new UtenteDTO(utente.getId(),utente.getNome(), utente.getEmail(), utente.getContacto(), utente.getMorada());
+        return new UtenteDTO(utente.getId(),
+                utente.getNome(), 
+                utente.getEmail(), 
+                utente.getContacto(), 
+                utente.getMorada());
     }
     
     public void remove(long idUtente) throws EntityDoesNotExistsException {
@@ -144,13 +156,13 @@ public class UtenteBean {
         }
     }
      
-     public List<ProcedimentoCuidado> getAllProcedimentos(long idUtente){
+     public List<ProcedimentoCuidadoDTO> getAllProcedimentos(long idUtente){
          try{
             Utente utente = em.find(Utente.class, idUtente);          
             if(utente == null ){
                 throw new EntityDoesNotExistsException();
             }
-            return utente.getProcedimentos();
+            return procedimentoCuidadoBean.procedimentosToDTOs(utente.getProcedimentos());
         }catch(Exception e){
             e.getMessage();
             return null;

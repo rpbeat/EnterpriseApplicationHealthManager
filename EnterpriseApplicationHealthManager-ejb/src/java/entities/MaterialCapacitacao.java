@@ -6,11 +6,14 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
@@ -30,18 +33,25 @@ public class MaterialCapacitacao implements Serializable{
     private String tipo;
     private String link;
     private String descricao;
-    @ManyToMany(mappedBy = "materiais")
-    private List<Cuidador> cuidadors;
-    @ManyToOne
-    private Cuidador cuidador;
+    
+    /*@ManyToMany
+    @JoinTable(name = "USERS_MATERIALCAPACITACAO",
+            joinColumns
+            = @JoinColumn(name = "MATERIAIS_ID", referencedColumnName = "ID"),
+            inverseJoinColumns
+            = @JoinColumn(name = "CUIDADORES_USERNAME", referencedColumnName = "USERNAME"))*/
+    private List<Cuidador> cuidadores;
+    
 
     public MaterialCapacitacao(String tipo, String descricao, String link) {
         this.tipo = tipo;
         this.descricao = descricao;
         this.link = link;
+        this.cuidadores = new LinkedList<>();
     }
 
     public MaterialCapacitacao() {
+        this.cuidadores = new LinkedList<>();
     }
 
     public long getId() {
@@ -71,6 +81,16 @@ public class MaterialCapacitacao implements Serializable{
     public void setLink(String link) {
         this.link = link;
     }
+
+    public List<Cuidador> getCuidadores() {
+        return cuidadores;
+    }
+
+    public void setCuidadores(List<Cuidador> cuidadores) {
+        this.cuidadores = cuidadores;
+    }
+    
+    
     
     
     

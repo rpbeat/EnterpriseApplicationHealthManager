@@ -92,6 +92,9 @@ public class MaterialCapacitacaoBean {
     }
     
     List<MaterialCapacitacaoDTO> materialToDTOs(List<MaterialCapacitacao> material) {
+        if(material== null){
+            return null;
+        }
         List<MaterialCapacitacaoDTO> dtos = new ArrayList<>();
         for (MaterialCapacitacao s : material) {
             dtos.add(materialToDTO(s));
