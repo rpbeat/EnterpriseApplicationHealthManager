@@ -327,12 +327,12 @@ public class AdministratorManager {
     public String updateCuidador() {
         try {
             cuidadorBean.update(
-                    newCuidador.getNome(),
-                    newCuidador.getEmail(),
-                    newCuidador.getContacto(),
-                    newCuidador.getMorada(),
-                    newCuidador.getUsername(),
-                    newCuidador.getPassword());
+                    currentCuidador.getNome(),
+                    currentCuidador.getEmail(),
+                    currentCuidador.getContacto(),
+                    currentCuidador.getMorada(),
+                    currentCuidador.getUsername(),
+                    currentCuidador.getPassword());
             return "admin_list_all?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
