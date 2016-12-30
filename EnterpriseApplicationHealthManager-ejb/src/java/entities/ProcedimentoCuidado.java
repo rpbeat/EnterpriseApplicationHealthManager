@@ -8,7 +8,9 @@ package entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -24,6 +26,9 @@ public class ProcedimentoCuidado implements Serializable {
     private String id;
     private String userNameCuidador;
     private String descricao;
+
+    @OneToOne
+    private MaterialCapacitacao materialCapacitacao;
 
     public ProcedimentoCuidado(String id,String userNameCuidador, String descricao) {
         this.id = id;
@@ -57,6 +62,13 @@ public class ProcedimentoCuidado implements Serializable {
     public void setUserNameCuidador(String userNameCuidador) {
         this.userNameCuidador = userNameCuidador;
     }
-    
+
+    public MaterialCapacitacao getMaterialCapacitacao() {
+        return materialCapacitacao;
+    }
+
+    public void setMaterialCapacitacao(MaterialCapacitacao materialCapacitacao) {
+        this.materialCapacitacao = materialCapacitacao;
+    }
     
 }

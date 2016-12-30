@@ -42,7 +42,8 @@ public class MaterialCapacitacao implements Serializable{
             = @JoinColumn(name = "CUIDADORES_USERNAME", referencedColumnName = "USERNAME"))
     private List<Cuidador> cuidadores;
     
-
+    
+    
     public MaterialCapacitacao(String tipo, String descricao, String link) {
         this.tipo = tipo;
         this.descricao = descricao;
