@@ -43,6 +43,11 @@
             <h:commandButton action="#{userManager.logout}"
                              value="Logout"></h:commandButton>
         </h:form>
+        
+        <h:form rendered="#{userManager.loginFlag}">
+            <h:commandButton action="#{userManager.logout}"
+                             value="Logout"></h:commandButton>
+        </h:form>
     </h:body>
 </html>
 

@@ -53,6 +53,18 @@
             <description/>
             <url-pattern>/webapi/utente/*</url-pattern>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>web api cuidador utentes</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/utentes/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>webapi cuidador material</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/material/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
         <auth-constraint>
             <description/>
             <role-name>Administrador</role-name>
@@ -69,6 +81,16 @@
             <web-resource-name>Admin pages</web-resource-name>
             <description/>
             <url-pattern>/faces/profissional/*</url-pattern>
+            <web-resource-name>web api cuidador utentes</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/utentes/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>webapi cuidador material</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/material/*</url-pattern>
+            <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description/>
@@ -80,7 +102,22 @@
         <web-resource-collection>
             <web-resource-name>webapi utente</web-resource-name>
             <description/>
-            <url-pattern>/webapi/utente/*</url-pattern>
+            <url-pattern>/webapi/cuidador/procedimentos/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+            <http-method>DELETE</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>web api cuidador utentes</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/utentes/*</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>webapi cuidador material</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/material/*</url-pattern>
+            <http-method>GET</http-method>
         </web-resource-collection>
         <auth-constraint>
             <description/>
