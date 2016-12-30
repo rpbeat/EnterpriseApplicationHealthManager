@@ -4,80 +4,146 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content ="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
         <title>Health Management</title>
     </h:head>
     <h:body>
-        <h:form>                  
-            <h:panelGrid columns="3">
+        <h:form>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
 
-                <h:outputLabel for="username" value="Username: " />
-                <h:inputText 
-                    id="username"
-                    size="20"
-                    required="true"
-                    requiredMessage="Error: Username cannot be empty."
-                    value="#{administratorManager.newAdministrador.username}">
-                </h:inputText>
-                <h:message for="username" errorStyle="color: red" />
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><h:commandLink class="navbar-brand"
+                                               id="admin"
+                                               value="Administrador"
+                                               action="admin_view?faces-redirect=true" /></li>
+                            <li><h:commandLink
+                                    id="criarUt"
+                                    value="Criar Utente"
+                                    action="admin_create_utente?faces-redirect=true" /></li>
 
-                <h:outputLabel for="password" value="Password: " />
-                <h:inputSecret
-                    id="password"
-                    size="20"
-                    required="true"
-                    requiredMessage="Error: Password cannot be empty."
-                    value="#{administratorManager.newAdministrador.password}"/>
-                <h:message for="password" errorStyle="color: red" />                        
+                            <li><h:commandLink
+                                    id="criarCuidador"
+                                    value="Criar Cuidador"
+                                    action="admin_create_cuidador?faces-redirect=true" /></li>
 
-                <h:outputLabel for="name" value="Name: " />
-                <h:inputText 
-                    id="name"
-                    size="52"
-                    required="true"
-                    requiredMessage="Error: Name cannot be empty."                            
-                    value="#{administratorManager.newAdministrador.nome}" />
-                <h:message for="name" errorStyle="color: red" />
+                            <li><h:commandLink
+                                    id="criarAdmin"
+                                    value="Criar Administrador"
+                                    action="admin_create_administrador?faces-redirect=true" /></li>
 
-                <h:outputLabel for="email" value="Email: " />
-                <h:inputText
-                    id="email"
-                    size="52"
-                    required="true"
-                    requiredMessage="Error: Email cannot be empty."                            
-                    value="#{administratorManager.newAdministrador.email}" >
-                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                </h:inputText>    
-                <h:message for="email" errorStyle="color: red" />
-                
-                <h:outputLabel for="morada" value="Morada: " />
-                <h:inputText 
-                    id="morada"
-                    size="52"
-                    required="true"
-                    requiredMessage="Error: Morada cannot be empty."                            
-                    value="#{administratorManager.newProfissional.morada}" />
-                <h:message for="morada" errorStyle="color: red" />
-                
-                <h:outputLabel for="contacto" value="Contacto: " />
-                <h:inputText 
-                    id="contacto"
-                    size="52"
-                    required="true"
-                    requiredMessage="Error: Contacto cannot be empty."                            
-                    value="#{administratorManager.newProfissional.contacto}" />
-                <h:message for="contacto" errorStyle="color: red" />
+                            <li><h:commandLink
+                                    id="criarProf"
+                                    value="Criar Profissional de Saude"
+                                    action="admin_create_profissional_saude?faces-redirect=true" /></li>
 
+                            <li><h:commandLink
+                                    id="criarMaterial"
+                                    value="Criar Material de Capacitação"
+                                    action="admin_create_material?faces-redirect=true" /></li>
 
-                <br></br>
+                            <li><h:commandLink action="#{userManager.logout}"
+                                               value="Logout"></h:commandLink></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
 
+        </h:form >
+        <h:form>
+            <div class="panel panel-default">
+                <div class="panel-heading">Criar Administrador</div>
+                <table class="table">
+                    <tr>
+                        <td><h:outputLabel for="id" value="UserName: " /></td>
+                        <td><h:inputText 
+                                id="username"
+                                size="52"
+                                required="true"
+                                requiredMessage="Error: Name cannot be empty."
+                                value="#{administratorManager.newAdministrador.username}"/></td>
+                        <td><h:message for="username" style="color: red"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="password" value="Password: " /></td>
+                        <td><h:inputSecret
+                                id="password"
+                                size="20"
+                                required="true"
+                                requiredMessage="Error: Password cannot be empty."
+                                value="#{administratorManager.newAdministrador.password}"/></td>
+                        <td><h:message for="password" errorStyle="color: red" /> </td>
+                    </tr> 
+
+                    <tr>
+                        <td><h:outputLabel for="name" value="Name: " /></td>
+                        <td><h:inputText 
+                                id="name"
+                                size="52"
+                                required="true"
+                                requiredMessage="Error: Name cannot be empty."                            
+                                value="#{administratorManager.newAdministrador.nome}" /></td>
+                        <td><h:message for="name" style="color: red"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="morada" value="Morada: " /></td>
+                        <td><h:inputText 
+                                id="morada"
+                                size="52"
+                                required="true"
+                                requiredMessage="Error: Morada cannot be empty."                            
+                                value="#{administratorManager.newAdministrador.morada}" /></td>
+                        <td><h:message for="morada" style="color: red"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="contacto" value="Contacto: " /></td>
+                        <td><h:inputText 
+                                id="contacto"
+                                size="52"
+                                required="true"
+                                requiredMessage="Error: Morada cannot be empty."                            
+                                value="#{administratorManager.newAdministrador.contacto}" /></td>
+                        <td><h:message for="contacto" style="color: red"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="email" value="Email: " /></td>
+                        <td><h:inputText
+                                id="email"
+                                size="52"
+                                required="true"
+                                requiredMessage="Error: Email cannot be empty."                            
+                                value="#{administratorManager.newAdministrador.email}" >
+                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                            </h:inputText></td>
+                        <td><h:message for="email" style="color: red"/></td>
+                    </tr>
+
+                </table>
                 <h:commandButton
                     id="submit"
-                    value="Create"
-                    binding="#{administratorManager.component}" 
+                    value="Criar"
                     action="#{administratorManager.createAdministrador}" />
                 <h:message for="submit" style="color: red"/>
-            </h:panelGrid >                       
-
+            </div>
+            <h:messages errorStyle="color: red" /> 
         </h:form>
     </h:body>
 </html>

@@ -29,32 +29,23 @@
                         <ul class="nav navbar-nav">
                             <li><h:commandLink class="navbar-brand"
                                                id="admin"
-                                               value="Administrador"
-                                               action="admin_view?faces-redirect=true" /></li>
+                                               value="Profissional"
+                                               action="profissional_view?faces-redirect=true" /></li>
+
                             <li><h:commandLink
-                                    id="criarUt"
+                                    id="criarUtente"
                                     value="Criar Utente"
-                                    action="admin_create_utente?faces-redirect=true" /></li>
+                                    action="profissional_create_utente?faces-redirect=true" /></li>
 
                             <li><h:commandLink
                                     id="criarCuidador"
                                     value="Criar Cuidador"
-                                    action="admin_create_cuidador?faces-redirect=true" /></li>
-
-                            <li><h:commandLink
-                                    id="criarAdmin"
-                                    value="Criar Administrador"
-                                    action="admin_create_administrador?faces-redirect=true" /></li>
-
-                            <li><h:commandLink
-                                    id="criarProf"
-                                    value="Criar Profissional de Saude"
-                                    action="admin_create_profissional_saude?faces-redirect=true" /></li>
+                                    action="profissional_create_cuidador?faces-redirect=true" /></li>
 
                             <li><h:commandLink
                                     id="criarMaterial"
                                     value="Criar Material de Capacitação"
-                                    action="admin_create_material?faces-redirect=true" /></li>
+                                    action="profissional_create_material?faces-redirect=true" /></li>
 
                             <li><h:commandLink action="#{userManager.logout}"
                                                value="Logout"></h:commandLink></li>
@@ -62,33 +53,18 @@
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>
-
-        </h:form >
+        </h:form>
         <h:form>
             <div class="panel panel-default">
-                <div class="panel-heading">Criar Profissional de Saude</div>
+                <div class="panel-heading">Editar Cuidador</div>
                 <table class="table">
                     <tr>
                         <td><h:outputLabel for="id" value="UserName: " /></td>
-                        <td><h:inputText 
-                                id="username"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Name cannot be empty."
-                                value="#{administratorManager.newProfissional.username}"/></td>
-                        <td><h:message for="username" style="color: red"/></td>
+                        <td><h:outputText 
+                                id="id"
+                                value="#{profissionalManager.currentCuidador.username}"/></td>
+                        <td><h:message for="id" style="color: red"/></td>
                     </tr>
-
-                    <tr>
-                        <td><h:outputLabel for="password" value="Password: " /></td>
-                        <td><h:inputSecret
-                                id="password"
-                                size="20"
-                                required="true"
-                                requiredMessage="Error: Password cannot be empty."
-                                value="#{administratorManager.newProfissional.password}"/></td>
-                        <td><h:message for="password" errorStyle="color: red" /> </td>
-                    </tr> 
 
                     <tr>
                         <td><h:outputLabel for="name" value="Name: " /></td>
@@ -97,7 +73,7 @@
                                 size="52"
                                 required="true"
                                 requiredMessage="Error: Name cannot be empty."                            
-                                value="#{administratorManager.newProfissional.nome}" /></td>
+                                value="#{profissionalManager.currentCuidador.nome}" /></td>
                         <td><h:message for="name" style="color: red"/></td>
                     </tr>
 
@@ -108,7 +84,7 @@
                                 size="52"
                                 required="true"
                                 requiredMessage="Error: Morada cannot be empty."                            
-                                value="#{administratorManager.newProfissional.morada}" /></td>
+                                value="#{profissionalManager.currentCuidador.morada}" /></td>
                         <td><h:message for="morada" style="color: red"/></td>
                     </tr>
 
@@ -119,7 +95,7 @@
                                 size="52"
                                 required="true"
                                 requiredMessage="Error: Morada cannot be empty."                            
-                                value="#{administratorManager.newProfissional.contacto}" /></td>
+                                value="#{profissionalManager.currentCuidador.contacto}" /></td>
                         <td><h:message for="contacto" style="color: red"/></td>
                     </tr>
 
@@ -130,7 +106,7 @@
                                 size="52"
                                 required="true"
                                 requiredMessage="Error: Email cannot be empty."                            
-                                value="#{administratorManager.newProfissional.email}" >
+                                value="#{profissionalManager.currentCuidador.email}" >
                                 <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
                             </h:inputText></td>
                         <td><h:message for="email" style="color: red"/></td>
@@ -139,8 +115,8 @@
                 </table>
                 <h:commandButton
                     id="submit"
-                    value="Criar"
-                    action="#{administratorManager.createProfissionalSaude}" />
+                    value="Update"
+                    action="#{profissionalManager.updateCuidador}" />
                 <h:message for="submit" style="color: red"/>
             </div>
             <h:messages errorStyle="color: red" /> 

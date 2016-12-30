@@ -30,32 +30,23 @@
                         <ul class="nav navbar-nav">
                             <li><h:commandLink class="navbar-brand"
                                                id="admin"
-                                               value="Administrador"
-                                               action="admin_view?faces-redirect=true" /></li>
+                                               value="Profissional"
+                                               action="profissional_view?faces-redirect=true" /></li>
+
                             <li><h:commandLink
-                                    id="criarUt"
+                                    id="criarUtente"
                                     value="Criar Utente"
-                                    action="admin_create_utente?faces-redirect=true" /></li>
+                                    action="profissional_create_utente?faces-redirect=true" /></li>
 
                             <li><h:commandLink
                                     id="criarCuidador"
                                     value="Criar Cuidador"
-                                    action="admin_create_cuidador?faces-redirect=true" /></li>
-
-                            <li><h:commandLink
-                                    id="criarAdmin"
-                                    value="Criar Administrador"
-                                    action="admin_create_administrador?faces-redirect=true" /></li>
-
-                            <li><h:commandLink
-                                    id="criarProf"
-                                    value="Criar Profissional de Saude"
-                                    action="admin_create_profissional_saude?faces-redirect=true" /></li>
+                                    action="profissional_create_cuidador?faces-redirect=true" /></li>
 
                             <li><h:commandLink
                                     id="criarMaterial"
                                     value="Criar Material de Capacitação"
-                                    action="admin_create_material?faces-redirect=true" /></li>
+                                    action="profissional_create_material?faces-redirect=true" /></li>
 
                             <li><h:commandLink action="#{userManager.logout}"
                                                value="Logout"></h:commandLink></li>
@@ -64,93 +55,92 @@
                 </div><!-- /.container-fluid -->
             </nav>
         </h:form>
+        
         <h:form>
             <div class="panel panel-default">
-                <div class="panel-heading">Criar Material</div>
+                <div class="panel-heading">Criar Procedimento</div>
                 <table class="table">
                     <tr>
-                        <td><h:outputLabel for="tipo" value="Tipo: " /></td>
+                        <td>
+                            <h:outputLabel for="utente" value="UTENTE: #{profissionalManager.currentUtente.id}" />
+                        </td>
+                        <td>
+                            <h:outputLabel for="cuidador" value="CUIDADOR #{profissionalManager.currentCuidador.username}" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="id" value="Identificador: " /></td>
                         <td><h:inputText 
-                                id="tipo"
-                                size="52"
+                                id="id"
+                                size="20"
                                 required="true"
-                                requiredMessage="Error: Descricao cannot be empty."                            
-                                value="#{administratorManager.newMaterialCapacitacao.tipo}" /></td>
-                        <td><h:message for="tipo" errorStyle="color: red" /></td>
+                                requiredMessage="Error: id cannot be empty."
+                                value="#{profissionalManager.newProcedimento.id}">
+                            </h:inputText></td>
+                        <td><h:message for="id" style="color: red"/></td>
                     </tr>
 
                     <tr>
                         <td><h:outputLabel for="descricao" value="Descricao: " /></td>
-                        <td><h:inputText 
+                        <td><h:inputText
                                 id="descricao"
-                                size="52"
+                                size="20"
                                 required="true"
-                                requiredMessage="Error: Descricao cannot be empty."                            
-                                value="#{administratorManager.newMaterialCapacitacao.descricao}" /></td>
+                                requiredMessage="Error: descricao cannot be empty."
+                                value="#{profissionalManager.newProcedimento.descricao}"/></td>
                         <td><h:message for="descricao" errorStyle="color: red" /></td>
                     </tr>
 
                     <tr>
-                        <td><h:outputLabel for="link" value="Link: " /></td>
-                        <td><h:inputText 
-                                id="link"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Descricao cannot be empty."                            
-                                value="#{administratorManager.newMaterialCapacitacao.link}" /></td>
-                        <td><h:message for="link" errorStyle="color: red" /></td>
+                        <td><h:outputLabel for="material" value="Material: " /></td>
+                        <td><h:selectOneMenu value="#{profissionalManager.selectedMaterial}">
+                                <f:selectItems value="#{profissionalManager.currentCuidadorMateriais}" var="material"
+                                               itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                            </h:selectOneMenu></td>
+                        <td><h:message for="" errorStyle="color: red" /></td>
                     </tr>
-
                 </table>
             </div>
-
             <h:commandButton
                 id="submit"
-                value="Criar"
-                binding="#{administratorManager.component}" 
-                action="#{administratorManager.createMaterial}" />
-            <h:message for="submit" style="color: red"/>
+                value="Create"
+                binding="#{profissionalManager.component}" 
+                action="#{profissionalManager.createProcedimento}" />
+            <h:message for="submit" style="color: red"/> 
         </h:form>
-        <br></br>
-        <br></br>
+        
         <h:dataTable
-            var="material"
-            summary="List of all material"
-            value="#{administratorManager.allMaterialDTO}"
+            var="procedimento"
+            summary="List of all utente"
+            value="#{profissionalManager.allEnrroledProcedimentos}"
             rules="all"
             cellpadding="5"
             class="table table-striped table-bordered" cellspacing="0" width="100%">
 
             <f:facet name="header">
-                <h:outputText value="Lista de materiais" />
+                <h:outputText value="Procedimentos" />
             </f:facet> 
 
             <h:column>
                 <f:facet name="header">
                     <h:outputText value="Id" />
                 </f:facet>
-                <h:outputText value="#{material.id}" />
+                <h:outputText value="#{procedimento.id}" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Tipo" />
+                    <h:outputText value="Nome" />
                 </f:facet>
-                <h:outputText value="#{material.tipo}" />
+                <h:outputText value="#{procedimento.descricao}" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Descricao" />
+                    <h:outputText value="Email" />
                 </f:facet>
-                <h:outputText value="#{material.descricao}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Link" />
-                </f:facet>
-                <h:outputText value="#{material.link}" />
+                 <h:outputText value="#{procedimento.materialCapacitacaoDTO.descricao}" />
             </h:column>
 
             <h:column>
@@ -159,20 +149,19 @@
                 </f:facet>
                 <h:form>
                     &nbsp;
-                    <h:commandLink value="Remove" actionListener="#{administratorManager.removeMaterial}">
-                        <f:param name="materialId" id="materialId" value="#{material.id}" />
+                    <h:commandLink value="Remove" actionListener="#{profissionalManager.removeEnrroledProcedimento}">
+                        <f:param name="procedimentoId" id="procedimentoId" value="#{procedimento.id}" />
                     </h:commandLink>
                 </h:form>
             </h:column>                      
 
         </h:dataTable>
-
         <h:form>                  
             <h:commandLink
                 id="return"
                 value="Return"
-                action="admin_view?faces-redirect=true" />
+                action="profissional_cuidador_details?faces-redirect=true" />
         </h:form>
-
     </h:body>
 </html>
+

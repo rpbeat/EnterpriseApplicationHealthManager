@@ -4,49 +4,117 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
     <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content ="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
         <title>Health Management</title>
     </h:head>
     <h:body>
-        <h:panelGrid columns="2">
+        <h:form>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
 
-            <h:outputLabel for="id" value="ID: " />
-            <h:outputText 
-                id="id"
-                value="#{administratorManager.currentUtente.id}"/>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><h:commandLink class="navbar-brand"
+                                               id="admin"
+                                               value="Administrador"
+                                               action="admin_view?faces-redirect=true" /></li>
+                            <li><h:commandLink
+                                    id="criarUt"
+                                    value="Criar Utente"
+                                    action="admin_create_utente?faces-redirect=true" /></li>
 
-            <h:outputLabel for="name" value="Name: " />
-            <h:outputText 
-                id="name"
-                value="#{administratorManager.currentUtente.nome}"/>
+                            <li><h:commandLink
+                                    id="criarCuidador"
+                                    value="Criar Cuidador"
+                                    action="admin_create_cuidador?faces-redirect=true" /></li>
 
-            <h:outputLabel for="email" value="Email: " />
-            <h:outputText 
-                id="email"
-                value="#{administratorManager.currentUtente.email}"/>
-            
-            <h:outputLabel for="morada" value="Morada: " />
-            <h:outputText 
-                id="morada"
-                value="#{administratorManager.currentUtente.morada}"/>
-            
-            <h:outputLabel for="contacto" value="Contacto: " />
-            <h:outputText 
-                id="contacto"
-                value="#{administratorManager.currentUtente.contacto}"/>
-          
-        </h:panelGrid>
+                            <li><h:commandLink
+                                    id="criarAdmin"
+                                    value="Criar Administrador"
+                                    action="admin_create_administrador?faces-redirect=true" /></li>
 
-        <br/>
+                            <li><h:commandLink
+                                    id="criarProf"
+                                    value="Criar Profissional de Saude"
+                                    action="admin_create_profissional_saude?faces-redirect=true" /></li>
 
-        <h:form>                  
-            <h:commandLink
-                id="return"
-                value="Return"
-                action="admin_list_all?faces-redirect=true" />
+                            <li><h:commandLink
+                                    id="criarMaterial"
+                                    value="Criar Material de Capacitação"
+                                    action="admin_create_material?faces-redirect=true" /></li>
+
+                            <li><h:commandLink action="#{userManager.logout}"
+                                               value="Logout"></h:commandLink></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+
+        </h:form >
+        <div class="panel panel-default">
+            <div class="panel-heading">Detalhes Utente</div>
+            <table class="table">
+                <tr>
+                    <td><h:outputLabel for="id" value="ID: " /></td>
+                    <td><h:outputText 
+                            id="uid"
+                            value="#{administratorManager.currentUtente.id}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="namel" value="Name: " /></td>
+                    <td><h:outputText 
+                            id="name"
+                            value="#{administratorManager.currentUtente.nome}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="morada" value="Morada: " /></td>
+                    <td><h:outputText 
+                            id="moradal"
+                            value="#{administratorManager.currentUtente.morada}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="contacto" value="Contacto: " /></td>
+                    <td><h:outputText 
+                            id="contactol"
+                            value="#{administratorManager.currentUtente.contacto}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="email" value="Email: " /></td>
+                    <td><h:outputText 
+                            id="emailL"
+                            value="#{administratorManager.currentUtente.email}"/></td>
+                </tr>
+
+            </table>
+        </div>
+
+        <h:form>   
+            <li>
+                <h:commandLink
+                    id="return"
+                    value="Return"
+                    action="admin_view?faces-redirect=true" />
+            </li>
         </h:form>
 
         <h:messages errorStyle="color: red" />        
-        
     </h:body>
 </html>
 

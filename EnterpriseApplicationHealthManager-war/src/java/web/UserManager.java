@@ -25,7 +25,7 @@ public class UserManager implements Serializable {
 
     private String username;
     private String password;
-    private boolean loginFlag = true;
+    private boolean loginFlag = false;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
 
     public String getUsername() {
@@ -47,8 +47,9 @@ public class UserManager implements Serializable {
     public boolean isLoginFlag() {
         return loginFlag;
     }
-
+    
     public String login() {
+        
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request
                 = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -59,17 +60,18 @@ public class UserManager implements Serializable {
         } catch (ServletException e) {
             logger.log(Level.WARNING, e.getMessage());
             System.out.println("" + e.getMessage());
+            loginFlag=false;
             return "error?faces-redirect=true";
         }
+        loginFlag = true;
         if (isUserInRole("Administrador")) {
-            loginFlag = false;
-            return "/faces/admin/admin_list_all?faces-redirect=true";
+            return "/faces/admin/admin_view?faces-redirect=true";
         }
         if (isUserInRole("Cuidador")) {
-            return "/faces/admin/admin_list_all?faces-redirect=true";
+            return "/faces/admin/cuidador?faces-redirect=true";
         }
         if (isUserInRole("ProfissionalSaude")) {
-            return "/faces/admin/admin_list_all?faces-redirect=true";
+            return "/faces/profissional/profissional_view?faces-redirect=true";
         }
         if (isUserInRole("Utente")) {
             return "error?faces-redirect=true";
