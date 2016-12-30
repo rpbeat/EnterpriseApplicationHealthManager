@@ -50,9 +50,7 @@ public class Cuidador extends User implements Serializable{
     }
     
     public void addUtente(Utente utente){
-        System.err.println("ADICIONEI CARALHO!!!!"+utente.nome);
         this.utentes.add(utente);
-        System.err.println("ADICIONEI CARALHO!!!!"+utentes.get(utentes.size()-1).nome);
     }
     
     public void removeUtente(Utente utente){

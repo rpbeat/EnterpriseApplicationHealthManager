@@ -5,14 +5,7 @@
  */
 package dtos;
 
-import entities.Cuidador;
-import entities.GROUP;
-import entities.ProcedimentoCuidado;
-import entities.User;
-import entities.UserGroup;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;

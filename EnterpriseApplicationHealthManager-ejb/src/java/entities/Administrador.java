@@ -6,10 +6,9 @@
 package entities;
 
 import java.io.Serializable;
-import java.security.acl.Group;
+import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Entity;
 
 @Entity
 @Table(name= "Administrador")

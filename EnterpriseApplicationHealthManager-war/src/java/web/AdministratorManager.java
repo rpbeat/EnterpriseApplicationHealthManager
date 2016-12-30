@@ -19,16 +19,14 @@ import ejbs.ProcedimentoCuidadoBean;
 import ejbs.ProfissionalSaudeBean;
 import ejbs.UtenteBean;
 import entities.Cuidador;
-import entities.MaterialCapacitacao;
-import entities.ProcedimentoCuidado;
 import entities.ProfissionalSaude;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import java.util.List;
-import javax.ejb.EJB;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
@@ -119,7 +117,6 @@ public class AdministratorManager {
 
     public  List<UtenteDTO> getAllUtentesDTO(){
         try{
-            System.out.println(""+utenteBean.getAllDTO().toString());
             return utenteBean.getAllDTO();
         }catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter1!", logger);
@@ -414,7 +411,6 @@ public class AdministratorManager {
 
     public List<UtenteDTO> getCurrentCuidadorUtentes() {
         try {
-            System.out.println("GET: currentCuidador.getUsername : "+currentCuidador.getUsername());
             return cuidadorBean.getAllenrroledUtentes(currentCuidador.getUsername());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
@@ -545,6 +541,7 @@ public class AdministratorManager {
 
     public String createProcedimento() {
         try {
+            System.out.println("aquele id top: "+newProcedimento.getId());
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
             utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());

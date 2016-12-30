@@ -1,17 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package ejbs;
 
 import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
 import entities.MaterialCapacitacao;
-import javax.ejb.EJBException;
-import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import entities.ProcedimentoCuidado;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
@@ -19,6 +11,10 @@ import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJBException;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -47,12 +43,12 @@ public class ProcedimentoCuidadoBean {
     }
     
     @GET
-    //@RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("all")
     public List<ProcedimentoCuidadoDTO> getAllDTO() {
         try {
-            List<ProcedimentoCuidado> procedimentos = (List<ProcedimentoCuidado>) em.createNamedQuery("GetAllProcedimentoCuidado").getResultList();
+            List<ProcedimentoCuidado> procedimentos = em.createNamedQuery("GetAllProcedimentoCuidado").getResultList();
             return procedimentosToDTOs(procedimentos);
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
