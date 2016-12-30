@@ -66,13 +66,12 @@ public class UtenteBean {
     }
     
     List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
-        if(utentes==null){
-            return null;
-        }
-        List<UtenteDTO> dtos = new ArrayList<>();
+         List<UtenteDTO> dtos = new ArrayList<>();
         for (Utente s : utentes) {
+            System.out.println("utente nome no dto: "+s.getNome());
             dtos.add(utenteToDTO(s));
         }
+        System.out.println("dtos"+dtos.size());
         return dtos;
     }
     

@@ -5,7 +5,6 @@ package web;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import dtos.AdministradorDTO;
 import dtos.CuidadorDTO;
 import dtos.MaterialCapacitacaoDTO;
@@ -23,6 +22,7 @@ import entities.MaterialCapacitacao;
 import entities.ProcedimentoCuidado;
 import entities.ProfissionalSaude;
 import entities.Utente;
+import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import java.util.List;
@@ -37,7 +37,7 @@ import javax.faces.event.ActionEvent;
 @ManagedBean
 @SessionScoped
 public class AdministratorManager {
-   
+
     @EJB
     private UtenteBean utenteBean;
     @EJB
@@ -45,34 +45,33 @@ public class AdministratorManager {
     @EJB
     private CuidadorBean cuidadorBean;
     @EJB
-    private AdministradorBean administradorBean;   
+    private AdministradorBean administradorBean;
     @EJB
     private MaterialCapacitacaoBean materialCapacitacaoBean;
     @EJB
     private ProcedimentoCuidadoBean procedimentoCuidadoBean;
 
     private UtenteDTO newUtente;
-    private UtenteDTO currentUtente; 
-    
+    private UtenteDTO currentUtente;
+
     private ProfissionalSaudeDTO newProfissional;
     private ProfissionalSaudeDTO currentProfissional;
-    
+
     private CuidadorDTO newCuidador;
     private CuidadorDTO currentCuidador;
-    
+
     private AdministradorDTO newAdministrador;
     private AdministradorDTO currentAdministrador;
-    
+
     private MaterialCapacitacaoDTO newMaterialCapacitacao;
     private MaterialCapacitacaoDTO currentMaterialCapacitacao;
-    
+
     private ProcedimentoCuidadoDTO newProcedimento;
     private ProcedimentoCuidadoDTO currentProcedimento;
 
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
-    
-    
+
     public AdministratorManager() {
         newUtente = new UtenteDTO();
         newProfissional = new ProfissionalSaudeDTO();
@@ -86,7 +85,7 @@ public class AdministratorManager {
         currentProcedimento = new ProcedimentoCuidadoDTO();
         newProcedimento = new ProcedimentoCuidadoDTO();
     }
-    
+
     public List<Utente> getAllUtentes() {
         try {
             return utenteBean.getall();
@@ -95,68 +94,67 @@ public class AdministratorManager {
         }
         return null;
     }
-    
-    public List<ProfissionalSaude> getAllProfissionais(){
-        try{
+
+    public List<ProfissionalSaude> getAllProfissionais() {
+        try {
             return profissionalSaudeBean.getAll();
-        }catch (Exception e) {
+        } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
-         return null;
+        return null;
     }
-    
-    public List<Cuidador> getAllCuidadores(){
-        try{
+
+    public List<Cuidador> getAllCuidadores() {
+        try {
             return cuidadorBean.getAll();
-        }catch (Exception e) {
+        } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
-         return null;
+        return null;
     }
-    
-    public  List<UtenteDTO> getAllUtentesDTO(){
-        try{
-            System.out.println(""+utenteBean.getAllDTO().toString());
+
+    public List<UtenteDTO> getAllUtentesDTO() {
+        try {
+            //System.out.println(""+utenteBean.getAllDTO().toString());
             return utenteBean.getAllDTO();
-        }catch (Exception e) {
+        } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter1!", logger);
         }
         return null;
     }
-    
-    public List<ProfissionalSaudeDTO> getAllProfissionaisDTO(){
-        try{
-            return profissionalSaudeBean.getAllDTO();
-        }catch (Exception e) {
-            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
-        }
-        return null;
-    }
-    
-    public List<CuidadorDTO> getAllCuidadoresDTO(){
-        try{
-            return cuidadorBean.getAllDTO();
-        }catch (Exception e) {
-            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
-        }
-        return null;
-    }
-    
 
-    public List<AdministradorDTO> getAllAdministradoresDTO(){
-        try{
-            return administradorBean.getAllDTO();
-        }catch (Exception e) {
+    public List<ProfissionalSaudeDTO> getAllProfissionaisDTO() {
+        try {
+            return profissionalSaudeBean.getAllDTO();
+        } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
         return null;
     }
-    
+
+    public List<CuidadorDTO> getAllCuidadoresDTO() {
+        try {
+            return cuidadorBean.getAllDTO();
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return null;
+    }
+
+    public List<AdministradorDTO> getAllAdministradoresDTO() {
+        try {
+            return administradorBean.getAllDTO();
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return null;
+    }
+
     //////////////// UTENTE
     public String createUtente() {
         try {
             //String nome, String email,int contacto,String morada
-            utenteBean.create(newUtente.getNome(),newUtente.getEmail(),newUtente.getContacto(),newUtente.getMorada());
+            utenteBean.create(newUtente.getNome(), newUtente.getEmail(), newUtente.getContacto(), newUtente.getMorada());
             newUtente.reset();
             return "admin_list_all?faces-redirect=true";
         } catch (Exception e) {
@@ -180,7 +178,7 @@ public class AdministratorManager {
     public void setCurrentUtente(UtenteDTO currentUtente) {
         this.currentUtente = currentUtente;
     }
-    
+
     public void removeUtente(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
@@ -192,13 +190,13 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
+
     public String updateUtente() {
         try {
             // long idUtente, String password, String nome, String email,int contacto,String morada
             utenteBean.update(currentUtente.getId(),
-                    currentUtente.getNome(), 
-                    currentUtente.getEmail(), 
+                    currentUtente.getNome(),
+                    currentUtente.getEmail(),
                     currentUtente.getContacto(),
                     currentUtente.getMorada());
             return "admin_list_all?faces-redirect=true";
@@ -210,11 +208,8 @@ public class AdministratorManager {
         }
         return "admin_utente_update";
     }
-    
-    
-    
-    //////////PROFISSIONALSAUDE
 
+    //////////PROFISSIONALSAUDE
     public ProfissionalSaudeDTO getNewProfissional() {
         return newProfissional;
     }
@@ -222,7 +217,7 @@ public class AdministratorManager {
     public void setNewProfissional(ProfissionalSaudeDTO newProfissional) {
         this.newProfissional = newProfissional;
     }
-    
+
     public String createProfissionalSaude() {
         try {
             //String nome, String email, int contacto, String morada, String username, String password
@@ -247,7 +242,7 @@ public class AdministratorManager {
     public void setCurrentProfissional(ProfissionalSaudeDTO currentProfissional) {
         this.currentProfissional = currentProfissional;
     }
-    
+
     public void removeProfissional(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("profissionalUsername");
@@ -259,8 +254,8 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
-     public String updateProfissional() {
+
+    public String updateProfissional() {
         try {
             profissionalSaudeBean.update(currentProfissional.getNome(),
                     currentProfissional.getEmail(),
@@ -277,9 +272,8 @@ public class AdministratorManager {
         }
         return "admin_profissional_update";
     }
-    
-    ///////CUIDADOR
 
+    ///////CUIDADOR
     public CuidadorDTO getNewCuidador() {
         return newCuidador;
     }
@@ -287,7 +281,7 @@ public class AdministratorManager {
     public void setNewCuidador(CuidadorDTO newCuidador) {
         this.newCuidador = newCuidador;
     }
-    
+
     public String createCuidador() {
         try {
             cuidadorBean.create(newCuidador.getNome(),
@@ -311,7 +305,7 @@ public class AdministratorManager {
     public void setCurrentCuidador(CuidadorDTO currentCuidador) {
         this.currentCuidador = currentCuidador;
     }
-    
+
     public void removeCuidador(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("cuidadorUsername");
@@ -323,7 +317,7 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
+
     public String updateCuidador() {
         try {
             cuidadorBean.update(
@@ -342,11 +336,8 @@ public class AdministratorManager {
         }
         return "admin_profissional_update";
     }
-    
-    
-    
-    ////////ADMINISTRADOR
 
+    ////////ADMINISTRADOR
     public AdministradorDTO getNewAdministrador() {
         return newAdministrador;
     }
@@ -354,7 +345,7 @@ public class AdministratorManager {
     public void setNewAdministrador(AdministradorDTO newAdministrador) {
         this.newAdministrador = newAdministrador;
     }
-    
+
     public String createAdministrador() {
         try {
             administradorBean.create(newAdministrador.getNome(),
@@ -378,7 +369,7 @@ public class AdministratorManager {
     public void setCurrentAdministrador(AdministradorDTO currentAdministrador) {
         this.currentAdministrador = currentAdministrador;
     }
-        
+
     public void removeAdministrador(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("administradorUsername");
@@ -390,7 +381,7 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
+
     public String updateAdministrador() {
         try {
             administradorBean.update(newAdministrador.getNome(),
@@ -408,29 +399,31 @@ public class AdministratorManager {
         }
         return "admin_profissional_update";
     }
-    
+
     public List<UtenteDTO> getCurrentCuidadorUtentes() {
         try {
-            System.out.println("GET: currentCuidador.getUsername : "+currentCuidador.getUsername());
             return cuidadorBean.getAllenrroledUtentes(currentCuidador.getUsername());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
             return null;
         }
     }
-    
-    public String enrrolUtenteToCuidador(ActionEvent event){
-         try {
+
+    public String enrrolUtenteToCuidador(ActionEvent event) {
+        try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
             cuidadorBean.enrollUtente(currentCuidador.getUsername(), Long.parseLong(id));
+       
+        } catch (EntityAlreadyExistsException | EntityDoesNotExistsException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
-         return "admin_enrrol_utente?faces-redirect=true";
+        return "admin_enrrol_utente?faces-redirect=true";
     }
-    
-    public void removeEnrroledUtente(ActionEvent event){
+
+    public void removeEnrroledUtente(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("utenteUsername");
             String id = param.getValue().toString();
@@ -439,9 +432,8 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
-    ///////////////MATERIALCAPACITAÇAO
 
+    ///////////////MATERIALCAPACITAÇAO
     public MaterialCapacitacaoDTO getNewMaterialCapacitacao() {
         return newMaterialCapacitacao;
     }
@@ -457,11 +449,11 @@ public class AdministratorManager {
     public void setCurrentMaterialCapacitacao(MaterialCapacitacaoDTO currentMaterialCapacitacao) {
         this.currentMaterialCapacitacao = currentMaterialCapacitacao;
     }
-    
+
     ///////////////////// MATERIAL
     public String createMaterial() {
         try {
-            materialCapacitacaoBean.create(newMaterialCapacitacao.getTipo(),newMaterialCapacitacao.getDescricao(),newMaterialCapacitacao.getLink());
+            materialCapacitacaoBean.create(newMaterialCapacitacao.getTipo(), newMaterialCapacitacao.getDescricao(), newMaterialCapacitacao.getLink());
             newMaterialCapacitacao.reset();
             return "admin_create_material?faces-redirect=true";
         } catch (Exception e) {
@@ -469,8 +461,8 @@ public class AdministratorManager {
         }
         return null;
     }
-    
-    public List<MaterialCapacitacaoDTO> getAllMaterialDTO(){
+
+    public List<MaterialCapacitacaoDTO> getAllMaterialDTO() {
         try {
             return materialCapacitacaoBean.getAllDTO();
         } catch (Exception e) {
@@ -478,7 +470,7 @@ public class AdministratorManager {
         }
         return null;
     }
-    
+
     public void removeMaterial(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
@@ -488,7 +480,7 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
+
     public List<MaterialCapacitacaoDTO> getCurrentCuidadorMateriais() {
         try {
             return cuidadorBean.getAllenrroledMaterial(currentCuidador.getUsername());
@@ -497,9 +489,9 @@ public class AdministratorManager {
             return null;
         }
     }
-    
-    public void enrrolMaterialToCuidador(ActionEvent event){
-         try {
+
+    public void enrrolMaterialToCuidador(ActionEvent event) {
+        try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
             String id = param.getValue().toString();
             cuidadorBean.enrollMaterial(id, currentCuidador.getUsername());
@@ -507,19 +499,19 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
-    public void removeEnrroledMaterial(ActionEvent event){
+
+    public void removeEnrroledMaterial(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
             String id = param.getValue().toString();
-            cuidadorBean.removeEnrroledMaterial(id,currentCuidador.getUsername());
+            cuidadorBean.removeEnrroledMaterial(id, currentCuidador.getUsername());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
-        ////////////////////////PROCEDIMENTOS
-    public ProcedimentoCuidadoDTO getNewProcedimento() {    
+
+    ////////////////////////PROCEDIMENTOS
+    public ProcedimentoCuidadoDTO getNewProcedimento() {
         return newProcedimento;
     }
 
@@ -531,25 +523,24 @@ public class AdministratorManager {
         return currentProcedimento;
     }
 
-    public void setCurrentProcedimento(ProcedimentoCuidadoDTO currentProcedimento) {    
+    public void setCurrentProcedimento(ProcedimentoCuidadoDTO currentProcedimento) {
         this.currentProcedimento = currentProcedimento;
     }
 
     public String createProcedimento() {
         try {
-            procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
+            procedimentoCuidadoBean.create(newProcedimento.getId(), currentCuidador.getUsername(), newProcedimento.getDescricao());
             utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());
             newProcedimento.reset();
-            
-            
+
             return "admin_create_procedimento?faces-redirect=true";
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
         return null;
     }
-    
-    public List<ProcedimentoCuidadoDTO> getAllProcedimentoDTO(){
+
+    public List<ProcedimentoCuidadoDTO> getAllProcedimentoDTO() {
         try {
             return procedimentoCuidadoBean.getAllDTO();
         } catch (Exception e) {
@@ -557,8 +548,8 @@ public class AdministratorManager {
         }
         return null;
     }
-    
-    public List<ProcedimentoCuidadoDTO> getAllEnrroledProcedimentos(){
+
+    public List<ProcedimentoCuidadoDTO> getAllEnrroledProcedimentos() {
         try {
             return utenteBean.getAllProcedimentos(currentUtente.getId());
         } catch (Exception e) {
@@ -566,18 +557,16 @@ public class AdministratorManager {
         }
         return null;
     }
-    
-    public void removeEnrroledProcedimento(ActionEvent event){
+
+    public void removeEnrroledProcedimento(ActionEvent event) {
         try {
             UIParameter param = (UIParameter) event.getComponent().findComponent("procedimentoId");
             String id = param.getValue().toString();
-            utenteBean.removeEnrroledProdecimento(id,currentUtente.getId());
+            utenteBean.removeEnrroledProdecimento(id, currentUtente.getId());
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
-    
-    
 
     public UIComponent getComponent() {
         return component;
@@ -586,6 +575,5 @@ public class AdministratorManager {
     public void setComponent(UIComponent component) {
         this.component = component;
     }
-    
-    
+
 }
