@@ -11,11 +11,16 @@ import entities.Utente;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author rpbeat
  */
+@XmlRootElement(name = "Cuidador")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CuidadorDTO extends UserDTO implements Serializable{
       
     public CuidadorDTO(String nome, String email, int contacto, String morada, String username, String password) {

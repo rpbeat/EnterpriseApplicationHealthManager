@@ -5,10 +5,16 @@
  */
 package dtos;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author rpbeat
  */
+@XmlRootElement(name = "Procedimento")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ProcedimentoCuidadoDTO {
     private String id;
     private String userNameCuidador;

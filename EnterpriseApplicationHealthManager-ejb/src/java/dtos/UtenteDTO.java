@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author rpbeat
  */
-//@XmlRootElement(name = "Utente")
-//@XmlAccessorType(XmlAccessType.FIELD)
+@XmlRootElement(name = "Utente")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class UtenteDTO extends PessoaDTO implements Serializable{
     long id;
     

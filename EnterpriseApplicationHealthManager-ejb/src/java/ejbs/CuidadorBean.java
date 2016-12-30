@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,6 +34,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Stateless
+@Path("/cuidador")
 public class CuidadorBean {
 
     @PersistenceContext
@@ -210,16 +212,17 @@ public class CuidadorBean {
         return cuidadores;
     }
 
-    //@GET
-    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    //@Path("all")
+    @GET
+    //@RolesAllowed({"Administrador", "ProfissionalSaude"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
     public List<CuidadorDTO> getAllDTO() {
-        //try {
-        List<Cuidador> cuidadores = (List<Cuidador>) em.createNamedQuery("GetAllCuidadores").getResultList();
-        return cuidadoresToDTOs(cuidadores);
-        // } catch (Exception e) {
-        //   throw new EJBException(e.getMessage());
-        //}
+        try {
+            List<Cuidador> cuidadores = (List<Cuidador>) em.createNamedQuery("GetAllCuidadores").getResultList();
+            return cuidadoresToDTOs(cuidadores);
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
 
     List<CuidadorDTO> cuidadoresToDTOs(List<Cuidador> cuidadores) {

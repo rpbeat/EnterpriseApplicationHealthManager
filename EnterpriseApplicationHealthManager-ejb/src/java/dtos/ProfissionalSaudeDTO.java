@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author rpbeat
  */
-@XmlRootElement(name = "Profissional")
+@XmlRootElement(name = "ProfissionalSaude")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProfissionalSaudeDTO extends UserDTO implements Serializable{
 

@@ -26,12 +26,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import exceptions.Utils;
 import java.util.LinkedList;
+import javax.annotation.security.RolesAllowed;
 
 /**
  *
  * @author rpbeat
  */
 @Stateless
+@Path("/utente")
 public class UtenteBean {
     
     @PersistenceContext
@@ -52,17 +54,18 @@ public class UtenteBean {
          return utentes;
     }
     
-    //@GET
-    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    //@Path("all")
+    @GET
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
     public List<UtenteDTO> getAllDTO() {
-        //try {
+        try {
             List<Utente> utentes = (List<Utente>) em.createNamedQuery("GetAllUtentes").getResultList();
             System.err.println(""+utentes.toString());
             return utentesToDTOs(utentes);
-        //} catch (Exception e) {
-          //  throw new EJBException(e.getMessage());
-        //}
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
     }
     
    public List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {

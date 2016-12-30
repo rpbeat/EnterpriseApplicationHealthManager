@@ -16,12 +16,18 @@ import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.ConstraintViolationException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 /**
  *
  * @author rpbeat
  */
 @Stateless
+@Path("/procedimento")
 public class ProcedimentoCuidadoBean {
     
     @PersistenceContext
@@ -38,6 +44,10 @@ public class ProcedimentoCuidadoBean {
         }
     }
     
+    @GET
+    //@RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
     public List<ProcedimentoCuidadoDTO> getAllDTO() {
         try {
             List<ProcedimentoCuidado> procedimentos = (List<ProcedimentoCuidado>) em.createNamedQuery("GetAllProcedimentoCuidado").getResultList();

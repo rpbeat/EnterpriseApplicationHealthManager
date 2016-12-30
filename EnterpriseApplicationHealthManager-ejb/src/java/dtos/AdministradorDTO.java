@@ -6,11 +6,16 @@
 package dtos;
 
 import java.io.Serializable;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author rpbeat
  */
+@XmlRootElement(name = "Administrador")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AdministradorDTO extends UserDTO implements Serializable{
     
     public AdministradorDTO(String nome, String email, int contacto, String morada, String username, String password) {

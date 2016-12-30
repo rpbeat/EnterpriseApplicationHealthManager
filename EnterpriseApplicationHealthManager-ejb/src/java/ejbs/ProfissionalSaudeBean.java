@@ -12,6 +12,7 @@ import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -27,6 +28,7 @@ import javax.ws.rs.core.MediaType;
  * @author rpbeat
  */
 @Stateless
+@Path("/profissionalsaude")
 public class ProfissionalSaudeBean {
     @PersistenceContext
     private EntityManager em;
@@ -48,9 +50,10 @@ public class ProfissionalSaudeBean {
          return ProfissionaisSaude;
     }
     
-    //@GET
-    //@Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    //@Path("all")
+    @GET
+    @RolesAllowed({"Administrador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("all")
     public List<ProfissionalSaudeDTO> getAllDTO() {
         try {
             List<ProfissionalSaude> profissionais = (List<ProfissionalSaude>) em.createNamedQuery("GetAllProfissionalSaude").getResultList();
