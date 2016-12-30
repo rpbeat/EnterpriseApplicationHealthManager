@@ -68,6 +68,8 @@ public class AdministratorManager {
     
     private ProcedimentoCuidadoDTO newProcedimento;
     private ProcedimentoCuidadoDTO currentProcedimento;
+    
+    private String selectedMaterial;
 
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
@@ -538,6 +540,7 @@ public class AdministratorManager {
     public String createProcedimento() {
         try {
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
+            procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
             utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());
             newProcedimento.reset();
             
@@ -576,6 +579,16 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
+
+    public String getSelectedMaterial() {
+        return selectedMaterial;
+    }
+
+    public void setSelectedMaterial(String selectedMaterial) {
+        this.selectedMaterial = selectedMaterial;
+    }
+    
+    
     
     
 

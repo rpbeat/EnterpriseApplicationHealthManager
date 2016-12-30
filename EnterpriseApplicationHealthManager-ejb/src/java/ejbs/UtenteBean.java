@@ -6,8 +6,10 @@
 package ejbs;
 
 import dtos.CuidadorDTO;
+import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
 import dtos.UtenteDTO;
+import entities.MaterialCapacitacao;
 import entities.ProcedimentoCuidado;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
@@ -178,6 +180,10 @@ public class UtenteBean {
     }
     
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao());
+        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao(),materialToDTO(procedimento.getMaterialCapacitacao()));
+    }
+    
+    MaterialCapacitacaoDTO materialToDTO(MaterialCapacitacao material) {
+        return new MaterialCapacitacaoDTO(material.getId(),material.getTipo(),material.getLink(),material.getDescricao());
     }
 }

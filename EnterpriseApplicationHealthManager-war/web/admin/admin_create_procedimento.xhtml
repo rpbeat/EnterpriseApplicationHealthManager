@@ -15,7 +15,7 @@
                 <br></br>
                 <br></br>
             <h:panelGrid columns="3">
-                <h:outputLabel for="id" value="Id: " />
+                <h:outputLabel for="id" value="Identificador: " />
                 <h:inputText 
                     id="id"
                     size="20"
@@ -32,7 +32,13 @@
                     required="true"
                     requiredMessage="Error: descricao cannot be empty."
                     value="#{administratorManager.newProcedimento.descricao}"/>
-                <h:message for="descricao" errorStyle="color: red" />                        
+                <h:message for="descricao" errorStyle="color: red" />   
+                
+                <h:outputLabel for="material" value="Material: " />
+                <h:selectOneMenu value="#{administratorManager.selectedMaterial}">
+                    <f:selectItems value="#{administratorManager.currentCuidadorMateriais}" var="material"
+                                   itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                 </h:selectOneMenu>
 
                 <br></br>
                 <br></br>
@@ -63,7 +69,7 @@
               
               <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Id" />
+                    <h:outputText value="Identificador" />
                 </f:facet>
                   <h:outputText value="#{procedimento.id}" />
             </h:column>
@@ -73,6 +79,13 @@
                     <h:outputText value="Descricao" />
                 </f:facet>
                    <h:outputText value="#{procedimento.descricao}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Material aplicado" />
+                </f:facet>
+                <h:outputText value="#{procedimento.materialCapacitacaoDTO.descricao}" />
             </h:column>
             
             <h:column>
@@ -94,7 +107,7 @@
             <h:commandLink
                 id="return"
                 value="Return"
-                action="admin_list_all?faces-redirect=true" />
+                action="admin_cuidador_details?faces-redirect=true" />
         </h:form>
     </h:body>
 </html>
