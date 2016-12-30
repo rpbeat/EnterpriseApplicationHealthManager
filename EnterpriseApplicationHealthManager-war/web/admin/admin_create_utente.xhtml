@@ -38,7 +38,7 @@
                     requiredMessage="Error: Morada cannot be empty."                            
                     value="#{administratorManager.newUtente.morada}" >
                 </h:inputText>    
-                <h:message for="email" errorStyle="color: red" />
+                <h:message for="morada" errorStyle="color: red" />
                 
                 <h:outputLabel for="contacto" value="Contacto: " />
                 <h:inputText
@@ -48,7 +48,7 @@
                     requiredMessage="Error: Contacto cannot be empty."                            
                     value="#{administratorManager.newUtente.contacto}" >
                 </h:inputText>    
-                <h:message for="email" errorStyle="color: red" />
+                <h:message for="contacto" errorStyle="color: red" />
 
 
                 <br></br>
@@ -62,8 +62,5 @@
             </h:panelGrid >                       
 
         </h:form>
-
-        <!--<h:messages style="color:red"/> -->        
-
     </h:body>
 </html>

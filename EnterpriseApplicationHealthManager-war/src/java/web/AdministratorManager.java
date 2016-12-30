@@ -495,6 +495,8 @@ public class AdministratorManager {
             UIParameter param = (UIParameter) event.getComponent().findComponent("materialId");
             String id = param.getValue().toString();
             cuidadorBean.enrollMaterial(id, currentCuidador.getUsername());
+        } catch (EntityAlreadyExistsException | EntityDoesNotExistsException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }

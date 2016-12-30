@@ -58,17 +58,17 @@ public class CuidadorBean {
             if (cuidador == null) {
                 throw new EJBException();
             }
-            System.err.println("GETERROLEDDD"+cuidador.getUsername()+"List: "+cuidador.getUtentes().size());
+            System.err.println("GETERROLEDDD" + cuidador.getUsername() + "List: " + cuidador.getUtentes().size());
             return utentesToDTOs(cuidador.getUtentes());
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.getMessage();
         }
         return null;
     }
-    
+
     public List<UtenteDTO> utentesToDTOs(List<Utente> utentes) {
-        if(utentes==null){
+        if (utentes == null) {
             return null;
         }
         List<UtenteDTO> dtos = new ArrayList<>();
@@ -77,17 +77,17 @@ public class CuidadorBean {
         }
         return dtos;
     }
-    
+
     private UtenteDTO utenteToDTO(Utente utente) {
         return new UtenteDTO(utente.getId(),
-                utente.getNome(), 
-                utente.getEmail(), 
-                utente.getContacto(), 
+                utente.getNome(),
+                utente.getEmail(),
+                utente.getContacto(),
                 utente.getMorada());
     }
 
-    public void enrollUtente(String usernameCuidador, long idUtente) 
-            throws EntityAlreadyExistsException, EntityDoesNotExistsException  {
+    public void enrollUtente(String usernameCuidador, long idUtente)
+            throws EntityAlreadyExistsException, EntityDoesNotExistsException {
         try {
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
             Utente utente = em.find(Utente.class, idUtente);
@@ -97,7 +97,7 @@ public class CuidadorBean {
             }
 
             List<Utente> list = cuidador.getUtentes();
-            if(list.contains(utente)){
+            if (list.contains(utente)) {
                 throw new EntityAlreadyExistsException("O utente já existe neste cuidador");
             }
             if (checkUtenteHasCuidador(utente)) {
@@ -136,25 +136,28 @@ public class CuidadorBean {
         }
     }
 
-    public void enrollMaterial(String idMaterial, String usernameCuidador) {
+    public void enrollMaterial(String idMaterial, String usernameCuidador)
+            throws EntityAlreadyExistsException, EntityDoesNotExistsException {
         try {
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
             MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
 
             if (cuidador == null || material == null) {
-                throw new EntityDoesNotExistsException();
+                throw new EntityDoesNotExistsException("Cuidador ou utente não existentes");
             }
 
             List<MaterialCapacitacao> list = cuidador.getMateriais();
             if (list != null) {
                 if (list.contains(material)) {
-                    throw new EntityAlreadyExistsException();
+                    throw new EntityAlreadyExistsException("Material já existente neste cuidador!");
                 }
                 cuidador.addMaterial(material);
             }
 
-        } catch (EJBException | EntityAlreadyExistsException | EntityDoesNotExistsException e) {
-            e.getMessage();
+        } catch (EntityAlreadyExistsException | EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
         }
     }
 
@@ -166,15 +169,15 @@ public class CuidadorBean {
                 throw new EJBException();
             }
             return materialToDTOs(cuidador.getMateriais());
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             e.getMessage();
         }
         return null;
     }
-    
+
     List<MaterialCapacitacaoDTO> materialToDTOs(List<MaterialCapacitacao> material) {
-        if(material== null){
+        if (material == null) {
             return null;
         }
         List<MaterialCapacitacaoDTO> dtos = new ArrayList<>();
@@ -183,9 +186,9 @@ public class CuidadorBean {
         }
         return dtos;
     }
-    
+
     MaterialCapacitacaoDTO materialToDTO(MaterialCapacitacao material) {
-        return new MaterialCapacitacaoDTO(material.getId(),material.getTipo(),material.getLink(),material.getDescricao());
+        return new MaterialCapacitacaoDTO(material.getId(), material.getTipo(), material.getLink(), material.getDescricao());
     }
 
     public void removeEnrroledMaterial(String idMaterial, String usernameCuidador) {
@@ -255,11 +258,11 @@ public class CuidadorBean {
             throw new EJBException(e.getMessage());
         }
     }
-     
+
     public void update(String nome, String email, int contacto, String morada, String username, String password)
-        throws EntityDoesNotExistsException, MyConstraintViolationException{
+            throws EntityDoesNotExistsException, MyConstraintViolationException {
         try {
-            System.out.println("USERNAME: "+username);
+            System.out.println("USERNAME: " + username);
             Cuidador cuidador = em.find(Cuidador.class, username);
             if (cuidador == null) {
                 throw new EntityDoesNotExistsException("There is no cuidador with that username.");
@@ -272,14 +275,14 @@ public class CuidadorBean {
             cuidador.setMorada(morada);
             //cuidador.setUsername(username);
             em.merge(cuidador);
-            
-       } catch (EntityDoesNotExistsException e) {
+
+        } catch (EntityDoesNotExistsException e) {
             throw e;
-       } catch (ConstraintViolationException e) {
-            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));            
-       } catch (Exception e) {
+        } catch (ConstraintViolationException e) {
+            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
+        } catch (Exception e) {
             throw new EJBException(e.getMessage());
-       }
+        }
     }
 
 }
