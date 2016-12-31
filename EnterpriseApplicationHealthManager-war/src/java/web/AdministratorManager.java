@@ -79,8 +79,8 @@ public class AdministratorManager {
         newProfissional = new ProfissionalSaudeDTO();
         currentProfissional = new ProfissionalSaudeDTO();
         newCuidador = new CuidadorDTO();
-        newAdministrador = new AdministradorDTO();
         currentCuidador = new CuidadorDTO();
+        newAdministrador = new AdministradorDTO();
         currentAdministrador = new AdministradorDTO();
         newMaterialCapacitacao = new MaterialCapacitacaoDTO();
         currentMaterialCapacitacao = new MaterialCapacitacaoDTO();
@@ -158,7 +158,7 @@ public class AdministratorManager {
             //String nome, String email,int contacto,String morada
             utenteBean.create(newUtente.getNome(),newUtente.getEmail(),newUtente.getContacto(),newUtente.getMorada());
             newUtente.reset();
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
@@ -201,7 +201,7 @@ public class AdministratorManager {
                     currentUtente.getEmail(),
                     currentUtente.getContacto(),
                     currentUtente.getMorada());
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
@@ -233,7 +233,7 @@ public class AdministratorManager {
                     newProfissional.getUsername(),
                     newProfissional.getPassword());
             newProfissional.reset();
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
@@ -268,7 +268,7 @@ public class AdministratorManager {
                     currentProfissional.getMorada(),
                     currentProfissional.getUsername(),
                     currentProfissional.getPassword());
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
@@ -297,7 +297,7 @@ public class AdministratorManager {
                     newCuidador.getUsername(),
                     newCuidador.getPassword());
             newCuidador.reset();
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
@@ -333,7 +333,7 @@ public class AdministratorManager {
                     currentCuidador.getMorada(),
                     currentCuidador.getUsername(),
                     currentCuidador.getPassword());
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
@@ -364,7 +364,7 @@ public class AdministratorManager {
                     newAdministrador.getUsername(),
                     newAdministrador.getPassword());
             newAdministrador.reset();
-            return "admin_list_all?faces-redirect=true";
+            return "admin_view?faces-redirect=true";
         } catch (Exception e) {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
@@ -393,13 +393,13 @@ public class AdministratorManager {
 
     public String updateAdministrador() {
         try {
-            administradorBean.update(newAdministrador.getNome(),
-                    newAdministrador.getEmail(),
-                    newAdministrador.getContacto(),
-                    newAdministrador.getMorada(),
-                    newAdministrador.getUsername(),
-                    newAdministrador.getPassword());
-            return "admin_list_all?faces-redirect=true";
+            administradorBean.update(currentAdministrador.getNome(),
+                    currentAdministrador.getEmail(),
+                    currentAdministrador.getContacto(),
+                    currentAdministrador.getMorada(),
+                    currentAdministrador.getUsername(),
+                    currentAdministrador.getPassword());
+            return "admin_view?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);

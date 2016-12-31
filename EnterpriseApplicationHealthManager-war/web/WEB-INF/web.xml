@@ -78,6 +78,9 @@
             <url-pattern>/webapi/utente/*</url-pattern>
         </web-resource-collection>
         <web-resource-collection>
+            <web-resource-name>Admin pages</web-resource-name>
+            <description/>
+            <url-pattern>/faces/profissional/*</url-pattern>
             <web-resource-name>web api cuidador utentes</web-resource-name>
             <description/>
             <url-pattern>/webapi/cuidador/utentes/*</url-pattern>
