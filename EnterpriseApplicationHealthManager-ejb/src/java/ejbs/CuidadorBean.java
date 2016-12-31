@@ -8,13 +8,22 @@ import dtos.UtenteDTO;
 import entities.Cuidador;
 import entities.MaterialCapacitacao;
 import entities.ProcedimentoCuidado;
+import entities.User;
 import entities.Utente;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
@@ -401,6 +410,46 @@ public class CuidadorBean {
             throw new EJBException(e.getMessage());
         }
         return "OK";
+    }
+
+    @GET
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("login")
+    public String login(@Context HttpHeaders headers) {
+        List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+        String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+        String password = BasicAuth.decodePassword(authHeaders.get(0).toString());
+        
+        
+
+        Cuidador cuidador = em.find(Cuidador.class, username);
+        
+        System.out.println("username: "+username + " password: "+hashPassword(password) + "   "+cuidador.getPassword());
+
+        if (cuidador == null) {
+            return "ERROR1";
+        }
+        if (cuidador.getPassword().equals(hashPassword(password))) {
+            return "OK";
+        }
+        return "ERROR2";
+    }
+    
+    private String hashPassword(String password) {
+       char[] encoded = null;
+        try {
+        ByteBuffer passwdBuffer =
+        Charset.defaultCharset().encode(CharBuffer.wrap(password));
+        byte[] passwdBytes = passwdBuffer.array();
+        MessageDigest mdEnc = MessageDigest.getInstance("SHA-256");
+        mdEnc.update(passwdBytes, 0, password.toCharArray().length);
+        encoded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
+        } catch (NoSuchAlgorithmException ex) {
+        Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new String(encoded);
+
     }
 
 }
