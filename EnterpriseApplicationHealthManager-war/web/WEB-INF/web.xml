@@ -116,6 +116,12 @@
             <url-pattern>/webapi/cuidador/material/*</url-pattern>
             <http-method>GET</http-method>
         </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>webapi login</web-resource-name>
+            <description/>
+            <url-pattern>/webapi/cuidador/login</url-pattern>
+            <http-method>GET</http-method>
+        </web-resource-collection>
         <auth-constraint>
             <description/>
             <role-name>Cuidador</role-name>
