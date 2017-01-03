@@ -22,7 +22,7 @@ public class CuidadorDTO extends UserDTO implements Serializable{
         super(nome, email, contacto, morada, username, password);
 
     }
-
+    
     public CuidadorDTO() {
     }
     
