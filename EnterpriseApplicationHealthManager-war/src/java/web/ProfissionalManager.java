@@ -365,9 +365,23 @@ public class ProfissionalManager {
         }
     }
     
+    public String updateMaterial() {
+        try {
+            // long id, String tipo, String descricao, String link
+            materialCapacitacaoBean.update(currentMaterialCapacitacao.getId(), currentMaterialCapacitacao.getTipo(), currentMaterialCapacitacao.getDescricao(), currentMaterialCapacitacao.getLink());
+            return "profissional_create_material?faces-redirect=true";
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter! Material may be used for somebody!", logger);
+        }
+        return "profissional_material_update";
+    }
+    
     ////////////////////////PROCEDIMENTOS
 
-    public String createProcedimento() {
+    /*public String createProcedimento() {
         try {
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
@@ -380,7 +394,7 @@ public class ProfissionalManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
         return null;
-    }
+    }*/
 
     public List<ProcedimentoCuidadoDTO> getAllProcedimentoDTO(){
         try {

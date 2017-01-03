@@ -521,6 +521,20 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }
+    
+    public String updateMaterial() {
+        try {
+            // long id, String tipo, String descricao, String link
+            materialCapacitacaoBean.update(currentMaterialCapacitacao.getId(), currentMaterialCapacitacao.getTipo(), currentMaterialCapacitacao.getDescricao(), currentMaterialCapacitacao.getLink());
+            return "admin_create_material?faces-redirect=true";
+
+        } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
+            FacesExceptionHandler.handleException(e, e.getMessage(), logger);
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
+        }
+        return "admin_material_update";
+    }
 
     ////////////////////////PROCEDIMENTOS
     public ProcedimentoCuidadoDTO getNewProcedimento() {
@@ -539,7 +553,7 @@ public class AdministratorManager {
         this.currentProcedimento = currentProcedimento;
     }
 
-    public String createProcedimento() {
+    /*public String createProcedimento() {
         try {
             System.out.println("aquele id top: "+newProcedimento.getId());
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
@@ -553,7 +567,7 @@ public class AdministratorManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
         }
         return null;
-    }
+    }*/
 
     public List<ProcedimentoCuidadoDTO> getAllProcedimentoDTO(){
         try {

@@ -5,6 +5,8 @@
  */
 package dtos;
 
+import entities.EstadoProcedimento;
+import java.util.Date;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -19,13 +21,17 @@ public class ProcedimentoCuidadoDTO {
     private String id;
     private String userNameCuidador;
     private String descricao;
+    private EstadoProcedimento estado;
     private MaterialCapacitacaoDTO materialCapacitacaoDTO;
+    private String date;
 
-    public ProcedimentoCuidadoDTO(String id, String userNameCuidador, String descricao, MaterialCapacitacaoDTO materialToDTO) {
+    public ProcedimentoCuidadoDTO(String id, String userNameCuidador, String descricao, MaterialCapacitacaoDTO materialToDTO, EstadoProcedimento estado, String date) {
         this.id = id;
         this.userNameCuidador = userNameCuidador;
         this.descricao = descricao;
         this.materialCapacitacaoDTO = materialToDTO;
+        this.estado = estado;
+        this.date = date;
     }
 
     public ProcedimentoCuidadoDTO() {
@@ -68,6 +74,25 @@ public class ProcedimentoCuidadoDTO {
     public void setMaterialCapacitacaoDTO(MaterialCapacitacaoDTO materialCapacitacaoDTO) {
         this.materialCapacitacaoDTO = materialCapacitacaoDTO;
     }
+
+    public EstadoProcedimento getEstado() {
+        return estado;
+    }
     
+    public String getEstadoString() {
+        return estado.name();
+    }
     
+
+    public void setEstado(EstadoProcedimento estado) {
+        this.estado = estado;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    } 
 }

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content ="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <title>Health Management</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <c:set target="#{cuidadorManager.setCurrentCuidadorString(userManager.username)}" value="#{userManager.username}" property="userName"/>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><h:commandLink class="navbar-brand"
+                                               id="admin"
+                                               value="Cuidador"
+                                               action="cuidador_view?faces-redirect=true" /></li>
+                            
+                            <li><h:commandLink
+                                    id="meusDados"
+                                    value="Meus Utentes"
+                                    action="cuidador_details?faces-redirect=true" /></li>
+                            
+                            <li><h:commandLink
+                                    id="meusMateriais"
+                                    value="Meus Materiais"
+                                    action="cuidador_materiais?faces-redirect=true" /></li>
+
+                            <li><h:commandLink action="#{userManager.logout}"
+                                               value="Logout"></h:commandLink></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+        </h:form>
+        <h:outputLabel for="id" value="Identificador: #{cuidadorManager.currentCuidadorDTO.nome}" />
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">Detalhes Cuidador</div>
+            <table class="table">
+                <tr>
+                    <td><h:outputLabel for="userName" value="UserName: " /></td>
+                    <td><h:outputText 
+                            id="uid"
+                            value="#{cuidadorManager.currentCuidadorDTO.username}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="namel" value="Name: " /></td>
+                    <td><h:outputText 
+                            id="name"
+                            value="#{cuidadorManager.currentCuidadorDTO.nome}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="morada" value="Morada: " /></td>
+                    <td><h:outputText 
+                            id="moradal"
+                            value="#{cuidadorManager.currentCuidadorDTO.morada}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="contacto" value="Contacto: " /></td>
+                    <td><h:outputText 
+                            id="contactol"
+                            value="#{cuidadorManager.currentCuidadorDTO.contacto}"/></td>
+                </tr>
+
+                <tr>
+                    <td><h:outputLabel for="email" value="Email: " /></td>
+                    <td><h:outputText 
+                            id="emailL"
+                            value="#{cuidadorManager.currentCuidadorDTO.email}"/></td>
+                </tr>
+
+            </table>
+        </div>
+        
+    </h:body>
+</html>

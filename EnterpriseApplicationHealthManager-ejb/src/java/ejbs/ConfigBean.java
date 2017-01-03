@@ -5,6 +5,7 @@
  */
 package ejbs;
 
+import entities.EstadoProcedimento;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -63,7 +64,7 @@ public class ConfigBean {
             cuidadorBean.enrollMaterial("7", "Camila");
             //cuidadorBean.enrollMaterial("3", "Isabel");
             //cuidadorBean.enrollMaterial("4", "Isabel");
-            procedimentoCuidadoBean.create("1", "Camila", "Cena de obtstrução");
+            procedimentoCuidadoBean.create("1", "Camila", "Cena de obtstrução",EstadoProcedimento.A_iniciar);
            
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(4, "1");
             utenteBean.enrrolProcedimento("1", 1);

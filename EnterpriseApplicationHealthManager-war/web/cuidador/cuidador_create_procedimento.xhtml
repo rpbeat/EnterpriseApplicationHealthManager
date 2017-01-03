@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <meta charset="utf-8" />
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
@@ -13,6 +13,7 @@
     </h:head>
     <h:body>
         <h:form>
+            <c:set target="#{cuidadorManager.setCurrentCuidadorString(userManager.username)}" value="#{userManager.username}" property="userName"/>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -30,23 +31,18 @@
                         <ul class="nav navbar-nav">
                             <li><h:commandLink class="navbar-brand"
                                                id="admin"
-                                               value="Profissional"
-                                               action="profissional_view?faces-redirect=true" /></li>
-
+                                               value="Cuidador"
+                                               action="cuidador_view?faces-redirect=true" /></li>
+                            
                             <li><h:commandLink
-                                    id="criarUtente"
-                                    value="Criar Utente"
-                                    action="profissional_create_utente?faces-redirect=true" /></li>
-
+                                    id="meusDados"
+                                    value="Meus Utentes"
+                                    action="cuidador_details?faces-redirect=true" /></li>
+                            
                             <li><h:commandLink
-                                    id="criarCuidador"
-                                    value="Criar Cuidador"
-                                    action="profissional_create_cuidador?faces-redirect=true" /></li>
-
-                            <li><h:commandLink
-                                    id="criarMaterial"
-                                    value="Criar Material de Capacitação"
-                                    action="profissional_create_material?faces-redirect=true" /></li>
+                                    id="meusMateriais"
+                                    value="Meus Materiais"
+                                    action="cuidador_materiais?faces-redirect=true" /></li>
 
                             <li><h:commandLink action="#{userManager.logout}"
                                                value="Logout"></h:commandLink></li>
@@ -62,10 +58,10 @@
                 <table class="table">
                     <tr>
                         <td>
-                            <h:outputLabel for="utente" value="UTENTE: #{profissionalManager.currentUtente.id}" />
+                            <h:outputLabel for="utente" value="UTENTE: #{cuidadorManager.currentUtente.id}" />
                         </td>
                         <td>
-                            <h:outputLabel for="cuidador" value="CUIDADOR: #{profissionalManager.currentCuidador.username}" />
+                            <h:outputLabel for="cuidador" value="CUIDADOR: #{cuidadorManager.currentCuidadorDTO.username}" />
                         </td>
                     </tr>
 
@@ -76,7 +72,7 @@
                                 size="20"
                                 required="true"
                                 requiredMessage="Error: id cannot be empty."
-                                value="#{profissionalManager.newProcedimento.id}">
+                                value="#{cuidadorManager.newProcedimento.id}">
                             </h:inputText></td>
                         <td><h:message for="id" style="color: red"/></td>
                     </tr>
@@ -88,32 +84,40 @@
                                 size="20"
                                 required="true"
                                 requiredMessage="Error: descricao cannot be empty."
-                                value="#{profissionalManager.newProcedimento.descricao}"/></td>
+                                value="#{cuidadorManager.newProcedimento.descricao}"/></td>
                         <td><h:message for="descricao" errorStyle="color: red" /></td>
                     </tr>
 
                     <tr>
                         <td><h:outputLabel for="material" value="Material: " /></td>
-                        <td><h:selectOneMenu value="#{profissionalManager.selectedMaterial}">
-                                <f:selectItems value="#{profissionalManager.currentCuidadorMateriais}" var="material"
+                        <td><h:selectOneMenu value="#{cuidadorManager.selectedMaterial}">
+                                <f:selectItems value="#{cuidadorManager.currentCuidadorMateriais}" var="material"
                                                itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
                             </h:selectOneMenu></td>
-                        <td><h:message for="" errorStyle="color: red" /></td>
+                        <td><h:message for="material" errorStyle="color: red" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><h:outputLabel for="estado" value="Estado: " /></td>
+                        <td><h:selectOneMenu value="#{cuidadorManager.selectedEstado}">
+                                <f:selectItems value="#{cuidadorManager.estados}"/>   							
+                            </h:selectOneMenu></td>
+                        <td><h:message for="estado" errorStyle="color: red" /></td>
                     </tr>
                 </table>
             </div>
             <h:commandButton
                 id="submit"
                 value="Create"
-                binding="#{profissionalManager.component}" 
-                action="#{profissionalManager.createProcedimento}" />
+                binding="#{cuidadorManager.component}" 
+                action="#{cuidadorManager.createProcedimento}" />
             <h:message for="submit" style="color: red"/> 
         </h:form>
         
         <h:dataTable
             var="procedimento"
             summary="List of all utente"
-            value="#{profissionalManager.allEnrroledProcedimentos}"
+            value="#{cuidadorManager.allEnrroledProcedimentos}"
             rules="all"
             cellpadding="5"
             class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -124,23 +128,37 @@
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Id" />
+                    <h:outputText value="Identificador" />
                 </f:facet>
                 <h:outputText value="#{procedimento.id}" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Nome" />
+                    <h:outputText value="Descricao" />
                 </f:facet>
                 <h:outputText value="#{procedimento.descricao}" />
             </h:column>
 
             <h:column>
                 <f:facet name="header">
-                    <h:outputText value="Descrição" />
+                    <h:outputText value="Material" />
                 </f:facet>
                  <h:outputText value="#{procedimento.materialCapacitacaoDTO.descricao}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Data" />
+                </f:facet>
+                <h:outputText value="#{procedimento.date}" />
+            </h:column>
+            
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="Estado" />
+                </f:facet>
+                <h:outputText value="#{procedimento.estadoString}" />
             </h:column>
 
             <h:column>
@@ -149,9 +167,14 @@
                 </f:facet>
                 <h:form>
                     &nbsp;
-                    <h:commandLink value="Remove" actionListener="#{profissionalManager.removeEnrroledProcedimento}">
+                    <h:commandLink value="Remove" actionListener="#{cuidadorManager.removeEnrroledProcedimento}">
                         <f:param name="procedimentoId" id="procedimentoId" value="#{procedimento.id}" />
                     </h:commandLink>
+                    &nbsp;
+                        <h:commandLink value="Update" action="cuidador_update_procedimento?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{cuidadorManager.currentProcedimento}" value="#{procedimento}" />
+                        </h:commandLink>
+
                 </h:form>
             </h:column>                      
 
@@ -160,7 +183,7 @@
             <h:commandLink
                 id="return"
                 value="Return"
-                action="profissional_cuidador_details?faces-redirect=true" />
+                action="cuidador_view?faces-redirect=true" />
         </h:form>
     </h:body>
 </html>

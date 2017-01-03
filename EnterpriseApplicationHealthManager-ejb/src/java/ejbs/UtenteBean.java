@@ -180,7 +180,7 @@ public class UtenteBean {
     }
 
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()));
+        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()),procedimento.getEstado(),procedimento.getDate());
     }
 
     MaterialCapacitacaoDTO materialToDTO(MaterialCapacitacao material) {
