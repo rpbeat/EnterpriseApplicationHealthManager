@@ -162,6 +162,10 @@
                     <h:commandLink value="Remove" actionListener="#{administratorManager.removeMaterial}">
                         <f:param name="materialId" id="materialId" value="#{material.id}" />
                     </h:commandLink>
+                     &nbsp;
+                        <h:commandLink value="Update" action="admin_material_update?faces-redirect=true">
+                            <f:setPropertyActionListener target="#{administratorManager.currentMaterialCapacitacao}" value="#{material}" />
+                        </h:commandLink>
                 </h:form>
             </h:column>                      
 

@@ -6,6 +6,9 @@
 package entities;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
@@ -25,14 +28,27 @@ public class ProcedimentoCuidado implements Serializable {
     private String id;
     private String userNameCuidador;
     private String descricao;
+    private EstadoProcedimento estado;
+    private Date date;
 
     @OneToOne
     private MaterialCapacitacao materialCapacitacao;
 
-    public ProcedimentoCuidado(String id,String userNameCuidador, String descricao) {
+    public ProcedimentoCuidado(String id,String userNameCuidador, String descricao, EstadoProcedimento estado) {
         this.id = id;
         this.descricao = descricao;
         this.userNameCuidador = userNameCuidador;
+        this.estado = estado;
+        date = new Date();
+    }
+
+    public String getDate() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        return dateFormat.format(this.date);
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public ProcedimentoCuidado() {
@@ -68,6 +84,14 @@ public class ProcedimentoCuidado implements Serializable {
 
     public void setMaterialCapacitacao(MaterialCapacitacao materialCapacitacao) {
         this.materialCapacitacao = materialCapacitacao;
+    }
+
+    public EstadoProcedimento getEstado() {
+        return estado;
+    }
+
+    public void setEstado(EstadoProcedimento estado) {
+        this.estado = estado;
     }
     
 }

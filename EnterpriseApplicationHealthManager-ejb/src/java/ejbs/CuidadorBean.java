@@ -6,6 +6,7 @@ import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
 import dtos.UtenteDTO;
 import entities.Cuidador;
+import entities.EstadoProcedimento;
 import entities.MaterialCapacitacao;
 import entities.ProcedimentoCuidado;
 import entities.User;
@@ -98,7 +99,7 @@ public class CuidadorBean {
     }
 
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()));
+        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()),procedimento.getEstado(),procedimento.getDate());
     }
 
     @GET
@@ -291,6 +292,19 @@ public class CuidadorBean {
             throw new EJBException(e.getMessage());
         }
     }
+    
+    public CuidadorDTO getCuidador(String usernameCuidador){
+         try {
+            Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
+            if (cuidador == null) {
+                    throw new EJBException();
+                }
+            return cuidadorToDTO(cuidador);
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
 
     List<CuidadorDTO> cuidadoresToDTOs(List<Cuidador> cuidadores) {
         if (cuidadores == null) {
@@ -362,13 +376,14 @@ public class CuidadorBean {
             @FormParam("identificador") String identificador,
             @FormParam("descricao") String descricao,
             @FormParam("material") String idMaterial,
-            @FormParam("idUtente") String idUtente) throws EntityDoesNotExistsException {
+            @FormParam("idUtente") String idUtente,
+            @FormParam("estado") String estado) throws EntityDoesNotExistsException {
         try {
 
             List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
             String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
 
-            if (descricao == "" || idMaterial == "" || identificador == "") {
+            if (descricao == "" || idMaterial == "" || identificador == "" || estado == "") {
                 return null;
             }
 
@@ -376,8 +391,8 @@ public class CuidadorBean {
             if (material == null) {
                 throw new EntityDoesNotExistsException("material não existente");
             }
-
-            procedimentoCuidadoBean.create(identificador, username, descricao);
+            EstadoProcedimento estadoC = EstadoProcedimento.valueOf(estado);
+            procedimentoCuidadoBean.create(identificador, username, descricao, estadoC);
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(idMaterial), identificador);
             utenteBean.enrrolProcedimento(identificador, Long.parseLong(idUtente));
         } catch (EntityDoesNotExistsException e) {

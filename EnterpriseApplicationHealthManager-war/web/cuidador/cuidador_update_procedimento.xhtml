@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content ="width=device-width, initial-scale=1" />
+        <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <title>Health Management</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <c:set target="#{cuidadorManager.setCurrentCuidadorString(userManager.username)}" value="#{userManager.username}" property="userName"/>
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><h:commandLink class="navbar-brand"
+                                               id="admin"
+                                               value="Cuidador"
+                                               action="cuidador_view?faces-redirect=true" /></li>
+                            
+                            <li><h:commandLink
+                                    id="meusDados"
+                                    value="Meus Utentes"
+                                    action="cuidador_details?faces-redirect=true" /></li>
+                            
+                            <li><h:commandLink
+                                    id="meusMateriais"
+                                    value="Meus Materiais"
+                                    action="cuidador_materiais?faces-redirect=true" /></li>
+
+                            <li><h:commandLink action="#{userManager.logout}"
+                                               value="Logout"></h:commandLink></li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+        </h:form>
+        <h:form>
+            <div class="panel panel-default">
+                <div class="panel-heading">Criar Procedimento</div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <h:outputLabel for="utente" value="UTENTE: #{cuidadorManager.currentUtente.id}" />
+                        </td>
+                        <td>
+                            <h:outputLabel for="cuidador" value="CUIDADOR: #{cuidadorManager.currentCuidadorDTO.username}" />
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="id" value="Identificador: " /></td>
+                        <td><h:outputLabel for="idP" value="#{cuidadorManager.currentProcedimento.id}" /></td>
+                        <td><h:message for="id" style="color: red"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="descricao" value="Descrição: " /></td>
+                        <td><h:inputText
+                                id="descricao"
+                                size="20"
+                                required="true"
+                                requiredMessage="Error: descricao cannot be empty."
+                                value="#{cuidadorManager.currentProcedimento.descricao}"/></td>
+                        <td><h:message for="descricao" errorStyle="color: red" /></td>
+                    </tr>
+
+                    <tr>
+                        <td><h:outputLabel for="material" value="Material: " /></td>
+                        <td><h:selectOneMenu value="#{cuidadorManager.selectedMaterial}">
+                                <f:selectItems value="#{cuidadorManager.currentCuidadorMateriais}" var="material"
+                                               itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                            </h:selectOneMenu></td>
+                        <td><h:message for="material" errorStyle="color: red" /></td>
+                    </tr>
+                    
+                    <tr>
+                        <td><h:outputLabel for="estado" value="Estado: " /></td>
+                        <td><h:selectOneMenu value="#{cuidadorManager.selectedEstado}">
+                                <f:selectItems value="#{cuidadorManager.estados}"/>   							
+                            </h:selectOneMenu></td>
+                        <td><h:message for="estado" errorStyle="color: red" /></td>
+                    </tr>
+                </table>
+                <h:commandButton
+                    id="submit"
+                    value="Update"
+                    action="#{cuidadorManager.updateProcedimento}" />
+                <h:message for="submit" style="color: red"/>
+            </div>
+        </h:form>
+    </h:body>
+</html>

@@ -78,7 +78,7 @@
             <url-pattern>/webapi/utente/*</url-pattern>
         </web-resource-collection>
         <web-resource-collection>
-            <web-resource-name>Admin pages</web-resource-name>
+            <web-resource-name>prof pages</web-resource-name>
             <description/>
             <url-pattern>/faces/profissional/*</url-pattern>
         </web-resource-collection>
@@ -126,6 +126,11 @@
             <description/>
             <url-pattern>/webapi/cuidador/login</url-pattern>
             <http-method>GET</http-method>
+        </web-resource-collection>
+        <web-resource-collection>
+            <web-resource-name>cuidador pages</web-resource-name>
+            <description/>
+            <url-pattern>/faces/cuidador/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <description/>

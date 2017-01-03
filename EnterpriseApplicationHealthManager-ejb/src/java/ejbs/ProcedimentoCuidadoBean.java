@@ -3,6 +3,7 @@ package ejbs;
 
 import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
+import entities.EstadoProcedimento;
 import entities.MaterialCapacitacao;
 import entities.ProcedimentoCuidado;
 import exceptions.EntityDoesNotExistsException;
@@ -31,12 +32,12 @@ public class ProcedimentoCuidadoBean {
     @PersistenceContext
     private EntityManager em;
     
-    public void create(String id ,String userNameCuidador, String descricao) {
+    public void create(String id ,String userNameCuidador, String descricao, EstadoProcedimento estado) {
         try {
             if(em.find(ProcedimentoCuidado.class, id) != null){
                 return;
             }
-            em.persist(new ProcedimentoCuidado(id,userNameCuidador,descricao));
+            em.persist(new ProcedimentoCuidado(id,userNameCuidador,descricao,estado));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -64,7 +65,7 @@ public class ProcedimentoCuidadoBean {
     }
     
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao(),null);
+        return new ProcedimentoCuidadoDTO(procedimento.getId(),procedimento.getUserNameCuidador(),procedimento.getDescricao(),materialToDTO(procedimento.getMaterialCapacitacao()),procedimento.getEstado(),procedimento.getDate());
     }
     
     public void enrrolMaterialToProcedimento(long materialCapacitacaoId, String idProcedimento){
@@ -126,17 +127,18 @@ public class ProcedimentoCuidadoBean {
         }
     }
     
-     public void update(String id ,String userNameCuidador, String descricao) 
+     public void update(String id ,String userNameCuidador, String descricao, EstadoProcedimento estado) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, id);
             if (procedimento == null) {
-                throw new EntityDoesNotExistsException("There is no utente with that username.");
+                throw new EntityDoesNotExistsException("There is no procedimento with that username.");
             }
             
             procedimento.setId(id);
             procedimento.setUserNameCuidador(userNameCuidador);
             procedimento.setDescricao(descricao);
+            procedimento.setEstado(estado);
             em.merge(procedimento);
             
         } catch (EntityDoesNotExistsException e) {
