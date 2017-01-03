@@ -10,5 +10,16 @@ package entities;
  * @author rpbeat
  */
 public enum EstadoProcedimento {
-    Concluido,Em_Curso,A_iniciar,Cancelado;
+    Concluido("Concluido"), Em_Curso("Em Curso"), A_iniciar("A iniciar"), Cancelado("Cancelado");
+
+    private String value;
+
+    EstadoProcedimento(final String value) {
+        this.value = value;
+    }
+
+   @Override
+    public String toString() {
+        return this.value;
+    }
 }

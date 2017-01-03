@@ -99,7 +99,7 @@ public class CuidadorBean {
     }
 
     ProcedimentoCuidadoDTO procedimentoToDTO(ProcedimentoCuidado procedimento) {
-        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()),procedimento.getEstado(),procedimento.getDate());
+        return new ProcedimentoCuidadoDTO(procedimento.getId(), procedimento.getUserNameCuidador(), procedimento.getDescricao(), materialToDTO(procedimento.getMaterialCapacitacao()), procedimento.getEstado(), procedimento.getDate());
     }
 
     @GET
@@ -292,13 +292,13 @@ public class CuidadorBean {
             throw new EJBException(e.getMessage());
         }
     }
-    
-    public CuidadorDTO getCuidador(String usernameCuidador){
-         try {
+
+    public CuidadorDTO getCuidador(String usernameCuidador) {
+        try {
             Cuidador cuidador = em.find(Cuidador.class, usernameCuidador);
             if (cuidador == null) {
-                    throw new EJBException();
-                }
+                throw new EJBException();
+            }
             return cuidadorToDTO(cuidador);
         } catch (Exception e) {
             e.getMessage();
@@ -372,11 +372,11 @@ public class CuidadorBean {
     @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("procedimentos/create")
-    public String PostcreateProcedimento(@Context HttpHeaders headers,
+    public List<ProcedimentoCuidadoDTO> PostcreateProcedimento(@Context HttpHeaders headers,
             @FormParam("identificador") String identificador,
             @FormParam("descricao") String descricao,
             @FormParam("material") String idMaterial,
-            @FormParam("idUtente") String idUtente,
+            @FormParam("utente") String idUtente,
             @FormParam("estado") String estado) throws EntityDoesNotExistsException {
         try {
 
@@ -395,19 +395,29 @@ public class CuidadorBean {
             procedimentoCuidadoBean.create(identificador, username, descricao, estadoC);
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(idMaterial), identificador);
             utenteBean.enrrolProcedimento(identificador, Long.parseLong(idUtente));
+            
+            List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
+            Utente utente = em.find(Utente.class, Long.parseLong(idUtente));
+
+            for (UtenteDTO utentedto : listaUtentes) {
+                if (utentedto.getId() == utente.getId()) {
+                    return procedimentosToDTOs(utente.getProcedimentos());
+                }
+            }
+            return null;
+           
         } catch (EntityDoesNotExistsException e) {
             throw e;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return "OK";
     }
 
     @DELETE
     @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     @Path("procedimentos/delete/{id}/{idUtente}")
-    public String removeProcedimento(@Context HttpHeaders headers, @PathParam("id") String id, @PathParam("idUtente") long idUtente) {
+    public List<ProcedimentoCuidadoDTO> removeProcedimento(@Context HttpHeaders headers, @PathParam("id") String id, @PathParam("idUtente") long idUtente) {
         try {
             List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
             String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
@@ -418,13 +428,13 @@ public class CuidadorBean {
             for (UtenteDTO utentedto : listaUtentes) {
                 if (utentedto.getId() == utente.getId()) {
                     utenteBean.removeEnrroledProdecimento(id, idUtente);
-                    return "OK";
+                    return procedimentosToDTOs(utente.getProcedimentos());
                 }
             }
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
-        return "OK";
+        return null;
     }
 
     @GET
@@ -435,12 +445,11 @@ public class CuidadorBean {
         List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
         String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
         String password = BasicAuth.decodePassword(authHeaders.get(0).toString());
-        
-        
 
-        Cuidador cuidador = em.find(Cuidador.class, username);
-        
-        System.out.println(authHeaders.get(0)+"username: "+username + " password: "+hashPassword(password) + "   "+cuidador.getPassword());
+        Cuidador cuidador = em.find(Cuidador.class,
+                 username);
+
+        System.out.println(authHeaders.get(0) + "username: " + username + " password: " + hashPassword(password) + "   " + cuidador.getPassword());
 
         if (cuidador == null) {
             return null;
@@ -450,18 +459,20 @@ public class CuidadorBean {
         }
         return null;
     }
-    
+
     private String hashPassword(String password) {
-       char[] encoded = null;
+        char[] encoded = null;
         try {
-        ByteBuffer passwdBuffer =
-        Charset.defaultCharset().encode(CharBuffer.wrap(password));
-        byte[] passwdBytes = passwdBuffer.array();
-        MessageDigest mdEnc = MessageDigest.getInstance("SHA-256");
-        mdEnc.update(passwdBytes, 0, password.toCharArray().length);
-        encoded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
+            ByteBuffer passwdBuffer
+                    = Charset.defaultCharset().encode(CharBuffer.wrap(password));
+            byte[] passwdBytes = passwdBuffer.array();
+            MessageDigest mdEnc = MessageDigest.getInstance("SHA-256");
+            mdEnc.update(passwdBytes, 0, password.toCharArray().length);
+            encoded = new BigInteger(1, mdEnc.digest()).toString(16).toCharArray();
+
         } catch (NoSuchAlgorithmException ex) {
-        Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(User.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
         return new String(encoded);
 

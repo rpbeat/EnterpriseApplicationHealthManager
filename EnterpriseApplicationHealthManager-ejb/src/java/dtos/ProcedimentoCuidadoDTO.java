@@ -80,7 +80,7 @@ public class ProcedimentoCuidadoDTO {
     }
     
     public String getEstadoString() {
-        return estado.name();
+        return estado.toString();
     }
     
 
