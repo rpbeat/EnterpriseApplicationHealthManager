@@ -5,14 +5,22 @@
  */
 package ejbs;
 
+import dtos.CuidadorDTO;
+import dtos.PerguntaDTO;
 import dtos.ProfissionalSaudeDTO;
+import dtos.QuestionarioDTO;
+import entities.Cuidador;
+import entities.Pergunta;
 import entities.ProfissionalSaude;
+import entities.Questionario;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
 import exceptions.Utils;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -33,6 +41,33 @@ public class ProfissionalSaudeBean {
     @PersistenceContext
     private EntityManager em;
     
+    @EJB
+    private QuestionarioBean questionarioBean;
+    
+    public ProfissionalSaudeDTO getProfissional(String usernameProfissional){
+         try {
+            ProfissionalSaude profissional = em.find(ProfissionalSaude.class, usernameProfissional);
+            if (profissional == null) {
+                    throw new EJBException();
+                }
+            return profissionalToDTO(profissional);
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+    
+    public List<QuestionarioDTO> getEnrroledQuestionarios(String usernameProfissional){
+       List<Questionario> questionarios = questionarioBean.getAll();
+       List<QuestionarioDTO> questionarioDTOs = new LinkedList<>();
+       for(Questionario s : questionarios){
+           if(s.getUserNameProfissional().equals(usernameProfissional)){
+               questionarioDTOs.add(questionarioToDTO(s));
+           }
+       }
+       return questionarioDTOs;
+    }
+    
     public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
             if(em.find(ProfissionalSaude.class, username) != null){
@@ -40,6 +75,21 @@ public class ProfissionalSaudeBean {
             }
             
             em.persist(new ProfissionalSaude(username, password, nome, email, contacto, morada));
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+    
+    public List<QuestionarioDTO> getAllQuestionarios(String userName) throws EntityDoesNotExistsException{
+        try {
+            ProfissionalSaude profissional = em.find(ProfissionalSaude.class, userName);
+            if (profissional == null) {
+                throw new EntityDoesNotExistsException("There is no profissional with that username.");
+            }
+            return questionariosToDTO(profissional.getQuestionarios());
+        
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
@@ -114,5 +164,33 @@ public class ProfissionalSaudeBean {
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
+    }
+      List<QuestionarioDTO> questionariosToDTO(List<Questionario> questionarios) {
+        if (questionarios == null) {
+            return null;
+        }
+        List<QuestionarioDTO> dtos = new ArrayList<>();
+        for (Questionario s : questionarios) {
+            dtos.add(questionarioToDTO(s));
+        }
+        return dtos;
+    }
+     
+     QuestionarioDTO questionarioToDTO(Questionario questionario) {
+        return new QuestionarioDTO(questionario.getPerguntas(),questionario.getUserNameCuidador(),questionario.getUserNameProfissional(),questionario.getId(),questionario.getDate());
+    }
+    
+    List<PerguntaDTO> perguntasToDTO(List<Pergunta> perguntas) {
+        if (perguntas == null) {
+            return null;
+        }
+        List<PerguntaDTO> dtos = new ArrayList<>();
+        for (Pergunta s : perguntas) {
+            dtos.add(perguntaToDTO(s));
+        }
+        return dtos;
+    }
+    PerguntaDTO perguntaToDTO(Pergunta pergunta) {
+        return new PerguntaDTO(pergunta.getDescricao());
     }
 }

@@ -10,10 +10,14 @@ import static com.sun.xml.ws.security.addressing.impl.policy.Constants.logger;
 import dtos.CuidadorDTO;
 import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
+import dtos.ProfissionalSaudeDTO;
+import dtos.QuestionarioDTO;
 import dtos.UtenteDTO;
 import ejbs.CuidadorBean;
 import ejbs.MaterialCapacitacaoBean;
 import ejbs.ProcedimentoCuidadoBean;
+import ejbs.ProfissionalSaudeBean;
+import ejbs.QuestionarioBean;
 import ejbs.UtenteBean;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
@@ -43,6 +47,15 @@ public class ProfissionalManager {
     private MaterialCapacitacaoBean materialCapacitacaoBean;
     @EJB
     private ProcedimentoCuidadoBean procedimentoCuidadoBean;
+    @EJB
+    private QuestionarioBean questionarioBean;
+    @EJB
+    private ProfissionalSaudeBean profissionalSaudeBean;
+    
+    private ProfissionalSaudeDTO currentProfissional;
+    
+    private QuestionarioDTO newQuestionario;
+    private QuestionarioDTO currentQuestionario;
     
     private UtenteDTO newUtente;
     private UtenteDTO currentUtente;
@@ -60,6 +73,7 @@ public class ProfissionalManager {
     
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.ProfissionalManager");
+    private String currentProfissionalString;
 
     public ProfissionalManager() {        
         newMaterialCapacitacao = new MaterialCapacitacaoDTO();
@@ -70,7 +84,8 @@ public class ProfissionalManager {
         currentCuidador = new CuidadorDTO();
         newUtente = new UtenteDTO();
         currentUtente = new UtenteDTO();
-        
+        newQuestionario = new QuestionarioDTO();
+        currentQuestionario = new QuestionarioDTO();
     }
 
     public UIComponent getComponent() {
@@ -151,6 +166,50 @@ public class ProfissionalManager {
 
     public void setSelectedMaterial(String selectedMaterial) {
         this.selectedMaterial = selectedMaterial;
+    }
+
+    public QuestionarioDTO getNewQuestionario() {
+        return newQuestionario;
+    }
+
+    public void setNewQuestionario(QuestionarioDTO newQuestionario) {
+        this.newQuestionario = newQuestionario;
+    }
+
+    public QuestionarioDTO getCurrentQuestionario() {
+        return currentQuestionario;
+    }
+
+    public void setCurrentQuestionario(QuestionarioDTO currentQuestionario) {
+        this.currentQuestionario = currentQuestionario;
+    }
+    
+    /////////////////////QUESTIONARIOS
+    public String createQuestionario(){
+        try {
+            newQuestionario.setUserNameCuidador(currentCuidador.getUsername());
+            newQuestionario.setUserNameProfissional(currentProfissional.getUsername());
+            questionarioBean.create(newQuestionario.getPerguntas(),newQuestionario.getUserNameCuidador(),newQuestionario.getUserNameProfissional());
+            newQuestionario.reset();
+            return "profissional_avaliar_cuidador?faces-redirect=true";
+        } catch (Exception e) {
+            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
+        }
+        return null;
+    }
+    
+    public List<QuestionarioDTO> getAllQuestionarios() throws EntityDoesNotExistsException{
+        
+        return profissionalSaudeBean.getEnrroledQuestionarios(currentProfissional.getUsername());
+    }
+    
+    public void setCurrentProfissionalString(String currentProfissionalString) {
+        this.currentProfissionalString = currentProfissionalString;
+        currentProfissional = profissionalSaudeBean.getProfissional(currentProfissionalString);
+    }
+
+    public ProfissionalSaudeDTO getCurrentProfissional() {
+        return currentProfissional;
     }
     
     ///////////////////// CUIDADORES
