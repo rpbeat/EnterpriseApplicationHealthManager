@@ -8,6 +8,18 @@
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+
+        <!-- Website Font style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></link>
+
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'></link>
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'></link>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
         <title>Health Management</title>
     </h:head>
     <h:body>
@@ -54,72 +66,86 @@
                 </div><!-- /.container-fluid -->
             </nav>
         </h:form>
-        <h:form>
-            <div class="panel panel-default">
-                <div class="panel-heading">Editar Cuidador</div>
-                <table class="table">
-                    <tr>
-                        <td><h:outputLabel for="id" value="UserName: " /></td>
-                        <td><h:outputText 
-                                id="id"
-                                value="#{profissionalManager.currentCuidador.username}"/></td>
-                        <td><h:message for="id" style="color: red"/></td>
-                    </tr>
+        <div class="container-form">
+            <h:form>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Editar Cuidador</div>
+                    <table class="table">
+                        <tr>
+                            <td><h:outputLabel for="id" value="UserName: " /></td>
+                            <td><h:outputText 
+                                    id="id"
+                                    value="#{profissionalManager.currentCuidador.username}"/></td>
+                            <td><h:message for="id" style="color: red"/></td>
+                        </tr>
 
-                    <tr>
-                        <td><h:outputLabel for="name" value="Name: " /></td>
-                        <td><h:inputText 
-                                id="name"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Name cannot be empty."                            
-                                value="#{profissionalManager.currentCuidador.nome}" /></td>
-                        <td><h:message for="name" style="color: red"/></td>
-                    </tr>
+                        <tr>
+                            <td><h:outputLabel for="name" value="Name: " /></td>
+                            <td><h:inputText 
+                                    id="name"
+                                    size="52"
+                                    required="true"
+                                    requiredMessage="Error: Name cannot be empty."                            
+                                    value="#{profissionalManager.currentCuidador.nome}" /></td>
+                            <td><h:message for="name" style="color: red"/></td>
+                        </tr>
 
-                    <tr>
-                        <td><h:outputLabel for="morada" value="Morada: " /></td>
-                        <td><h:inputText 
-                                id="morada"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Morada cannot be empty."                            
-                                value="#{profissionalManager.currentCuidador.morada}" /></td>
-                        <td><h:message for="morada" style="color: red"/></td>
-                    </tr>
+                        <tr>
+                            <td><h:outputLabel for="morada" value="Morada: " /></td>
+                            <td><h:inputText 
+                                    id="morada"
+                                    size="52"
+                                    required="true"
+                                    requiredMessage="Error: Morada cannot be empty."                            
+                                    value="#{profissionalManager.currentCuidador.morada}" /></td>
+                            <td><h:message for="morada" style="color: red"/></td>
+                        </tr>
 
-                    <tr>
-                        <td><h:outputLabel for="contacto" value="Contacto: " /></td>
-                        <td><h:inputText 
-                                id="contacto"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Morada cannot be empty."                            
-                                value="#{profissionalManager.currentCuidador.contacto}" /></td>
-                        <td><h:message for="contacto" style="color: red"/></td>
-                    </tr>
+                        <tr>
+                            <td><h:outputLabel for="contacto" value="Contacto: " /></td>
+                            <td><h:inputText 
+                                    id="contacto"
+                                    size="52"
+                                    required="true"
+                                    requiredMessage="Error: Morada cannot be empty."                            
+                                    value="#{profissionalManager.currentCuidador.contacto}" /></td>
+                            <td><h:message for="contacto" style="color: red"/></td>
+                        </tr>
 
-                    <tr>
-                        <td><h:outputLabel for="email" value="Email: " /></td>
-                        <td><h:inputText
-                                id="email"
-                                size="52"
-                                required="true"
-                                requiredMessage="Error: Email cannot be empty."                            
-                                value="#{profissionalManager.currentCuidador.email}" >
-                                <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
-                            </h:inputText></td>
-                        <td><h:message for="email" style="color: red"/></td>
-                    </tr>
+                        <tr>
+                            <td><h:outputLabel for="email" value="Email: " /></td>
+                            <td><h:inputText
+                                    id="email"
+                                    size="52"
+                                    required="true"
+                                    requiredMessage="Error: Email cannot be empty."                            
+                                    value="#{profissionalManager.currentCuidador.email}" >
+                                    <f:validateRegex pattern="[\w\.-]*[a-zA-Z0-9_]@[\w\.-]*[a-zA-Z0-9]\.[a-zA-Z][a-zA-Z\.]*[a-zA-Z]" />
+                                </h:inputText></td>
+                            <td><h:message for="email" style="color: red"/></td>
+                        </tr>
 
-                </table>
+                    </table>
+                    <div class="form-group ">
+                        <h:commandButton
+                            id="submit"
+                            class="btn btn-success btn-md button-create"
+                            value="Update"
+                            action="#{profissionalManager.updateCuidador}" />
+                        <h:message for="submit" style="color: red"/>
+                    </div>
+                </div>
+                <h:messages errorStyle="color: red" /> 
+            </h:form>
+        </div>
+        <h:form>                  
+            <div class="form-group ">
                 <h:commandButton
-                    id="submit"
-                    value="Update"
-                    action="#{profissionalManager.updateCuidador}" />
-                <h:message for="submit" style="color: red"/>
+                    id="return"
+                    class="btn btn-primary btn-md button-create"
+                    value="Return" 
+                    action="profissional_view?faces-redirect=true" />
             </div>
-            <h:messages errorStyle="color: red" /> 
         </h:form>
     </h:body>
 </html>

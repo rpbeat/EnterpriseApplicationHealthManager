@@ -156,7 +156,6 @@ public class CuidadorManager {
 
     public String createProcedimento() {
         try {
-            System.err.println("CREATEEEEE:"+getSelectedEstado());
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidadorDTO.getUsername(),newProcedimento.getDescricao(),EstadoProcedimento.valueOf(getSelectedEstado()));
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
             utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());

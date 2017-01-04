@@ -22,6 +22,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,6 +40,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -55,6 +57,8 @@ public class CuidadorBean {
     private UtenteBean utenteBean;
     @EJB
     private ProcedimentoCuidadoBean procedimentoCuidadoBean;
+    @EJB
+    private ManagerAppBean managerAppBean;
 
     @PersistenceContext
     private EntityManager em;
@@ -395,7 +399,7 @@ public class CuidadorBean {
             procedimentoCuidadoBean.create(identificador, username, descricao, estadoC);
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(idMaterial), identificador);
             utenteBean.enrrolProcedimento(identificador, Long.parseLong(idUtente));
-            
+
             List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
             Utente utente = em.find(Utente.class, Long.parseLong(idUtente));
 
@@ -405,7 +409,7 @@ public class CuidadorBean {
                 }
             }
             return null;
-           
+
         } catch (EntityDoesNotExistsException e) {
             throw e;
         } catch (Exception e) {
@@ -437,6 +441,51 @@ public class CuidadorBean {
         return null;
     }
 
+    @PUT
+    @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
+    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+    @Path("procedimentos")
+    public List<ProcedimentoCuidadoDTO> updateProcedimento(@Context HttpHeaders headers,
+            @FormParam("identificador") String identificador,
+            @FormParam("descricao") String descricao,
+            @FormParam("material") String idMaterial,
+            @FormParam("utente") String idUtente,
+            @FormParam("estado") String estado) {
+        try {
+            List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
+            String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
+            
+            System.out.println("Username"+username);
+            
+            if (descricao == "" || idMaterial == "" || identificador == "" || estado == "") {
+                return null;
+            }
+
+            MaterialCapacitacao material = em.find(MaterialCapacitacao.class, Long.parseLong(idMaterial));
+            if (material == null) {
+                throw new EntityDoesNotExistsException("material não existente");
+            }
+            
+            procedimentoCuidadoBean.update(identificador,
+                    username,
+                    descricao,
+                    EstadoProcedimento.valueOf(estado),
+                    material);
+            List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
+            Utente utente = em.find(Utente.class, Long.parseLong(idUtente));
+
+            for (UtenteDTO utentedto : listaUtentes) {
+                if (utentedto.getId() == utente.getId()) {
+                    return procedimentosToDTOs(utente.getProcedimentos());
+                }
+            }
+            return null;
+
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+
     @GET
     @RolesAllowed({"Administrador", "ProfissionalSaude", "Cuidador"})
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
@@ -447,7 +496,7 @@ public class CuidadorBean {
         String password = BasicAuth.decodePassword(authHeaders.get(0).toString());
 
         Cuidador cuidador = em.find(Cuidador.class,
-                 username);
+                username);
 
         System.out.println(authHeaders.get(0) + "username: " + username + " password: " + hashPassword(password) + "   " + cuidador.getPassword());
 
@@ -455,6 +504,7 @@ public class CuidadorBean {
             return null;
         }
         if (cuidador.getPassword().equals(hashPassword(password))) {
+            managerAppBean.addAcessoCuidador(username, new Date());
             return cuidadorToDTO(cuidador);
         }
         return null;

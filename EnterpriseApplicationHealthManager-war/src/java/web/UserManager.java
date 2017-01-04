@@ -5,9 +5,12 @@
  */
 package web;
 
+import ejbs.ManagerAppBean;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -22,6 +25,9 @@ import javax.servlet.http.HttpSession;
 @ManagedBean
 @SessionScoped
 public class UserManager implements Serializable {
+    
+    @EJB
+    ManagerAppBean managerAppBean;
 
     private String username;
     private String password;
@@ -67,6 +73,7 @@ public class UserManager implements Serializable {
             return "/faces/admin/admin_view?faces-redirect=true";
         }
         if (isUserInRole("Cuidador")) {
+            managerAppBean.addAcessoCuidador(username,new Date());
             return "/faces/cuidador/cuidador_view?faces-redirect=true";
         }
         if (isUserInRole("ProfissionalSaude")) {

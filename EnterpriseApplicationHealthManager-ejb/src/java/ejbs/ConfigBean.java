@@ -5,7 +5,7 @@
  */
 package ejbs;
 
-import entities.EstadoProcedimento;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
@@ -31,6 +31,8 @@ public class ConfigBean {
     private MaterialCapacitacaoBean materialCapacitacaoBean;
     @EJB
     private ProcedimentoCuidadoBean procedimentoCuidadoBean;
+    @EJB
+    private ManagerAppBean managerAppBean;
 
     @PostConstruct
     public void populateBD() {
@@ -81,6 +83,13 @@ public class ConfigBean {
             cuidadorBean.enrollMaterial("10", "ZeMaria");
             cuidadorBean.enrollMaterial("9", "ZeMaria");
             
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 1, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 4, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 3, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 4, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 2, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 1, 2, 03, 25, 25));
+            managerAppBean.addAcessoCuidador("Camila", new Date(2016, 31, 2, 03, 25, 25));
             //procedimentoCuidadoBean.create("1", "Camila", "Cena de obtstrução",EstadoProcedimento.A_iniciar);
            
             //procedimentoCuidadoBean.enrrolMaterialToProcedimento(4, "1");

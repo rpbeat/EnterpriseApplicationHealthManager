@@ -199,7 +199,6 @@ public class ProfissionalManager {
     }
     
     public List<QuestionarioDTO> getAllQuestionarios() throws EntityDoesNotExistsException{
-        
         return profissionalSaudeBean.getEnrroledQuestionarios(currentProfissional.getUsername());
     }
     
