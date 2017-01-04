@@ -92,3 +92,8 @@ input::-webkit-input-placeholder {
     margin-left: 10px;
 }
 
+.title-material{
+    font-size: 20px;
+    padding-bottom: 15px;
+}
+
