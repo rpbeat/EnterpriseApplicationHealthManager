@@ -9,6 +9,7 @@
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
         <title>Health Management</title>
     </h:head>
     <h:body>
@@ -85,7 +86,7 @@
                         <td><h:outputLabel for="material" value="Material: " /></td>
                         <td><h:selectOneMenu value="#{cuidadorManager.selectedMaterial}">
                                 <f:selectItems value="#{cuidadorManager.currentCuidadorMateriais}" var="material"
-                                               itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                                               itemLabel="#{material.tipo}" itemValue="#{material.id}" />   							
                             </h:selectOneMenu></td>
                         <td><h:message for="material" errorStyle="color: red" /></td>
                     </tr>

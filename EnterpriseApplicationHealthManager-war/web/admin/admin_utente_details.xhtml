@@ -8,6 +8,18 @@
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+
+        <!-- Website Font style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></link>
+
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'></link>
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'></link>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
         <title>Health Management</title>
     </h:head>
     <h:body>
@@ -62,59 +74,57 @@
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>
-
         </h:form >
-        <div class="panel panel-default">
-            <div class="panel-heading">Detalhes Utente</div>
-            <table class="table">
-                <tr>
-                    <td><h:outputLabel for="id" value="ID: " /></td>
-                    <td><h:outputText 
-                            id="uid"
-                            value="#{administratorManager.currentUtente.id}"/></td>
-                </tr>
+        <div class="container-form">
+            <div class="panel panel-default">
+                <div class="panel-heading">Detalhes Utente</div>
+                <table class="table">
+                    <tr>
+                        <td><h:outputLabel for="id" value="ID: " /></td>
+                        <td><h:outputText 
+                                id="uid"
+                                value="#{administratorManager.currentUtente.id}"/></td>
+                    </tr>
 
-                <tr>
-                    <td><h:outputLabel for="namel" value="Name: " /></td>
-                    <td><h:outputText 
-                            id="name"
-                            value="#{administratorManager.currentUtente.nome}"/></td>
-                </tr>
+                    <tr>
+                        <td><h:outputLabel for="namel" value="Name: " /></td>
+                        <td><h:outputText 
+                                id="name"
+                                value="#{administratorManager.currentUtente.nome}"/></td>
+                    </tr>
 
-                <tr>
-                    <td><h:outputLabel for="morada" value="Morada: " /></td>
-                    <td><h:outputText 
-                            id="moradal"
-                            value="#{administratorManager.currentUtente.morada}"/></td>
-                </tr>
+                    <tr>
+                        <td><h:outputLabel for="morada" value="Morada: " /></td>
+                        <td><h:outputText 
+                                id="moradal"
+                                value="#{administratorManager.currentUtente.morada}"/></td>
+                    </tr>
 
-                <tr>
-                    <td><h:outputLabel for="contacto" value="Contacto: " /></td>
-                    <td><h:outputText 
-                            id="contactol"
-                            value="#{administratorManager.currentUtente.contacto}"/></td>
-                </tr>
+                    <tr>
+                        <td><h:outputLabel for="contacto" value="Contacto: " /></td>
+                        <td><h:outputText 
+                                id="contactol"
+                                value="#{administratorManager.currentUtente.contacto}"/></td>
+                    </tr>
 
-                <tr>
-                    <td><h:outputLabel for="email" value="Email: " /></td>
-                    <td><h:outputText 
-                            id="emailL"
-                            value="#{administratorManager.currentUtente.email}"/></td>
-                </tr>
-
-            </table>
+                    <tr>
+                        <td><h:outputLabel for="email" value="Email: " /></td>
+                        <td><h:outputText 
+                                id="emailL"
+                                value="#{administratorManager.currentUtente.email}"/></td>
+                    </tr>
+                </table>
+            </div>
         </div>
-
-        <h:form>   
-            <li>
-                <h:commandLink
+        <h:form>                  
+            <div class="form-group ">
+                <h:commandButton
                     id="return"
-                    value="Return"
+                    class="btn btn-primary btn-md button-create"
+                    value="Return" 
                     action="admin_view?faces-redirect=true" />
-            </li>
-        </h:form>
-
-        <h:messages errorStyle="color: red" />        
+            </div>
+        </h:form>     
     </h:body>
 </html>
 

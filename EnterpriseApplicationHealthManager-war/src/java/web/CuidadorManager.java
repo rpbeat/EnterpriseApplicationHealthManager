@@ -11,6 +11,7 @@ import dtos.MaterialCapacitacaoDTO;
 import dtos.ProcedimentoCuidadoDTO;
 import dtos.UtenteDTO;
 import ejbs.CuidadorBean;
+import ejbs.MaterialCapacitacaoBean;
 import ejbs.ProcedimentoCuidadoBean;
 import ejbs.UtenteBean;
 import entities.EstadoProcedimento;
@@ -38,6 +39,8 @@ public class CuidadorManager {
     ProcedimentoCuidadoBean procedimentoCuidadoBean;
     @EJB
     UtenteBean utenteBean;
+    @EJB
+    MaterialCapacitacaoBean materialCapacitacaoBean;
     
     String currentCuidadorString;
     CuidadorDTO currentCuidadorDTO;
@@ -153,7 +156,6 @@ public class CuidadorManager {
 
     public String createProcedimento() {
         try {
-            System.err.println("CREATEEEEE:"+getSelectedEstado());
             procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidadorDTO.getUsername(),newProcedimento.getDescricao(),EstadoProcedimento.valueOf(getSelectedEstado()));
             procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
             utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());
@@ -197,11 +199,13 @@ public class CuidadorManager {
     public String updateProcedimento(){
         try {
             // long id, String tipo, String descricao, String link
-            procedimentoCuidadoBean.update(currentProcedimento.getId(),currentProcedimento.getUserNameCuidador(),
+            procedimentoCuidadoBean.update(currentProcedimento.getId(),
+                    currentProcedimento.getUserNameCuidador(),
                     currentProcedimento.getDescricao(),
-                    EstadoProcedimento.valueOf(getSelectedEstado()));
+                    EstadoProcedimento.valueOf(getSelectedEstado()),
+                    materialCapacitacaoBean.getMaterial(Long.parseLong(getSelectedMaterial())));
             return "cuidador_create_procedimento?faces-redirect=true";
-
+             
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
             FacesExceptionHandler.handleException(e, e.getMessage(), logger);
         } catch (Exception e) {

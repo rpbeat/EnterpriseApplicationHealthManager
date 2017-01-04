@@ -9,9 +9,29 @@
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+
+        <!-- Website Font style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></link>
+
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'></link>
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'></link>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <link href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'></link>
         <title>Health Management</title>
     </h:head>
     <h:body>
+        <script>
+            $(document).ready(function () {
+                $('#tableUtentes').DataTable();
+                $('#tableAllUtentes').DataTable();
+            });
+        </script>
         <h:form>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
@@ -56,110 +76,118 @@
             </nav>
         </h:form>
 
-        <h:outputText value="CUIDADOR: #{profissionalManager.currentCuidador.username}" />
-        <h:dataTable
-            var="utente"
-            summary="List of all utente"
-            value="#{profissionalManager.currentCuidadorUtentes}"
-            rules="all"
-            cellpadding="5"
-            class="table table-striped table-bordered" cellspacing="0" width="100%">
-
-            <f:facet name="header">
-                <h:outputText value="Utentes" />
-            </f:facet> 
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Id" />
-                </f:facet>
-                <h:outputText value="#{utente.id}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Nome" />
-                </f:facet>
-                <h:outputText value="#{utente.nome}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Email" />
-                </f:facet>
-                <h:outputText value="#{utente.email}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Actions" />
-                </f:facet>
-                <h:form>
-                    &nbsp;
-                    <h:commandLink value="Remove" actionListener="#{profissionalManager.removeEnrroledUtente}">
-                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
-                    </h:commandLink>
-                </h:form>
-            </h:column>                      
-
-        </h:dataTable>
-        <br></br>
-        <br></br>
-
-        <h:dataTable
-            var="utente"
-            summary="List of all utente"
-            value="#{profissionalManager.allUtentesDTO}"
-            rules="all"
-            cellpadding="5"
-            class="table table-striped table-bordered" cellspacing="0" width="100%">
-
-            <f:facet name="header">
-                <h:outputText value="Utentes" />
-            </f:facet> 
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Id" />
-                </f:facet>
-                <h:outputText value="#{utente.id}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Nome" />
-                </f:facet>
-                <h:outputText value="#{utente.nome}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Email" />
-                </f:facet>
-                <h:outputText value="#{utente.email}" />
-            </h:column>
-
-            <h:column>
-                <f:facet name="header">
-                    <h:outputText value="Actions" />
-                </f:facet>
-                <h:form>
-                    <h:commandLink value="Enrrol utente" actionListener="#{profissionalManager.enrrolUtenteToCuidador}">
-                        <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
-                    </h:commandLink>
-                </h:form>
-            </h:column>                      
-
-        </h:dataTable>
-
-        <h:form>                  
-            <h:commandLink
-                id="return"
-                value="Return"
-                action="profissional_view?faces-redirect=true" />
-        </h:form>
-
         <h:messages for="utenteUsername" errorStyle="color: red" /> 
+        <div class="container-form">
+            <h:outputText value="CUIDADOR: #{profissionalManager.currentCuidador.username}" />
+            <div class="container-table">
+                <h:dataTable
+                    var="utente"
+                    summary="List of all utente"
+                    value="#{profissionalManager.currentCuidadorUtentes}"
+                    rules="all"
+                    id="tableUtentes"
+                    cellpadding="5"
+                    class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+                    <f:facet name="header">
+                        <h:outputText value="Utentes" />
+                    </f:facet> 
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id" />
+                        </f:facet>
+                        <h:outputText value="#{utente.id}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{utente.nome}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email" />
+                        </f:facet>
+                        <h:outputText value="#{utente.email}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions" />
+                        </f:facet>
+                        <h:form>
+                            &nbsp;
+                            <h:commandLink value="Remove" actionListener="#{profissionalManager.removeEnrroledUtente}">
+                                <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>                      
+
+                </h:dataTable>
+                <br></br>
+                <br></br>
+            </div>
+            <div class="container-table">
+                <h:dataTable
+                    var="utente"
+                    summary="List of all utente"
+                    value="#{profissionalManager.allUtentesDTO}"
+                    rules="all"
+                    id="tableAllUtentes"
+                    cellpadding="5"
+                    class="table table-striped table-bordered" cellspacing="0" width="100%">
+
+                    <f:facet name="header">
+                        <h:outputText value="Utentes" />
+                    </f:facet> 
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id" />
+                        </f:facet>
+                        <h:outputText value="#{utente.id}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{utente.nome}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email" />
+                        </f:facet>
+                        <h:outputText value="#{utente.email}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions" />
+                        </f:facet>
+                        <h:form>
+                            <h:commandLink value="Enrrol utente" actionListener="#{profissionalManager.enrrolUtenteToCuidador}">
+                                <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>                      
+                </h:dataTable>
+            </div>
+
+            <h:form>                  
+                <div class="form-group ">
+                    <h:commandButton
+                        id="return"
+                        class="btn btn-primary btn-md button-create"
+                        value="Return" 
+                        action="profissional_view?faces-redirect=true" />
+                </div>
+            </h:form> 
+        </div>
     </h:body>
 </html>
 

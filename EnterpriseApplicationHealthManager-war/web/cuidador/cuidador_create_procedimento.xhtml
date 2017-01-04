@@ -92,7 +92,7 @@
                         <td><h:outputLabel for="material" value="Material: " /></td>
                         <td><h:selectOneMenu value="#{cuidadorManager.selectedMaterial}">
                                 <f:selectItems value="#{cuidadorManager.currentCuidadorMateriais}" var="material"
-                                               itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                                               itemLabel="#{material.tipo}" itemValue="#{material.id}" />   							
                             </h:selectOneMenu></td>
                         <td><h:message for="material" errorStyle="color: red" /></td>
                     </tr>
@@ -144,7 +144,7 @@
                 <f:facet name="header">
                     <h:outputText value="Material" />
                 </f:facet>
-                 <h:outputText value="#{procedimento.materialCapacitacaoDTO.descricao}" />
+                <h:outputText value="#{procedimento.materialCapacitacaoDTO.tipo}" />
             </h:column>
             
             <h:column>

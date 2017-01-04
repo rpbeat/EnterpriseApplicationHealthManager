@@ -10,9 +10,29 @@
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Conpatible" content="IE=edge" />
         <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
+        <h:outputScript library="js" name="bootstrap.min.js"></h:outputScript>
+
+        <!-- Website Font style -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"></link>
+
+        <!-- Google Fonts -->
+        <link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'></link>
+        <link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'></link>
+        <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+                integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+        <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+        <link href='https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'></link>
         <title>Health Management</title>
     </h:head>
     <h:body>
+        <script>
+            $(document).ready(function () {
+                $('#tableUtentes').DataTable();
+                $('#tableCuidadores').DataTable();
+            });
+        </script>
         <h:form>
             <c:set target="#{profissionalManager.setCurrentProfissionalString(userManager.username)}" value="#{userManager.username}" property="userName"/>
             <nav class="navbar navbar-default">
@@ -57,129 +77,131 @@
                 </div><!-- /.container-fluid -->
             </nav>
         </h:form>
-        <div class="container">
-            <h:dataTable
-                var="utente"
-                summary="List of all utente"
-                value="#{profissionalManager.allUtentesDTO}"
-                rules="all"
-                cellpadding="5"
-                class="table table-striped table-bordered" cellspacing="0" width="100%">
+        <div class="container-form">
+            <div class="container-table">
+                <h:dataTable
+                    var="utente"
+                    summary="List of all utente"
+                    value="#{profissionalManager.allUtentesDTO}"
+                    rules="all"
+                    cellpadding="5"
+                    id="tableUtentes"
+                    class="table table-striped table-bordered" cellspacing="0" width="100%">
 
-                <f:facet name="header">
-                    <h:outputText value="Utentes" />
-                </f:facet> 
-
-                <h:column>
                     <f:facet name="header">
-                        <h:outputText value="Id" />
-                    </f:facet>
-                    <h:outputText value="#{utente.id}" />
-                </h:column>
+                        <h:outputText value="Utentes" />
+                    </f:facet> 
 
-                <h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Id" />
+                        </f:facet>
+                        <h:outputText value="#{utente.id}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{utente.nome}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email" />
+                        </f:facet>
+                        <h:outputText value="#{utente.email}" />
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions" />
+                        </f:facet>
+                        <h:form>
+                            <h:commandLink value="Details" action="profissional_utente_details?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentUtente}" value="#{utente}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="Update" action="profissional_utente_update?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentUtente}" value="#{utente}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="Remove" actionListener="#{profissionalManager.removeUtente}">
+                                <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>                      
+
+                </h:dataTable>
+            </div>
+
+            <div class="container-table">
+                <h:dataTable
+                    var="cuidador"
+                    summary="List of all cuidadores"
+                    value="#{profissionalManager.allCuidadoresDTO}"
+                    rules="all"
+                    cellpadding="5"
+                    id="tableCuidadores"
+                    class="table table-striped table-bordered" cellspacing="0" width="100%">
+
                     <f:facet name="header">
-                        <h:outputText value="Nome" />
-                    </f:facet>
-                    <h:outputText value="#{utente.nome}" />
-                </h:column>
+                        <h:outputText value="Cuidadores" />
+                    </f:facet> 
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Email" />
-                    </f:facet>
-                    <h:outputText value="#{utente.email}" />
-                </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Username" />
+                        </f:facet>
+                        <h:outputText value="#{cuidador.username}" />
+                    </h:column>
 
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Actions" />
-                    </f:facet>
-                    <h:form>
-                        <h:commandLink value="Details" action="profissional_utente_details?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentUtente}" value="#{utente}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="Update" action="profissional_utente_update?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentUtente}" value="#{utente}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="Remove" actionListener="#{profissionalManager.removeUtente}">
-                            <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
-                        </h:commandLink>
-                    </h:form>
-                </h:column>                      
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nome" />
+                        </f:facet>
+                        <h:outputText value="#{cuidador.nome}" />
+                    </h:column>
 
-            </h:dataTable>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Email" />
+                        </f:facet>
+                        <h:outputText value="#{cuidador.email}" />
+                    </h:column>
 
-
-            <h:dataTable
-                var="cuidador"
-                summary="List of all cuidadores"
-                value="#{profissionalManager.allCuidadoresDTO}"
-                rules="all"
-                cellpadding="5"
-                class="table table-striped table-bordered" cellspacing="0" width="100%">
-
-                <f:facet name="header">
-                    <h:outputText value="Cuidadores" />
-                </f:facet> 
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Username" />
-                    </f:facet>
-                    <h:outputText value="#{cuidador.username}" />
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Nome" />
-                    </f:facet>
-                    <h:outputText value="#{cuidador.nome}" />
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Email" />
-                    </f:facet>
-                    <h:outputText value="#{cuidador.email}" />
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">
-                        <h:outputText value="Actions" />
-                    </f:facet>
-                    <h:form>
-                        <h:commandLink value="Details" action="profissional_cuidador_details?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="Update" action="profissional_cuidador_update?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="Remove" actionListener="#{profissionalManager.removeCuidador}">
-                            <f:param name="cuidadorUsername" id="cuidadorUsername" value="#{cuidador.username}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="ConnectUtente" action="profissional_enrrol_utente_cuidador?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="ConnectMaterial" action="profissional_enrrol_material_cuidador?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
-                        </h:commandLink>
-                        &nbsp;
-                        <h:commandLink value="AvaliarCuidador" action="profissional_avaliar_cuidador?faces-redirect=true">
-                            <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
-                        </h:commandLink>
-                    </h:form>
-                </h:column>                      
-
-            </h:dataTable>
-            
-
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Actions" />
+                        </f:facet>
+                        <h:form>
+                            <h:commandLink value="Details" action="profissional_cuidador_details?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="Update" action="profissional_cuidador_update?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="Remove" actionListener="#{profissionalManager.removeCuidador}">
+                                <f:param name="cuidadorUsername" id="cuidadorUsername" value="#{cuidador.username}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="ConnectUtente" action="profissional_enrrol_utente_cuidador?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="ConnectMaterial" action="profissional_enrrol_material_cuidador?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
+                            </h:commandLink>
+                            &nbsp;
+                            <h:commandLink value="AvaliarCuidador" action="profissional_avaliar_cuidador?faces-redirect=true">
+                                <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
+                            </h:commandLink>
+                        </h:form>
+                    </h:column>                      
+                </h:dataTable>
+            </div>
         </div>
     </h:body>
 </html>

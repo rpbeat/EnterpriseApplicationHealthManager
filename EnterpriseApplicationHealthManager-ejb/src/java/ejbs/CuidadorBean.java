@@ -452,6 +452,8 @@ public class CuidadorBean {
             List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
             String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
             
+            System.out.println("Username"+username);
+            
             if (descricao == "" || idMaterial == "" || identificador == "" || estado == "") {
                 return null;
             }
@@ -461,9 +463,11 @@ public class CuidadorBean {
                 throw new EntityDoesNotExistsException("material não existente");
             }
             
-            
-            
-            //procedimentoCuidadoBean.update(identificador, username, descricao, EstadoProcedimento.valueOf(estado));
+            procedimentoCuidadoBean.update(identificador,
+                    username,
+                    descricao,
+                    EstadoProcedimento.valueOf(estado),
+                    material);
             List<UtenteDTO> listaUtentes = getAllenrroledUtentes(username);
             Utente utente = em.find(Utente.class, Long.parseLong(idUtente));
 
