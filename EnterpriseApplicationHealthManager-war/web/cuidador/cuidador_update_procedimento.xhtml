@@ -85,7 +85,7 @@
                         <td><h:outputLabel for="material" value="Material: " /></td>
                         <td><h:selectOneMenu value="#{cuidadorManager.selectedMaterial}">
                                 <f:selectItems value="#{cuidadorManager.currentCuidadorMateriais}" var="material"
-                                               itemLabel="#{material.descricao}" itemValue="#{material.id}" />   							
+                                               itemLabel="#{material.tipo}" itemValue="#{material.id}" />   							
                             </h:selectOneMenu></td>
                         <td><h:message for="material" errorStyle="color: red" /></td>
                     </tr>

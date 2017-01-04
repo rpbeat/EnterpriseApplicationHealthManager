@@ -127,7 +127,7 @@ public class ProcedimentoCuidadoBean {
         }
     }
     
-     public void update(String id ,String userNameCuidador, String descricao, EstadoProcedimento estado) 
+     public void update(String id ,String userNameCuidador, String descricao, EstadoProcedimento estado, MaterialCapacitacao materialCapacitacao) 
         throws EntityDoesNotExistsException, MyConstraintViolationException{
         try {
             ProcedimentoCuidado procedimento = em.find(ProcedimentoCuidado.class, id);
@@ -139,6 +139,7 @@ public class ProcedimentoCuidadoBean {
             procedimento.setUserNameCuidador(userNameCuidador);
             procedimento.setDescricao(descricao);
             procedimento.setEstado(estado);
+            procedimento.setMaterialCapacitacao(materialCapacitacao);
             em.merge(procedimento);
             
         } catch (EntityDoesNotExistsException e) {

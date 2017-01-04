@@ -1,4 +1,3 @@
-
 package ejbs;
 
 import dtos.MaterialCapacitacaoDTO;
@@ -78,16 +77,32 @@ public class MaterialCapacitacaoBean {
         }
     }
 
-    public List<MaterialCapacitacao> getAll() {
+    public MaterialCapacitacao getMaterial(long id) throws EntityDoesNotExistsException {
+        try {
+            MaterialCapacitacao materialCapacitacao = em.find(MaterialCapacitacao.class, id);
+            if (materialCapacitacao == null) {
+                throw new EntityDoesNotExistsException("There is no Training Material with that id.");
+            }
+
+            return materialCapacitacao;
+        } catch (EntityDoesNotExistsException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new EJBException(e.getMessage());
+        }
+    }
+
+
+public List<MaterialCapacitacao> getAll() {
         List<MaterialCapacitacao> materialCapacitacao = em.createNamedQuery("GetAllMaterialCapacitacao").getResultList();
         return materialCapacitacao;
     }
 
     @GET
-    //@RolesAllowed({"Administrador", "ProfissionalSaude"})
-    @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
-    @Path("all")
-    public List<MaterialCapacitacaoDTO> getAllDTO() {
+        //@RolesAllowed({"Administrador", "ProfissionalSaude"})
+        @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+        @Path("all")
+        public List<MaterialCapacitacaoDTO> getAllDTO() {
         try {
             List<MaterialCapacitacao> materialCapacitacao = em.createNamedQuery("GetAllMaterialCapacitacao").getResultList();
             return materialToDTOs(materialCapacitacao);
