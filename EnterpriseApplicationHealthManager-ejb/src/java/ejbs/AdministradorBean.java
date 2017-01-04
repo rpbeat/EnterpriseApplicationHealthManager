@@ -103,8 +103,6 @@ public class AdministradorBean {
 
         } catch (EntityDoesNotExistsException e) {
             throw e;
-        } catch (ConstraintViolationException e) {
-            throw new MyConstraintViolationException(Utils.getConstraintViolationMessages(e));
         } catch (Exception e) {
             throw new EJBException(e.getMessage());
         }
