@@ -5,6 +5,9 @@
  */
 package web;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
@@ -47,9 +51,9 @@ public class UserManager implements Serializable {
     public boolean isLoginFlag() {
         return loginFlag;
     }
-    
+
     public String login() {
-        
+
         FacesContext context = FacesContext.getCurrentInstance();
         HttpServletRequest request
                 = (HttpServletRequest) context.getExternalContext().getRequest();
@@ -59,7 +63,7 @@ public class UserManager implements Serializable {
         } catch (ServletException e) {
             logger.log(Level.WARNING, e.getMessage());
             System.out.println("" + e.getMessage());
-            loginFlag=false;
+            loginFlag = false;
             return "error?faces-redirect=true";
         }
         loginFlag = true;
@@ -88,7 +92,7 @@ public class UserManager implements Serializable {
     }
 
     public String logout() {
-        loginFlag=false;
+        loginFlag = false;
         FacesContext context = FacesContext.getCurrentInstance();
 
         for (String bean : context.getExternalContext().getSessionMap().keySet()) {
@@ -106,5 +110,4 @@ public class UserManager implements Serializable {
         }
         return "index_login.xhtml?faces-redirect=true";
     }
-
 }

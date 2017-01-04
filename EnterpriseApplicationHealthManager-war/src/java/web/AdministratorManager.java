@@ -72,8 +72,8 @@ public class AdministratorManager {
 
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.AdministratorManager");
-
     
+  
     public AdministratorManager() {
         newUtente = new UtenteDTO();
         newProfissional = new ProfissionalSaudeDTO();
@@ -86,6 +86,7 @@ public class AdministratorManager {
         currentMaterialCapacitacao = new MaterialCapacitacaoDTO();
         currentProcedimento = new ProcedimentoCuidadoDTO();
         newProcedimento = new ProcedimentoCuidadoDTO();
+        
     }
 
     public List<Utente> getAllUtentes() {
