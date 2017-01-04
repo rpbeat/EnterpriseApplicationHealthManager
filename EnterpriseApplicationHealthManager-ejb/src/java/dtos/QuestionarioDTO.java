@@ -8,7 +8,6 @@ package dtos;
 import entities.Pergunta;
 import java.util.LinkedList;
 import java.util.List;
-import javafx.scene.shape.Line;
 
 /**
  *

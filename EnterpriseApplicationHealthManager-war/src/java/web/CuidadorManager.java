@@ -197,7 +197,9 @@ public class CuidadorManager {
     public String updateProcedimento(){
         try {
             // long id, String tipo, String descricao, String link
-            procedimentoCuidadoBean.update(currentProcedimento.getId(),currentProcedimento.getUserNameCuidador(),currentProcedimento.getDescricao(),EstadoProcedimento.valueOf(getSelectedEstado()));
+            procedimentoCuidadoBean.update(currentProcedimento.getId(),currentProcedimento.getUserNameCuidador(),
+                    currentProcedimento.getDescricao(),
+                    EstadoProcedimento.valueOf(getSelectedEstado()));
             return "cuidador_create_procedimento?faces-redirect=true";
 
         } catch (EntityDoesNotExistsException | MyConstraintViolationException e) {
