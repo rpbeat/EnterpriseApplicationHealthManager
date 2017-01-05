@@ -14,6 +14,7 @@ import dtos.ProfissionalSaudeDTO;
 import dtos.QuestionarioDTO;
 import dtos.UtenteDTO;
 import ejbs.CuidadorBean;
+import ejbs.ManagerAppBean;
 import ejbs.MaterialCapacitacaoBean;
 import ejbs.ProcedimentoCuidadoBean;
 import ejbs.ProfissionalSaudeBean;
@@ -22,6 +23,7 @@ import ejbs.UtenteBean;
 import exceptions.EntityAlreadyExistsException;
 import exceptions.EntityDoesNotExistsException;
 import exceptions.MyConstraintViolationException;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -30,6 +32,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.event.ActionEvent;
+import javax.faces.event.ValueChangeEvent;
 
 /**
  *
@@ -51,6 +54,8 @@ public class ProfissionalManager {
     private QuestionarioBean questionarioBean;
     @EJB
     private ProfissionalSaudeBean profissionalSaudeBean;
+    @EJB
+    private ManagerAppBean managerAppBean;
     
     private ProfissionalSaudeDTO currentProfissional;
     
@@ -70,6 +75,7 @@ public class ProfissionalManager {
     private ProcedimentoCuidadoDTO currentProcedimento;
     
     private String selectedMaterial;
+    private String selectedCuidador="Camila";
     
     private UIComponent component;
     private static final Logger logger = Logger.getLogger("web.ProfissionalManager");
@@ -436,23 +442,6 @@ public class ProfissionalManager {
         }
         return "profissional_material_update";
     }
-    
-    ////////////////////////PROCEDIMENTOS
-
-    /*public String createProcedimento() {
-        try {
-            procedimentoCuidadoBean.create(newProcedimento.getId(),currentCuidador.getUsername(),newProcedimento.getDescricao());
-            procedimentoCuidadoBean.enrrolMaterialToProcedimento(Long.parseLong(getSelectedMaterial()), newProcedimento.getId());
-            utenteBean.enrrolProcedimento(newProcedimento.getId(), currentUtente.getId());
-            newProcedimento.reset();
-
-            
-            return "profissional_create_procedimento?faces-redirect=true";
-        } catch (Exception e) {
-            FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", component, logger);
-        }
-        return null;
-    }*/
 
     public List<ProcedimentoCuidadoDTO> getAllProcedimentoDTO(){
         try {
@@ -481,4 +470,26 @@ public class ProfissionalManager {
             FacesExceptionHandler.handleException(e, "Unexpected error! Try again latter!", logger);
         }
     }    
+    
+    public String getSelectedCuidador(){
+        return selectedCuidador;
+    }
+    
+
+    ////////////// MANAGER APP
+    public void setSelectedCuidador(String selectedCuidador) {
+        this.selectedCuidador = selectedCuidador;
+    }
+
+    public int getTotalLogin() {
+        return managerAppBean.getTotalLogin();
+    }
+    
+    public List<Date> getAcessosByUser(){
+        return managerAppBean.getListAcessosByUser(selectedCuidador);
+    }
+    
+    public void valueChanged(ValueChangeEvent event) {
+        System.err.println("I CHANGEE!!");
+    }
 }

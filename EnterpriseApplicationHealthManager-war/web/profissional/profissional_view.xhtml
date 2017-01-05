@@ -192,15 +192,15 @@
                                 <f:param name="cuidadorUsername" id="cuidadorUsername" value="#{cuidador.username}" />
                             </h:commandLink>
                             &nbsp;
-                            <h:commandLink value="ConnectUtente" action="profissional_enrrol_utente_cuidador?faces-redirect=true">
+                            <h:commandLink value="Adicionar Utente" action="profissional_enrrol_utente_cuidador?faces-redirect=true">
                                 <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
                             </h:commandLink>
                             &nbsp;
-                            <h:commandLink value="ConnectMaterial" action="profissional_enrrol_material_cuidador?faces-redirect=true">
+                            <h:commandLink value="Adicionar Material" action="profissional_enrrol_material_cuidador?faces-redirect=true">
                                 <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
                             </h:commandLink>
                             &nbsp;
-                            <h:commandLink value="AvaliarCuidador" action="profissional_avaliar_cuidador?faces-redirect=true">
+                            <h:commandLink value="Avaliar Cuidador" action="profissional_avaliar_cuidador?faces-redirect=true">
                                 <f:setPropertyActionListener target="#{profissionalManager.currentCuidador}" value="#{cuidador}" />
                             </h:commandLink>
                         </h:form>

@@ -61,24 +61,32 @@ public class ManagerApp {
     }
     
     public void addAcessoCuidador(String userNameCuidador, Date data){
-        List<Date> list = new LinkedList<>();
+        
         
         if(listaDeAcessos.isEmpty()){
+            List<Date> list = new LinkedList<>();
             listaDeAcessos = new HashMap<>();
+            list.add(new Date());
             listaDeAcessos.put(userNameCuidador, list);
             listaTotal.add(data);
             countLogin+=1;
+            
         }else{
-             list =   listaDeAcessos.get(userNameCuidador);
+            List<Date> list = new LinkedList<>();
+             list = listaDeAcessos.get(userNameCuidador);
+             if(list==null){
+                list = new LinkedList<>();
+             }
              list.add(new Date());
-             
              listaDeAcessos.put(userNameCuidador, list);
              listaTotal.add(data);
              countLogin+=1;
+             
         }
     }
     
     public List<Date> getListaDeAcessosUser(String userNameCuidador){
+        System.err.println("LISTA DE ACESSOS SIZE: "+listaDeAcessos.size());
         return listaDeAcessos.get(userNameCuidador);
     }
    

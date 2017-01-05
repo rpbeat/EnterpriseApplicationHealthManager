@@ -35,7 +35,7 @@ public class ManagerAppBean {
     }
 
     public void addAcessoCuidador(String userNameCuidador, Date data) {
-        try {         
+      //  try {         
             ManagerApp manager = em.find(ManagerApp.class, 1);
             if(manager == null){
                 em.persist(new ManagerApp());
@@ -45,9 +45,9 @@ public class ManagerAppBean {
                 manager.addAcessoCuidador(userNameCuidador, data);
             }
             
-        } catch (Exception e) {
-            throw new EJBException(e.getMessage());
-        }
+    //    } catch (Exception e) {
+  //          throw new EJBException(e.getMessage());
+//        }
     }
     
     public List<Date> getListTotalAcessos(){

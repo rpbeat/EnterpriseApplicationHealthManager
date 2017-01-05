@@ -3,7 +3,8 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <meta charset="utf-8" />
         <meta name="viewport" content ="width=device-width, initial-scale=1" />
@@ -29,10 +30,11 @@
         <script>
             $(document).ready(function () {
                 $('#tableUtentes').DataTable();
-                $('#tableAllUtentes').DataTable();
+                $('#tableCuidadores').DataTable();
             });
         </script>
         <h:form>
+            <c:set target="#{profissionalManager.setCurrentProfissionalString(userManager.username)}" value="#{userManager.username}" property="userName"/>
             <nav class="navbar navbar-default">
                 <div class="container-fluid">
                     <!-- Brand and toggle get grouped for better mobile display -->
@@ -67,6 +69,11 @@
                                     id="criarMaterial"
                                     value="Criar Material de Capacitação"
                                     action="profissional_create_material?faces-redirect=true" /></li>
+                            
+                            <li><h:commandLink
+                                    id="verDashBoard"
+                                    value="DashBoard"
+                                    action="profissional_dashboard?faces-redirect=true" /></li>
 
                             <li><h:commandLink action="#{userManager.logout}"
                                                value="Logout"></h:commandLink></li>
@@ -75,7 +82,6 @@
                 </div><!-- /.container-fluid -->
             </nav>
         </h:form>
-
         <h:messages for="utenteUsername" errorStyle="color: red" /> 
         <div class="container-form">
             <h:outputText value="CUIDADOR: #{profissionalManager.currentCuidador.username}" />
@@ -170,7 +176,7 @@
                             <h:outputText value="Actions" />
                         </f:facet>
                         <h:form>
-                            <h:commandLink value="Enrrol utente" actionListener="#{profissionalManager.enrrolUtenteToCuidador}">
+                            <h:commandLink value="Adicionar Utente" actionListener="#{profissionalManager.enrrolUtenteToCuidador}">
                                 <f:param name="utenteUsername" id="utenteUsername" value="#{utente.id}" />
                             </h:commandLink>
                         </h:form>
