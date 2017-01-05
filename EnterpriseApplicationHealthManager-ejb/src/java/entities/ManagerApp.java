@@ -76,8 +76,6 @@ public class ManagerApp {
              listaTotal.add(data);
              countLogin+=1;
         }
-
-        System.err.println("ADICIONEI UM ACESSO!:  "+userNameCuidador);
     }
     
     public List<Date> getListaDeAcessosUser(String userNameCuidador){
