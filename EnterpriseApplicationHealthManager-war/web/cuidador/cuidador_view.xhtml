@@ -108,13 +108,6 @@
                 </table>
             </div>
 
-            <h2>Envio de documentos</h2>
-            <form action="UploadFile" method="post" enctype="multipart/form-data">
-                Select File: <input type="file" name="filetoupload"/>
-                <input type="submit" value="Upload File"/>
-                <input type="hidden" name="name" value="#{cuidadorManager.currentCuidadorDTO.nome}"/>
-            </form>
-
             <div class="container-table">
                 <h3>Documentos Enviados</h3>
                 <h:dataTable

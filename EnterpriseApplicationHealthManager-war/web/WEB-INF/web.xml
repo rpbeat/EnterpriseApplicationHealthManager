@@ -17,7 +17,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/cuidador/UploadFile</url-pattern>
+        <url-pattern>/faces/profissional/UploadFile</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
