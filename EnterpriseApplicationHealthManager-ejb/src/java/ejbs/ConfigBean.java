@@ -5,6 +5,9 @@
  */
 package ejbs;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -83,13 +86,33 @@ public class ConfigBean {
             cuidadorBean.enrollMaterial("10", "ZeMaria");
             cuidadorBean.enrollMaterial("9", "ZeMaria");
             
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 1, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 4, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 3, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 4, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 2, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2017, 1, 2, 03, 25, 25));
-            managerAppBean.addAcessoCuidador("Camila", new Date(2016, 31, 2, 03, 25, 25));
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
+            String dateInString1 = "28-Dez-2017";
+            String dateInString2 = "29-Dez-2017";
+            String dateInString3 = "30-Dez-2017";
+            String dateInString4 = "31-Dez-2017";
+            String dateInString5 = "3-Jan-2017";
+            String dateInString6 = "1-Jan-2017";
+            String dateInString7 = "2-Jan-2017";
+            String dateInString8 = "2-Dez-2017";
+            String dateInString9 = "2-Jan-2017";
+            
+
+
+            managerAppBean.addAcessoCuidador("Camila", formatter.parse(dateInString1));
+            managerAppBean.addAcessoCuidador("Camila", formatter.parse(dateInString2));
+            managerAppBean.addAcessoCuidador("Camila", formatter.parse(dateInString3));
+            managerAppBean.addAcessoCuidador("Isabel", formatter.parse(dateInString4));
+            managerAppBean.addAcessoCuidador("Isabel", formatter.parse(dateInString5));
+            managerAppBean.addAcessoCuidador("Isabel", formatter.parse(dateInString6));
+            managerAppBean.addAcessoCuidador("Camila", formatter.parse(dateInString7));
+            managerAppBean.addAcessoCuidador("Isabel", formatter.parse(dateInString4));
+            managerAppBean.addAcessoCuidador("William", formatter.parse(dateInString8));
+            managerAppBean.addAcessoCuidador("William", formatter.parse(dateInString9));
+            managerAppBean.addAcessoCuidador("ZeMaria", formatter.parse(dateInString4));
+            managerAppBean.addAcessoCuidador("ZeMaria", formatter.parse(dateInString8));
+            managerAppBean.addAcessoCuidador("William", formatter.parse(dateInString7));
+
             //procedimentoCuidadoBean.create("1", "Camila", "Cena de obtstrução",EstadoProcedimento.A_iniciar);
            
             //procedimentoCuidadoBean.enrrolMaterialToProcedimento(4, "1");

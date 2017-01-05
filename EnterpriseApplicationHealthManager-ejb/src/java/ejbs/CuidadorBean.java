@@ -30,11 +30,8 @@ import javax.annotation.security.RolesAllowed;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.ejb.Stateless;
-import javax.faces.component.UIParameter;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
@@ -47,7 +44,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import org.jboss.logging.Param;
 
 @Stateless
 @Path("/cuidador")
@@ -62,8 +58,6 @@ public class CuidadorBean {
 
     @PersistenceContext
     private EntityManager em;
-//    private UtenteBean utenteBean;
-//    private MaterialCapacitacaoBean materialCapacitacaoBean;
 
     public void create(String nome, String email, int contacto, String morada, String username, String password) {
         try {
@@ -454,9 +448,9 @@ public class CuidadorBean {
         try {
             List<String> authHeaders = headers.getRequestHeader(HttpHeaders.AUTHORIZATION);
             String username = BasicAuth.decodeUsername(authHeaders.get(0).toString());
-            
-            System.out.println("Username"+username);
-            
+
+            System.out.println("Username" + username);
+
             if (descricao == "" || idMaterial == "" || identificador == "" || estado == "") {
                 return null;
             }
@@ -465,7 +459,7 @@ public class CuidadorBean {
             if (material == null) {
                 throw new EntityDoesNotExistsException("material não existente");
             }
-            
+
             procedimentoCuidadoBean.update(identificador,
                     username,
                     descricao,
